@@ -1,0 +1,16 @@
+/* ============================================================
+   Bhavé's Lab — Webfonts
+   ------------------------------------------------------------
+   Brand face: Cormorant Garamond (display serif) — the real
+   brand typeface, available on Google Fonts.
+   Body / UI: Hanken Grotesk — a quiet humanist grotesque.
+   Lab / data / eyebrows: IBM Plex Mono.
+
+   NOTE: Fonts are loaded from the Google Fonts CDN rather than
+   self-hosted binaries (the sandbox cannot fetch font files to
+   vendor them locally). If you have licensed/self-hosted copies,
+   drop the .woff2 files in assets/fonts/ and replace the @import
+   below with local @font-face rules.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');

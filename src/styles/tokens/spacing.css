@@ -1,0 +1,33 @@
+/* ============================================================
+   Bhavé's Lab — Spacing & layout tokens
+   8px rhythm with finer half-steps for precise, calm layouts.
+   ============================================================ */
+
+:root {
+  --space-0:   0;
+  --space-px:  1px;
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   48px;
+  --space-8:   64px;
+  --space-9:   96px;
+  --space-10:  128px;
+  --space-11:  192px;
+  --space-12:  256px;
+
+  /* Semantic spacing */
+  --gap-inline:   var(--space-2);  /* icon ↔ label */
+  --gap-stack:    var(--space-4);  /* between stacked elements */
+  --pad-control:  var(--space-3);  /* button / input padding */
+  --pad-card:     var(--space-6);  /* card interior */
+  --pad-section:  var(--space-9);  /* page section vertical rhythm */
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-prose: 720px;
+  --gutter: var(--space-5);
+}

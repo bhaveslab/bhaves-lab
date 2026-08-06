@@ -1,0 +1,105 @@
+/* ============================================================
+   Bhavé's Lab — Base element styles & brand utility classes.
+   Sets the obsidian ground, ivory ink, and serif/sans rhythm.
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection picks up the gold */
+::selection {
+  background: rgba(201, 169, 106, 0.26);
+  color: var(--ivory-50);
+}
+
+/* Headings default to the display serif */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+p { margin: 0; }
+
+a {
+  color: var(--text-gold);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--gold-300); }
+
+/* ---- Brand utility classes ---- */
+
+/* Eyebrow / kicker — uppercased mono with wide tracking */
+.bl-eyebrow {
+  font-family: var(--font-label);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-gold);
+}
+
+/* Display headline */
+.bl-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: var(--text-display-1);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* Lead paragraph */
+.bl-lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* A thin gold hairline rule */
+.bl-rule {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--border-strong) 18%,
+    var(--border-strong) 82%,
+    transparent);
+}
+
+/* Gold-on-text gradient ink for emphasis words */
+.bl-ink-gold {
+  background: linear-gradient(180deg, var(--gold-300), var(--gold-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Thin custom scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--obsidian-600) transparent;
+}
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb {
+  background: var(--obsidian-600);
+  border-radius: var(--radius-pill);
+}
+*::-webkit-scrollbar-track { background: transparent; }

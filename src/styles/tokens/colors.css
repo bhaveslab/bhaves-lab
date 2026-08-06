@@ -1,0 +1,86 @@
+/* ============================================================
+   Bhavé's Lab — Color tokens
+   Obsidian black grounds, refined gold accent, warm ivory ink,
+   and a restrained cosmic (nebula) palette used only as glow.
+   ============================================================ */
+
+:root {
+  /* ---- Obsidian: near-black grounds with a faint indigo cast ---- */
+  --obsidian-950: #06060A;  /* deepest void — page edge, footer */
+  --obsidian-900: #0A0A11;  /* base background */
+  --obsidian-850: #0F0F18;  /* sunken / overlay */
+  --obsidian-800: #14141F;  /* raised surface, cards */
+  --obsidian-750: #191926;  /* hover surface */
+  --obsidian-700: #1F1F2D;  /* elevated, inputs */
+  --obsidian-600: #2A2A3A;  /* hairline on dark / disabled fill */
+
+  /* ---- Gold: the single accent. Warm, antique, never neon ---- */
+  --gold-700: #8C6E3C;  /* pressed / deep */
+  --gold-600: #A8854A;  /* hover-dark */
+  --gold-500: #C9A96A;  /* PRIMARY accent */
+  --gold-400: #D8BE84;  /* bright text-gold, links */
+  --gold-300: #E7D3A3;  /* highlight */
+  --gold-200: #F1E4C4;  /* faint wash */
+
+  /* ---- Ivory / ink: warm off-whites on dark ---- */
+  --ivory-50:  #FBF8F1;
+  --ivory-100: #F2EEE6;  /* primary text */
+  --ivory-200: #E4DFD3;
+  --ivory-300: #CFC9BB;
+
+  /* ---- Mist: neutral warm-grays for secondary + muted text ---- */
+  --mist-400: #A6A39B;  /* secondary text */
+  --mist-500: #79766E;  /* muted text, captions */
+  --mist-600: #565248;  /* faint / disabled text */
+  --mist-700: #3A382F;
+
+  /* ---- Nebula: cosmic glow hues. Used ONLY at low opacity ---- */
+  --nebula-indigo: #1E2454;
+  --nebula-violet: #3A2E5C;
+  --nebula-plum:   #4A2A48;
+  --nebula-teal:   #173A40;
+
+  /* ---- Signal: states. Desaturated, never clinical ---- */
+  --signal-positive: #8FB39B;  /* sage */
+  --signal-caution:  #D8A45E;  /* amber-gold */
+  --signal-alert:    #C26B5E;  /* muted garnet */
+  --signal-info:     #7E8BB0;  /* dim periwinkle */
+
+  /* ============================================================
+     Semantic aliases — reach for these in components
+     ============================================================ */
+
+  /* Surfaces */
+  --surface-void:    var(--obsidian-950);
+  --surface-base:    var(--obsidian-900);
+  --surface-sunken:  var(--obsidian-850);
+  --surface-card:    var(--obsidian-800);
+  --surface-hover:   var(--obsidian-750);
+  --surface-input:   var(--obsidian-700);
+  --surface-disabled:var(--obsidian-600);
+
+  /* Text */
+  --text-primary:   var(--ivory-100);
+  --text-secondary: var(--mist-400);
+  --text-muted:     var(--mist-500);
+  --text-faint:     var(--mist-600);
+  --text-gold:      var(--gold-400);
+  --text-on-gold:   var(--obsidian-950);
+  --text-inverse:   var(--obsidian-900);
+
+  /* Accent */
+  --accent:         var(--gold-500);
+  --accent-bright:  var(--gold-400);
+  --accent-hover:   var(--gold-400);
+  --accent-press:   var(--gold-600);
+
+  /* Borders — gold-tinted hairlines define the premium feel */
+  --border-subtle:  rgba(201, 169, 106, 0.10);
+  --border-default: rgba(201, 169, 106, 0.18);
+  --border-strong:  rgba(201, 169, 106, 0.34);
+  --border-gold:    rgba(201, 169, 106, 0.55);
+  --border-ash:     rgba(255, 255, 255, 0.06);
+
+  /* Focus ring */
+  --focus-ring: rgba(216, 190, 132, 0.55);
+}
