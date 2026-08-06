@@ -4,9 +4,12 @@ interface IconButtonProps {
   icon: ReactNode;
   label: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
+  variant?: 'plain' | 'outline';
+  size?: 'sm' | 'md';
 }
 
-export function IconButton({ icon, label, onClick }: IconButtonProps) {
+export function IconButton({ icon, label, onClick, variant = 'plain', size = 'md' }: IconButtonProps) {
+  const dim = size === 'sm' ? 32 : 40;
   return (
     <button
       type="button"
@@ -14,16 +17,16 @@ export function IconButton({ icon, label, onClick }: IconButtonProps) {
       onClick={onClick}
       className="bl-icon-button"
       style={{
-        width: 40,
-        height: 40,
+        width: dim,
+        height: dim,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: 'transparent',
-        border: 'none',
+        border: variant === 'outline' ? '1px solid var(--border-default)' : 'none',
         borderRadius: 'var(--radius-md)',
         color: 'var(--text-primary)',
-        fontSize: 20,
+        fontSize: size === 'sm' ? 16 : 20,
         cursor: 'pointer',
       }}
     >

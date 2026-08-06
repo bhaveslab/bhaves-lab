@@ -4,6 +4,7 @@ import { Eyebrow } from '../components/Eyebrow';
 import { Card } from '../components/Card';
 import { Divider } from '../components/Divider';
 import { IconButton } from '../components/IconButton';
+import { Link } from '../router';
 
 const buildItems = [
   {
@@ -34,6 +35,10 @@ const processSteps = [
 export function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.title = "Bhavé's Lab";
+  }, []);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -98,8 +103,8 @@ export function Home() {
                 animation: 'bl-menu-in 160ms var(--ease-out)',
               }}
             >
-              <a
-                href="/shop"
+              <Link
+                to="/shop"
                 className="bl-menu-link"
                 style={{
                   display: 'block',
@@ -113,7 +118,7 @@ export function Home() {
                 }}
               >
                 Shop
-              </a>
+              </Link>
             </div>
           )}
         </div>
