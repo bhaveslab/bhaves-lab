@@ -8,18 +8,18 @@ import { IconButton } from '../components/IconButton';
 const buildItems = [
   {
     eyebrow: 'SOFTWARE',
-    title: 'Interfaces and infrastructure',
-    body: 'Applications, tools, and the systems behind them — built once, built to actually hold up.',
+    title: 'Infrastructure, then interface',
+    body: 'The systems behind it, built before what you see.',
   },
   {
     eyebrow: 'PHYSICAL ANCHORS',
-    title: 'Objects built to hold a system in place',
-    body: 'Physical pieces engineered alongside the software — not merchandise, structure.',
+    title: 'Containers that hold a system in place',
+    body: 'Physical pieces the software interacts with.',
   },
   {
     eyebrow: 'COHERENCE',
-    title: 'One system, not a pile of parts',
-    body: 'Every piece — software, object, document — reads as the same system. Nothing bolted on.',
+    title: 'One system',
+    body: 'Front face and underneath, wired the same way.',
   },
 ];
 
@@ -156,8 +156,7 @@ export function Home() {
               margin: 0,
             }}
           >
-            Custom software and physical anchors, built end to end by one operator. Not consulting — full builds,
-            scoped and delivered as one coherent system.
+            Software and physical anchors, built together, delivered as one coherent system.
           </p>
         </section>
 
@@ -261,7 +260,7 @@ export function Home() {
               margin: 'var(--space-5) 0',
             }}
           >
-            Full builds. Not consulting.
+            Full Builds
           </h2>
           <p
             style={{
@@ -272,8 +271,7 @@ export function Home() {
               margin: '0 0 var(--space-4)',
             }}
           >
-            I take a small number of projects at a time, start to finish. Pricing is scoped per project — every
-            build is different, so there&rsquo;s no rate card and no cart on this page.
+            Pricing is scoped per project.
           </p>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)', color: 'var(--text-muted)', margin: 0 }}>
             If it&rsquo;s a fit, get in touch — details below.
@@ -300,8 +298,8 @@ export function Home() {
               margin: 'var(--space-5) 0 0',
             }}
           >
-            I build from my own state outward. The software, the object, the document — all of it is downstream of
-            that. It&rsquo;s why the work holds together end to end.
+            I build from my own state outward. The software, the object, the document — all of it comes from the
+            same place. That&rsquo;s why it holds together.
           </p>
         </section>
       </main>
