@@ -9,19 +9,19 @@
 // its Price exists — the checkout API will reject any cart line that maps
 // to `null` with a clear error instead of forwarding a bad ID to Stripe.
 export const PRICE_TO_PRODUCT: Record<string, string | null> = {
-  // I Am A Natural Resource — Gold/Diamond ($27.99)
-  'tee-inr-photo-S': null,
-  'tee-inr-photo-M': null,
-  'tee-inr-photo-L': null,
-  'tee-inr-photo-XL': null,
-  'tee-inr-photo-2XL': null,
+  // I Am A Natural Resource — Gold Edition ($27.99)
+  'tee-inr-gold-S': null,
+  'tee-inr-gold-M': null,
+  'tee-inr-gold-L': null,
+  'tee-inr-gold-XL': null,
+  'tee-inr-gold-2XL': null,
 
-  // I Am A Natural Resource — Script/Botanical ($27.99)
-  'tee-inr-script-S': null,
-  'tee-inr-script-M': null,
-  'tee-inr-script-L': null,
-  'tee-inr-script-XL': null,
-  'tee-inr-script-2XL': null,
+  // I Am A Natural Resource — Diamond ($27.99)
+  'tee-inr-diamond-S': null,
+  'tee-inr-diamond-M': null,
+  'tee-inr-diamond-L': null,
+  'tee-inr-diamond-XL': null,
+  'tee-inr-diamond-2XL': null,
 
   // I Beat Up Bullies ($27.99)
   'tee-bullies-S': null,
