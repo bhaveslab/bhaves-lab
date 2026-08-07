@@ -84,5 +84,6 @@ export const PRODUCTS: Product[] = [
     type: 'book',
     category: 'Books',
     price: 22.99,
+    image: '/products/break-the-illusion.jpg',
   },
 ];
