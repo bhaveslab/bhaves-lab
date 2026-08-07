@@ -44,6 +44,32 @@ body {
   }
 }
 
+/* Ambient "breathing" glow for Shop product boxes — subtle edge light that
+   drifts in and out. Each box gets its own duration/delay (see ProductImage)
+   so peaks never line up across the grid. */
+@keyframes bl-box-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(201, 169, 106, 0);
+    border-color: var(--border-subtle);
+  }
+  50% {
+    box-shadow: var(--glow-gold-sm);
+    border-color: var(--border-gold);
+  }
+}
+
+.bl-box-breathe {
+  animation: bl-box-breathe var(--glow-duration, 14s) var(--ease-inout) infinite;
+  animation-delay: var(--glow-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bl-box-breathe {
+    animation: none;
+  }
+}
+
 .bl-icon-button {
   transition: background var(--dur-fast) var(--ease-out);
 }
