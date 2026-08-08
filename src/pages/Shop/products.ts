@@ -15,16 +15,16 @@ export const CART_KEY = 'bhaveslab_cart';
 
 export const PRODUCTS: Product[] = [
   {
-    id: 'tee-inr-photo',
-    name: 'I Am A Natural Resource — Gold/Diamond',
+    id: 'tee-inr-gold',
+    name: 'I Am A Natural Resource — Gold Edition',
     type: 'tee',
     category: 'Tees',
     price: 27.99,
     image: '/products/tee-inr-photo.png',
   },
   {
-    id: 'tee-inr-script',
-    name: 'I Am A Natural Resource — Script/Botanical',
+    id: 'tee-inr-diamond',
+    name: 'I Am A Natural Resource — Diamond',
     type: 'tee',
     category: 'Tees',
     price: 27.99,
@@ -84,5 +84,6 @@ export const PRODUCTS: Product[] = [
     type: 'book',
     category: 'Books',
     price: 22.99,
+    image: '/products/break-the-illusion.jpg',
   },
 ];

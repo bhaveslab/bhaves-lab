@@ -4,6 +4,15 @@ import { IconButton } from '../../components/IconButton';
 import { ProductImage } from '../../components/ProductImage';
 import { SIZES, type Product } from './products';
 
+// Deterministic per-product stagger so the same product always gets the same
+// glow timing (no re-randomizing on every render), and different products
+// never share a phase.
+function hashSeed(id: string): number {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return h;
+}
+
 interface ProductSectionProps {
   product: Product;
   focus: number;
@@ -33,6 +42,9 @@ export function ProductSection({
   const blur = (1 - focus) * 6;
   const bright = 0.55 + 0.45 * focus;
   const addDisabled = hasSize && !size;
+  const seed = hashSeed(product.id);
+  const glowDelay = (seed % 1100) / 100; // 0–11s, so peaks never line up
+  const glowDuration = 13 + ((seed >>> 4) % 900) / 100; // 13–22s, slow drift
 
   const style: CSSProperties = {
     minHeight: '82vh',
@@ -50,7 +62,7 @@ export function ProductSection({
 
   return (
     <section ref={setSectionRef} data-product-id={product.id} style={style}>
-      <ProductImage src={product.image} alt={product.name} />
+      <ProductImage src={product.image} alt={product.name} glow glowDelay={glowDelay} glowDuration={glowDuration} />
       <div
         style={{
           fontFamily: 'var(--font-mono)',

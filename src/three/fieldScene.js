@@ -42,6 +42,10 @@ export async function mountField(canvas, opts) {
   const velocities = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
   const phases = new Float32Array(count);
+  // Independent per-particle randomness for the firefly pulses below —
+  // deliberately decoupled from `phases` so pulse timing never lines up
+  // with the ambient breathing sine.
+  const pulseSeed = new Float32Array(count);
   const depthSpan = opts.depthSpan || 220;
   for (let i = 0; i < count; i++) {
     const x = (Math.random() - 0.5) * 130;
@@ -51,6 +55,7 @@ export async function mountField(canvas, opts) {
     home[i * 3] = x; home[i * 3 + 1] = y; home[i * 3 + 2] = z;
     colors[i * 3] = 0.79; colors[i * 3 + 1] = 0.66; colors[i * 3 + 2] = 0.42;
     phases[i] = Math.random() * Math.PI * 2;
+    pulseSeed[i] = Math.random();
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -180,7 +185,17 @@ export async function mountField(canvas, opts) {
       pos[iz] += velocities[iz] + Math.sin(t * 0.08 + phases[i] * 1.7) * 0.01;
       // Ambient brightness pulse — a quiet breathing field.
       const b = 0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 0.5 + phases[i]));
-      col[ix] = 0.79 * b; col[iy] = 0.66 * b; col[iz] = 0.42 * b;
+      // Firefly pulses — each particle brightens on its own slow, private
+      // clock (70–220s between pulses, ~1.5–2.5s each), so only a handful
+      // are ever lit at once and none share a rhythm with each other or
+      // with the ambient breathing above.
+      const seed = pulseSeed[i];
+      const period = 70 + seed * 150;
+      const pulseDur = 1.5 + ((seed * 53) % 1) * 1.0;
+      const cyclePos = (t + seed * 8191) % period;
+      const pulse = cyclePos < pulseDur ? Math.sin((cyclePos / pulseDur) * Math.PI) : 0;
+      const bTotal = Math.min(b + pulse * 0.85, 1.35);
+      col[ix] = 0.79 * bTotal; col[iy] = 0.66 * bTotal; col[iz] = 0.42 * bTotal;
     }
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;

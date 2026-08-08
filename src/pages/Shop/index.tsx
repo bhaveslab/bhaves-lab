@@ -33,6 +33,8 @@ export function Shop() {
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(0);
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
   const [shipping, setShipping] = useState<Shipping>({
     name: '',
     email: '',
@@ -90,6 +92,32 @@ export function Shop() {
   };
 
   const removeItem = (key: string) => setCart((prev) => prev.filter((c) => c.key !== key));
+
+  const startPayment = async () => {
+    setPaying(true);
+    setPayError(null);
+    try {
+      const res = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map((c) => ({ key: c.key, qty: c.qty })),
+          email: shipping.email,
+          shipping,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.url) {
+        setPayError(data?.error || 'Could not start checkout. Please try again.');
+        setPaying(false);
+        return;
+      }
+      window.location.href = data.url;
+    } catch {
+      setPayError('Could not reach checkout. Please try again.');
+      setPaying(false);
+    }
+  };
 
   const cartCount = cart.reduce((a, c) => a + c.qty, 0);
   const subtotal = cart.reduce((a, c) => a + c.qty * c.price, 0);
@@ -250,6 +278,9 @@ export function Shop() {
         onClose={() => setCheckoutOpen(false)}
         onGoReview={() => setCheckoutStep(1)}
         onGoPayment={() => setCheckoutStep(2)}
+        onPay={startPayment}
+        paying={paying}
+        payError={payError}
       />
     </div>
   );

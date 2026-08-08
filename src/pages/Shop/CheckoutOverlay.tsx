@@ -14,6 +14,9 @@ interface CheckoutOverlayProps {
   onClose: () => void;
   onGoReview: () => void;
   onGoPayment: () => void;
+  onPay: () => void;
+  paying: boolean;
+  payError: string | null;
 }
 
 const STEP_LABELS = ['Shipping', 'Review', 'Payment'];
@@ -28,6 +31,9 @@ export function CheckoutOverlay({
   onClose,
   onGoReview,
   onGoPayment,
+  onPay,
+  paying,
+  payError,
 }: CheckoutOverlayProps) {
   if (!open) return null;
   const shippingInvalid = !(shipping.name && shipping.email && shipping.address);
@@ -135,13 +141,17 @@ export function CheckoutOverlay({
           <>
             <Card variant="sunken">
               <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--leading-normal)' }}>
-                Payment is handled through a secure Stripe link, sent after checkout. This step is a stub for this
-                pass.
+                You&rsquo;ll be redirected to a secure Stripe checkout page to complete payment.
               </div>
             </Card>
+            {payError && (
+              <div style={{ marginTop: 'var(--space-4)', fontSize: 'var(--text-sm)', color: 'var(--text-error, #e0554f)' }}>
+                {payError}
+              </div>
+            )}
             <div style={{ marginTop: 'var(--space-5)' }}>
-              <Button fullWidth disabled>
-                Complete order (Stripe pending)
+              <Button fullWidth disabled={paying} onClick={onPay}>
+                {paying ? 'Redirecting to Stripe…' : 'Complete order'}
               </Button>
             </div>
           </>

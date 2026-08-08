@@ -26,7 +26,7 @@ const buildItems = [
 
 const processSteps = [
   { num: '01', label: 'State / Baseline', desc: 'Starting point, isolated and read plainly.' },
-  { num: '02', label: 'Operator Alignment', desc: 'The build lines up with how I actually operate.' },
+  { num: '02', label: 'Operator Alignment', desc: 'The build lines up with how the system actually operates.' },
   { num: '03', label: 'Structural Mapping', desc: "The system's real shape, mapped before anything is built." },
   { num: '04', label: 'Documentation & Architecture', desc: 'Written down, then structured.' },
   { num: '05', label: 'Functional Expression', desc: 'Shipped as software and physical form.' },
@@ -205,7 +205,7 @@ export function Home() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Divider label="How I Work" />
+          <Divider label="How We Work" />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', marginTop: 'var(--space-6)' }}>
             {processSteps.map((step) => (
               <div key={step.num} style={{ flex: '1 1 180px', minWidth: 160 }}>
@@ -303,7 +303,7 @@ export function Home() {
               margin: 'var(--space-5) 0 0',
             }}
           >
-            I build from my own state outward. The software, the object, the document — all of it comes from the
+            We build from state outward. The software, the object, the document — all of it comes from the
             same place. That&rsquo;s why it holds together.
           </p>
         </section>
