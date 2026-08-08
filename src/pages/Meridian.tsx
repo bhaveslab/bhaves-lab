@@ -1,10 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldBackground } from '../components/FieldBackground';
 import { Eyebrow } from '../components/Eyebrow';
 import { Card } from '../components/Card';
-import { Divider } from '../components/Divider';
+import { PolyhedronGlobe } from '../components/PolyhedronGlobe';
+import { ChatIntake } from '../components/ChatIntake';
 
-const buildItems = [
+const traits = [
+  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one.' },
+  { title: 'Scoped per project', body: 'No fixed packages. Pricing follows the actual shape of the build.' },
+  { title: 'Software + hardware', body: 'One team for the code and the physical system it runs on.' },
+  { title: 'A Bhavé’s Lab company', body: 'The same team and standards behind the Lab’s own product line.' },
+];
+
+const buildKinds = [
   {
     eyebrow: 'SOFTWARE',
     title: 'Infrastructure, then interface',
@@ -23,14 +31,15 @@ const buildItems = [
 ];
 
 const processSteps = [
-  { num: '01', label: 'State / Baseline', desc: 'Starting point, isolated and read plainly.' },
-  { num: '02', label: 'Operator Alignment', desc: 'The build lines up with how we actually operate.' },
-  { num: '03', label: 'Structural Mapping', desc: "The system's real shape, mapped before anything is built." },
-  { num: '04', label: 'Documentation & Architecture', desc: 'Written down, then structured.' },
-  { num: '05', label: 'Functional Expression', desc: 'Shipped as software and physical form.' },
+  { num: '01', label: 'Scope', desc: 'We turn a rough direction into a scoped build — real constraints, real tradeoffs, no filler discovery decks.' },
+  { num: '02', label: 'Architect the system', desc: 'Software, hardware, or both — we make the structural decisions early, so nothing you build later gets stuck rebuilding the foundation.' },
+  { num: '03', label: 'Build in the open', desc: 'You see working versions early and often — not a status deck, the actual thing, running.' },
+  { num: '04', label: 'Hand you the keys', desc: 'Every account, every server, every repository is yours from the first commit. We build it. You own it. No exceptions.' },
 ];
 
 export function Meridian() {
+  const [chatOpen, setChatOpen] = useState(false);
+
   useEffect(() => {
     document.title = 'Meridian — GTN';
   }, []);
@@ -61,79 +70,132 @@ export function Meridian() {
           padding: 'var(--space-5) var(--space-6)',
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)', letterSpacing: '0.01em' }}>
-            Meridian
-          </div>
-          <div
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: 10,
-              letterSpacing: 'var(--tracking-label)',
-              textTransform: 'uppercase',
-              color: 'var(--text-muted)',
-            }}
-          >
-            GTN — Global Technology Network
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <img src="/meridian/meridian-logo.png" alt="Meridian" style={{ height: 28, width: 'auto' }} />
+          <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, letterSpacing: '0.01em' }}>MERIDIAN</div>
         </div>
-        <a
-          href="https://bhaveslab.com"
+        <button
+          onClick={() => setChatOpen(true)}
+          className="bl-pill-link"
           style={{
             fontFamily: 'var(--font-mono)',
             fontSize: 'var(--text-xs)',
             letterSpacing: 'var(--tracking-label)',
             textTransform: 'uppercase',
-            color: 'var(--text-secondary)',
+            color: 'var(--text-primary)',
+            background: 'var(--gold-500)',
+            border: 'none',
+            borderRadius: 24,
+            padding: '10px 22px',
+            cursor: 'pointer',
           }}
         >
-          Bhavé&rsquo;s Lab ↗
-        </a>
+          Chat with an expert
+        </button>
       </header>
 
       <main style={{ position: 'relative', zIndex: 10 }}>
         <section
           style={{
             minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
+            display: 'grid',
+            gridTemplateColumns: '1.1fr 0.9fr',
             alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
             padding: '0 var(--space-6)',
+            gap: 'var(--space-6)',
           }}
         >
-          <Eyebrow tick>Meridian — A Bhavé&rsquo;s Lab Company</Eyebrow>
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'clamp(40px, 7vw, var(--text-display-1))',
-              lineHeight: 'var(--leading-tight)',
-              letterSpacing: 'var(--tracking-tight)',
-              color: 'var(--text-primary)',
-              maxWidth: 900,
-              margin: 'var(--space-5) 0 var(--space-5)',
-            }}
-          >
-            Custom builds, entered through one door.
-          </h1>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              maxWidth: 560,
-              margin: 0,
-            }}
-          >
-            The B2B front end for Bhavé&rsquo;s Lab — software and physical anchors, built end to end and delivered
-            as one coherent system.
-          </p>
+          <div style={{ maxWidth: 640 }}>
+            <Eyebrow tick>Custom software &amp; hardware builds</Eyebrow>
+            <h1
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontWeight: 800 as unknown as number,
+                fontSize: 'clamp(36px, 5vw, 56px)',
+                lineHeight: 1.1,
+                letterSpacing: 'var(--tracking-tight)',
+                margin: 'var(--space-4) 0 var(--space-5)',
+              }}
+            >
+              Every build starts as a line.{' '}
+              <span style={{ color: 'var(--text-gold)' }}>We give it structure.</span>
+            </h1>
+            <p
+              style={{
+                fontSize: 'var(--text-lead)',
+                lineHeight: 'var(--leading-relaxed)',
+                color: 'var(--text-secondary)',
+                margin: '0 0 var(--space-5)',
+                maxWidth: 560,
+              }}
+            >
+              Meridian is the build arm of Bhavé’s Lab — the team that designs and ships the
+              software and physical systems ambitious companies can’t buy off the shelf. Same team
+              behind the Lab’s own products, now pointed at yours.
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)' }}>
+              <button
+                onClick={() => setChatOpen(true)}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 'var(--text-sm)',
+                  letterSpacing: 'var(--tracking-wide)',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-on-gold)',
+                  background: 'var(--gold-500)',
+                  border: 'none',
+                  borderRadius: 24,
+                  padding: '14px 28px',
+                  cursor: 'pointer',
+                }}
+              >
+                Chat with an expert
+              </button>
+              <a
+                href="#what-we-build"
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text-secondary)',
+                  textDecoration: 'underline',
+                }}
+              >
+                See what we build ↓
+              </a>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <PolyhedronGlobe size={380} />
+          </div>
         </section>
 
         <section
+          style={{
+            maxWidth: 'var(--container-max)',
+            margin: '0 auto',
+            padding: '0 var(--space-6) var(--pad-section)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: 'var(--space-5)',
+            borderTop: '1px solid var(--border-subtle)',
+            paddingTop: 'var(--space-6)',
+          }}
+        >
+          {traits.map((t) => (
+            <div key={t.title}>
+              <div style={{ fontFamily: 'var(--font-body)', fontWeight: 700 as unknown as number, marginBottom: 6 }}>
+                {t.title}
+              </div>
+              <div style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', lineHeight: 'var(--leading-normal)' }}>
+                {t.body}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <section
+          id="what-we-build"
           style={{
             maxWidth: 'var(--container-max)',
             margin: '0 auto',
@@ -143,71 +205,32 @@ export function Meridian() {
             gap: 'var(--space-5)',
           }}
         >
-          {buildItems.map((item) => (
+          {buildKinds.map((item) => (
             <Card key={item.eyebrow}>
               <Eyebrow muted>{item.eyebrow}</Eyebrow>
-              <h3
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 'var(--weight-regular)' as unknown as number,
-                  fontSize: 'var(--text-title-3)',
-                  color: 'var(--text-primary)',
-                  margin: 'var(--space-3) 0 var(--space-3)',
-                }}
-              >
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
                 {item.title}
               </h3>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--text-body)',
-                  lineHeight: 'var(--leading-normal)',
-                  color: 'var(--text-secondary)',
-                  margin: 0,
-                }}
-              >
-                {item.body}
-              </p>
+              <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{item.body}</p>
             </Card>
           ))}
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Divider label="How We Work" />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', marginTop: 'var(--space-6)' }}>
+          <Eyebrow tick>How it goes</Eyebrow>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
+            From a rough idea to infrastructure that’s actually yours.
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--space-6)' }}>
             {processSteps.map((step) => (
-              <div key={step.num} style={{ flex: '1 1 180px', minWidth: 160 }}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 'var(--text-eyebrow)',
-                    letterSpacing: 'var(--tracking-label)',
-                    color: 'var(--text-gold)',
-                  }}
-                >
+              <div key={step.num}>
+                <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-gold)', fontSize: 'var(--text-eyebrow)' }}>
                   {step.num}
                 </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontWeight: 'var(--weight-medium)' as unknown as number,
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-primary)',
-                    margin: 'var(--space-2) 0 var(--space-1)',
-                    textTransform: 'uppercase',
-                    letterSpacing: 'var(--tracking-wide)',
-                  }}
-                >
+                <div style={{ fontWeight: 700 as unknown as number, margin: '8px 0 6px', textTransform: 'uppercase', letterSpacing: 'var(--tracking-wide)', fontSize: 'var(--text-sm)' }}>
                   {step.label}
                 </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-muted)',
-                    lineHeight: 'var(--leading-normal)',
-                  }}
-                >
+                <div style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', lineHeight: 'var(--leading-normal)' }}>
                   {step.desc}
                 </div>
               </div>
@@ -215,69 +238,31 @@ export function Meridian() {
           </div>
         </section>
 
-        <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: 'var(--pad-section) var(--space-6)',
-            textAlign: 'center',
-          }}
-        >
-          <Eyebrow tick>Full Builds</Eyebrow>
-          <h2
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'var(--text-display-3)',
-              color: 'var(--text-primary)',
-              margin: 'var(--space-5) 0',
-            }}
-          >
-            Full Builds
+        <section style={{ maxWidth: 'var(--container-prose)', margin: '0 auto', padding: 'var(--pad-section) var(--space-6)', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-light)' as unknown as number, fontSize: 'var(--text-display-3)', margin: '0 0 var(--space-4)' }}>
+            Tell us what you’re trying to build.
           </h2>
-          <p
+          <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-lead)', margin: '0 0 var(--space-5)' }}>
+            Pricing is scoped per project — there’s no package to fit yourself into. Thirty minutes
+            tells us if we’re the right build partner.
+          </p>
+          <button
+            onClick={() => setChatOpen(true)}
             style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              margin: '0 0 var(--space-4)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: 'var(--text-sm)',
+              letterSpacing: 'var(--tracking-wide)',
+              textTransform: 'uppercase',
+              color: 'var(--text-on-gold)',
+              background: 'var(--gold-500)',
+              border: 'none',
+              borderRadius: 24,
+              padding: '14px 28px',
+              cursor: 'pointer',
             }}
           >
-            Pricing is scoped per project.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)', color: 'var(--text-muted)', margin: '0 0 var(--space-4)' }}>
-            Every build lives in infrastructure the client owns from day one — never under Lab- or
-            Meridian-controlled accounts.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)', color: 'var(--text-muted)', margin: 0 }}>
-            If it&rsquo;s a fit, get in touch — details below.
-          </p>
-        </section>
-
-        <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: '0 var(--space-6) var(--pad-section)',
-            textAlign: 'center',
-          }}
-        >
-          <Eyebrow muted>Meridian</Eyebrow>
-          <p
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-regular)' as unknown as number,
-              fontSize: 'var(--text-title-2)',
-              fontStyle: 'italic',
-              color: 'var(--text-gold)',
-              lineHeight: 'var(--leading-snug)',
-              margin: 'var(--space-5) 0 0',
-            }}
-          >
-            We build from the same state outward on every project. The software, the object, the document — all of
-            it comes from the same place. That&rsquo;s why it holds together.
-          </p>
+            Chat with an expert
+          </button>
         </section>
       </main>
 
@@ -290,40 +275,20 @@ export function Meridian() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 'var(--space-5)',
+          gap: 'var(--space-4)',
           textAlign: 'center',
         }}
       >
-        <a
-          href="mailto:info@bhaveslab.com"
-          style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', letterSpacing: 'var(--tracking-wide)' }}
-        >
-          info@bhaveslab.com
+        <img src="/meridian/meridian-logo.png" alt="Meridian" style={{ height: 40, width: 'auto' }} />
+        <a href="mailto:info@meridiangtn.com" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)' }}>
+          info@meridiangtn.com
         </a>
-        <a
-          href="https://calendly.com/bhaveslab-info/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bl-pill-link"
-          style={{
-            display: 'inline-block',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-xs)',
-            letterSpacing: 'var(--tracking-label)',
-            textTransform: 'uppercase',
-            color: 'var(--text-primary)',
-            background: 'transparent',
-            border: '1px solid var(--border-gold)',
-            borderRadius: 24,
-            padding: '12px 24px',
-          }}
-        >
-          What are we building?
-        </a>
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>
-          Meridian — a DBA of Bhavé&rsquo;s Lab LLC
+        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>
+          Meridian is <a href="https://bhaveslab.com" style={{ color: 'var(--text-faint)' }}>a Bhavé’s Lab</a> company
         </div>
       </footer>
+
+      <ChatIntake open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }
