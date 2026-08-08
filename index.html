@@ -1,14 +1,352 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bhavé's Lab</title>
-    <meta name="description" content="Systems built to hold their shape. Custom software and physical anchors, built end to end by one operator." />
-    <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bhavé's Lab — Building</title>
+<meta name="description" content="Bhavé's Lab is under construction. The next system is in production." />
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Hanken+Grotesk:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --obsidian-950: #06060A;
+    --obsidian-900: #0A0A11;
+    --obsidian-850: #0F0F18;
+    --obsidian-800: #14141F;
+    --gold-700: #8C6E3C;
+    --gold-600: #A8854A;
+    --gold-500: #C9A96A;
+    --gold-400: #D8BE84;
+    --gold-300: #E7D3A3;
+    --ivory-100: #F2EEE6;
+    --mist-400: #A6A39B;
+    --mist-500: #79766E;
+    --mist-600: #565248;
+    --nebula-indigo: #1E2454;
+    --nebula-teal: #173A40;
+    --border-subtle: rgba(201, 169, 106, 0.10);
+    --border-default: rgba(201, 169, 106, 0.18);
+    --border-gold: rgba(201, 169, 106, 0.55);
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --ease-inout: cubic-bezier(0.65, 0.05, 0.36, 1);
+    --ease-glide: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--obsidian-950);
+    color: var(--ivory-100);
+    font-family: var(--font-sans);
+    overflow: hidden;
+  }
+
+  .stage {
+    position: relative;
+    width: 100vw;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ambient nebula wash */
+  .nebula {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 40%, rgba(30,36,84,0.35), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 70% 75%, rgba(23,58,64,0.28), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(74,42,72,0.20), transparent 60%);
+    pointer-events: none;
+  }
+
+  canvas#field {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* rotating radar sweep */
+  .sweep {
+    position: absolute;
+    inset: -20%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 350deg,
+      rgba(201,169,106,0.10) 357deg,
+      rgba(201,169,106,0.22) 360deg
+    );
+    animation: sweep-rotate 18s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  @keyframes sweep-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* horizontal scan beams */
+  .beam {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,169,106,0.55) 20%, rgba(216,190,132,0.85) 50%, rgba(201,169,106,0.55) 80%, transparent);
+    filter: blur(0.5px);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .beam-a { animation: beam-sweep-a 9s var(--ease-inout) infinite; }
+  .beam-b { animation: beam-sweep-b 13s var(--ease-inout) infinite 3.2s; }
+
+  @keyframes beam-sweep-a {
+    0% { top: -2%; opacity: 0; }
+    8% { opacity: 0.9; }
+    50% { opacity: 0.35; }
+    92% { opacity: 0.9; }
+    100% { top: 102%; opacity: 0; }
+  }
+  @keyframes beam-sweep-b {
+    0% { top: 102%; opacity: 0; }
+    10% { opacity: 0.7; }
+    50% { opacity: 0.25; }
+    90% { opacity: 0.7; }
+    100% { top: -2%; opacity: 0; }
+  }
+
+  /* central console frame */
+  .console {
+    position: relative;
+    z-index: 10;
+    width: min(680px, 88vw);
+    padding: clamp(36px, 6vw, 64px) clamp(28px, 5vw, 56px);
+    text-align: center;
+    animation: console-in 1.1s var(--ease-glide) both;
+  }
+  @keyframes console-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: var(--border-gold);
+    opacity: 0.8;
+  }
+  .corner.tl { top: 0; left: 0; border-top: 1.5px solid; border-left: 1.5px solid; }
+  .corner.tr { top: 0; right: 0; border-top: 1.5px solid; border-right: 1.5px solid; }
+  .corner.bl { bottom: 0; left: 0; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+  .corner.br { bottom: 0; right: 0; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow .tick {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold-400);
+    box-shadow: 0 0 10px rgba(216,190,132,0.7);
+    animation: tick-pulse 2.4s var(--ease-inout) infinite;
+  }
+  @keyframes tick-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  .readout {
+    margin: 28px auto 0;
+    display: inline-block;
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 2;
+    letter-spacing: 0.04em;
+    color: var(--mist-400);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 14px 0;
+  }
+  .readout .k { color: var(--mist-500); display: inline-block; width: 108px; }
+  .readout .v { color: var(--ivory-100); }
+  .readout .v.gold { color: var(--gold-400); }
+  .cursor {
+    display: inline-block;
+    width: 7px;
+    height: 12px;
+    background: var(--gold-400);
+    margin-left: 2px;
+    vertical-align: -1px;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(34px, 6vw, 54px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ivory-100);
+    margin: 32px 0 0;
+  }
+
+  .sub {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--mist-400);
+    max-width: 480px;
+    margin: 18px auto 0;
+  }
+
+  .micro {
+    margin-top: 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mist-600);
+  }
+
+  footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  footer a {
+    color: var(--mist-500);
+    text-decoration: none;
+    transition: color 180ms var(--ease-inout);
+  }
+  footer a:hover { color: var(--gold-400); }
+  .brandmark {
+    position: fixed;
+    top: 24px;
+    left: 28px;
+    z-index: 10;
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--ivory-100);
+    letter-spacing: 0.01em;
+    opacity: 0.9;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sweep, .beam-a, .beam-b, .tick, .cursor, .console { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="nebula"></div>
+    <canvas id="field"></canvas>
+    <div class="sweep"></div>
+    <div class="beam beam-a"></div>
+    <div class="beam beam-b"></div>
+
+    <div class="brandmark">Bhavé&rsquo;s Lab</div>
+
+    <div class="console">
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+
+      <div class="eyebrow"><span class="tick"></span>Bhavé&rsquo;s Lab</div>
+
+      <h1>Under construction.<br />On purpose.</h1>
+
+      <p class="sub">The next system is in production — hardware first, then everything built around it. What&rsquo;s live now is scaffolding, not the build.</p>
+
+      <div class="readout">
+        <div><span class="k">STATUS</span><span class="v gold">BUILDING<span class="cursor"></span></span></div>
+        <div><span class="k">FOCUS</span><span class="v">HARDWARE IN PRODUCTION</span></div>
+        <div><span class="k">COMPLETION</span><span class="v">WHEN IT&rsquo;S OBVIOUS</span></div>
+      </div>
+
+      <p class="micro">No forcing. No countdown. Check back.</p>
+    </div>
+  </div>
+
+  <footer>
+    <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
+    <a href="/shop">Shop &rarr;</a>
+  </footer>
+
+  <script>
+    const canvas = document.getElementById('field');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles;
+
+    function resize() {
+      w = canvas.width = window.innerWidth * devicePixelRatio;
+      h = canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+    }
+
+    function init() {
+      resize();
+      const count = Math.min(90, Math.floor((window.innerWidth * window.innerHeight) / 14000));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: (Math.random() * 1.2 + 0.4) * devicePixelRatio,
+        vx: (Math.random() - 0.5) * 0.08 * devicePixelRatio,
+        vy: (Math.random() - 0.5) * 0.08 * devicePixelRatio,
+        baseAlpha: Math.random() * 0.35 + 0.08,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.0006 + 0.0003,
+      }));
+    }
+
+    function tick(t) {
+      ctx.clearRect(0, 0, w, h);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+        if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+        const alpha = p.baseAlpha + Math.sin(t * p.speed + p.phase) * 0.12;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(216, 190, 132, ${Math.max(0, alpha)})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('resize', () => { resize(); });
+    init();
+    requestAnimationFrame(tick);
+  </script>
+</body>
 </html>
