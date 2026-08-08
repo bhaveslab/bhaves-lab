@@ -69,12 +69,16 @@ export async function mountField(canvas, opts) {
   const points = new THREE.Points(geometry, material);
   scene.add(points);
 
-  const poly = new THREE.IcosahedronGeometry(11, 0);
-  const edges = new THREE.EdgesGeometry(poly);
-  const lineMat = new THREE.LineBasicMaterial({ color: 0xd8be84, transparent: true, opacity: 0 });
-  const wire = new THREE.LineSegments(edges, lineMat);
-  wire.position.set(0, 0, 15);
-  scene.add(wire);
+  const showPolyhedronMark = opts.showPolyhedronMark !== false;
+  let wire = null, lineMat = null;
+  if (showPolyhedronMark) {
+    const poly = new THREE.IcosahedronGeometry(11, 0);
+    const edges = new THREE.EdgesGeometry(poly);
+    lineMat = new THREE.LineBasicMaterial({ color: 0xd8be84, transparent: true, opacity: 0 });
+    wire = new THREE.LineSegments(edges, lineMat);
+    wire.position.set(0, 0, 15);
+    scene.add(wire);
+  }
 
   // Shooting stars: small pool, rare bright streaks distinct from the ambient field.
   const STAR_COUNT = 3, TRAIL_LEN = 10;
@@ -144,14 +148,16 @@ export async function mountField(canvas, opts) {
     const t = clock.getElapsedTime();
     const fadeIn = Math.min(t / 1.4, 1);
     material.opacity = 0.75 * fadeIn;
-    lineMat.opacity = 0.85 * fadeIn;
+    if (lineMat) lineMat.opacity = 0.85 * fadeIn;
 
     const dollyRange = opts.dollyRange != null ? opts.dollyRange : 170;
     camera.position.z = 40 - scrollT * dollyRange;
-    wire.position.z = camera.position.z - 20;
-    wire.rotation.y += 0.0022;
-    wire.rotation.x += 0.0009;
-    wire.scale.setScalar(0.4 + 0.6 * fadeIn);
+    if (wire) {
+      wire.position.z = camera.position.z - 20;
+      wire.rotation.y += 0.0022;
+      wire.rotation.x += 0.0009;
+      wire.scale.setScalar(0.4 + 0.6 * fadeIn);
+    }
 
     // Collective sway — the field never fully stops, even at rest.
     points.rotation.z = Math.sin(t * 0.045) * 0.035;

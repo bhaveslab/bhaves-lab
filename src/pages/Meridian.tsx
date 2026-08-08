@@ -55,7 +55,7 @@ export function Meridian() {
         overflowX: 'hidden',
       }}
     >
-      <FieldBackground particleDensity="moderate" />
+      <FieldBackground particleDensity="moderate" showPolyhedronMark={false} />
 
       <header
         style={{

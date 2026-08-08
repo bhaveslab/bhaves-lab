@@ -5,9 +5,14 @@ import { buildStaticStarsShadow } from '../three/staticField';
 interface FieldBackgroundProps {
   particleDensity?: FieldSceneOptions['particleDensity'];
   forceReducedMotion?: boolean;
+  showPolyhedronMark?: boolean;
 }
 
-export function FieldBackground({ particleDensity = 'moderate', forceReducedMotion = false }: FieldBackgroundProps) {
+export function FieldBackground({
+  particleDensity = 'moderate',
+  forceReducedMotion = false,
+  showPolyhedronMark = true,
+}: FieldBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fieldRef = useRef<FieldSceneHandle | null>(null);
   const [reducedMotion, setReducedMotion] = useState<boolean | null>(null);
@@ -26,7 +31,7 @@ export function FieldBackground({ particleDensity = 'moderate', forceReducedMoti
       if (!canvas) return;
       const mod = await import('../three/fieldScene');
       if (cancelled) return;
-      fieldRef.current = await mod.mountField(canvas, { particleDensity });
+      fieldRef.current = await mod.mountField(canvas, { particleDensity, showPolyhedronMark });
     })();
 
     return () => {
@@ -35,7 +40,7 @@ export function FieldBackground({ particleDensity = 'moderate', forceReducedMoti
       fieldRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [forceReducedMotion, particleDensity]);
+  }, [forceReducedMotion, particleDensity, showPolyhedronMark]);
 
   const showStaticField = reducedMotion !== false;
 

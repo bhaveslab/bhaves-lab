@@ -3,6 +3,7 @@ export interface FieldSceneOptions {
   depthSpan?: number;
   dollyRange?: number;
   noShootingStars?: boolean;
+  showPolyhedronMark?: boolean;
 }
 
 export interface FieldSceneHandle {
