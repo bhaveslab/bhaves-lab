@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
  * so it's predictable and easy to reposition/resize by hand.
  */
 
-const EDGE_COLOR = 'rgba(255, 176, 102, 0.55)';
+const EDGE_COLOR = 'rgba(255, 200, 110, 0.5)';
 
 // 6 vertices of an octahedron (top, bottom, 4 equatorial), edges computed below.
 type Vec3 = [number, number, number];
@@ -125,12 +125,12 @@ export function PolyhedronGlobe({ size = 340 }: { size?: number }) {
               height: '100%',
               objectFit: 'contain',
               objectPosition: 'top center',
-              // The source image includes wordmark below the globe; crop to
-              // roughly the globe glyph only.
-              clipPath: 'inset(0% 0% 62% 0%)',
-              transform: 'scale(2.6) translateY(4%)',
+              // Source image: gold globe/network mark on top, wordmark
+              // below. Crop to roughly the globe+orbit-rings portion only.
+              clipPath: 'inset(2% 4% 34% 4%)',
+              transform: 'scale(2.3) translateY(2%)',
               opacity: 0.95,
-              filter: 'drop-shadow(0 0 18px rgba(120, 130, 255, 0.35))',
+              filter: 'drop-shadow(0 0 18px rgba(255, 200, 110, 0.35))',
             }}
           />
         </div>
