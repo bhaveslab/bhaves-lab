@@ -46,17 +46,12 @@ export function PolyhedronGlobe({ size = 340 }: { size?: number }) {
           }}
         >
           <img
-            src="/meridian/meridian-logo.png"
+            src="/meridian/favicon.png"
             alt="Meridian"
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'contain',
-              objectPosition: 'top center',
-              // Source image: gold globe/network mark on top, wordmark
-              // below. Crop to roughly the globe+orbit-rings portion only.
-              clipPath: 'inset(2% 4% 34% 4%)',
-              transform: 'scale(2.3) translateY(2%)',
               opacity: 0.95,
             }}
           />

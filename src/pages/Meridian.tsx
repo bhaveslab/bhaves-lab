@@ -59,17 +59,17 @@ export function Meridian() {
 
       <style>{`
         .bl-meridian-header { padding: var(--space-5) var(--space-6); }
-        .bl-meridian-logo { height: 28px; width: auto; }
+        .bl-meridian-logo { height: 32px; width: auto; }
         .bl-meridian-wordmark { font-size: 18px; }
         .bl-meridian-hero { grid-template-columns: 1.1fr 0.9fr; padding: 0 var(--space-6); }
         .bl-meridian-globe-wrap { transform: translateX(48px); }
 
         @media (max-width: 768px) {
           .bl-meridian-header { padding: var(--space-4) var(--space-5); }
-          .bl-meridian-logo { height: 22px; }
+          .bl-meridian-logo { height: 26px; }
           .bl-meridian-wordmark { font-size: 15px; }
           .bl-meridian-hero { grid-template-columns: 1fr; padding: 112px var(--space-5) var(--space-6); }
-          .bl-meridian-globe-wrap { transform: none; margin-top: var(--space-5); }
+          .bl-meridian-globe-wrap { transform: none; margin: var(--space-5) auto 0; justify-self: center; }
           .bl-meridian-globe-inner {
             width: 260px;
             height: 260px;
