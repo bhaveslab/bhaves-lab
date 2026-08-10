@@ -42,6 +42,7 @@ const buildKinds = [
 const exampleBuilds = [
   { status: 'LIVE', title: 'WLV', body: 'Our founding build. The system and the operator were developed in the same motion — not separately, not in sequence.' },
   { status: 'IN BUILD', title: 'Kitchen ordering system', body: 'Menu architecture, table management, and direct guest ordering for a restaurant floor.' },
+  { status: 'IN BUILD', title: 'Taxi Direct', body: 'Direct dispatch and ride booking, built to run without a third-party platform in between.' },
   { status: 'IN BUILD', title: 'Fleet dispatch', body: 'Direct dispatch, rider tracking, and driver status for a transport network.' },
 ];
 
@@ -325,11 +326,14 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>Example builds</Eyebrow>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
-            What’s running now.
+          <Eyebrow tick>Our own builds</Eyebrow>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-3)' }}>
+            What we build for ourselves first.
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', lineHeight: 'var(--leading-relaxed)', maxWidth: 560, margin: '0 0 var(--space-6)' }}>
+            Before a system goes to a client, we run it ourselves. These are builds Meridian owns and operates.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-5)' }}>
             {exampleBuilds.map((b) => (
               <Card key={b.title}>
                 {b.status === 'LIVE' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
