@@ -209,7 +209,7 @@ export async function mountField(canvas, opts) {
     if (!opts.noShootingStars) {
       if (now > nextStarAt) {
         spawnStar(camera.position.z);
-        nextStarAt = now + 3500 + Math.random() * 7000;
+        nextStarAt = now + 5000 + Math.random() * 3000;
       }
       for (const st of stars) {
         if (!st.active) continue;
