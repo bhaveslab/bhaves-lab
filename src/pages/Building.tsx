@@ -218,9 +218,6 @@ export function Building() {
         <a href="mailto:info@bhaveslab.com" style={{ color: 'var(--text-muted)' }}>
           info@bhaveslab.com
         </a>
-        <a href="/shop" style={{ color: 'var(--text-muted)' }}>
-          Shop &rarr;
-        </a>
       </footer>
     </div>
   );
