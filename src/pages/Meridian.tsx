@@ -12,6 +12,15 @@ const traits = [
   { title: 'A Bhavé’s Lab company', body: 'The same team and standards behind the Lab’s own product line.' },
 ];
 
+const services = [
+  { title: 'Custom software', body: 'Full applications built around what you actually run — not a template with your logo on it.' },
+  { title: 'Hardware & physical systems', body: 'Devices, sensors, and kiosks wired to talk to the software behind them.' },
+  { title: 'Web architecture', body: 'From a single fast page to a full interactive build with its own 3D layer.' },
+  { title: 'Business operating systems', body: 'Booking, dispatch, ordering, and client management, built around one specific business — not a shared platform.' },
+  { title: 'Personal & family systems', body: 'Private tools built for one household. Nobody else uses your version.' },
+  { title: 'Post-launch support', body: 'We stay attached to what we build. Changes go through the team that built it, not a new vendor.' },
+];
+
 const buildKinds = [
   {
     eyebrow: 'SOFTWARE',
@@ -28,6 +37,12 @@ const buildKinds = [
     title: 'One system',
     body: 'Front face and underneath, wired the same way.',
   },
+];
+
+const exampleBuilds = [
+  { status: 'LIVE', title: 'WLV', body: 'Our founding build. The system and the operator were developed in the same motion — not separately, not in sequence.' },
+  { status: 'IN BUILD', title: 'Kitchen ordering system', body: 'Menu architecture, table management, and direct guest ordering for a restaurant floor.' },
+  { status: 'IN BUILD', title: 'Fleet dispatch', body: 'Direct dispatch, rider tracking, and driver status for a transport network.' },
 ];
 
 const pricingTiers = [
@@ -271,18 +286,17 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>Pricing</Eyebrow>
+          <Eyebrow tick>Services</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
-            Three starting points.
+            What we build, specifically.
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
-            {pricingTiers.map((tier) => (
-              <Card key={tier.title}>
-                <Eyebrow muted>{tier.eyebrow}</Eyebrow>
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
-                  {tier.title}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-5)' }}>
+            {services.map((s) => (
+              <Card key={s.title}>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-3)' }}>
+                  {s.title}
                 </h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{tier.body}</p>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{s.body}</p>
               </Card>
             ))}
           </div>
@@ -306,6 +320,42 @@ export function Meridian() {
                   {step.desc}
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
+          <Eyebrow tick>Example builds</Eyebrow>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
+            What’s running now.
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
+            {exampleBuilds.map((b) => (
+              <Card key={b.title}>
+                {b.status === 'LIVE' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
+                  {b.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{b.body}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
+          <Eyebrow tick>Pricing</Eyebrow>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
+            Three starting points.
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
+            {pricingTiers.map((tier) => (
+              <Card key={tier.title}>
+                <Eyebrow muted>{tier.eyebrow}</Eyebrow>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
+                  {tier.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{tier.body}</p>
+              </Card>
             ))}
           </div>
         </section>
