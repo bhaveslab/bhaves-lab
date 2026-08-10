@@ -40,7 +40,7 @@ const buildKinds = [
 ];
 
 const exampleBuilds = [
-  { status: 'LIVE', title: 'WLV', body: 'Our founding build. The system and the operator were developed in the same motion — not separately, not in sequence.' },
+  { status: 'DELIVERED', title: 'WLV — Honduras', body: 'A full operating system built and delivered for a client in Honduras. One of our first proofs of what we build in Central America.' },
   { status: 'IN BUILD', title: 'Kitchen ordering system', body: 'Menu architecture, table management, and direct guest ordering for a restaurant floor.' },
   { status: 'IN BUILD', title: 'Taxi Direct', body: 'Direct dispatch and ride booking, built to run without a third-party platform in between.' },
   { status: 'IN BUILD', title: 'Fleet dispatch', body: 'Direct dispatch, rider tracking, and driver status for a transport network.' },
@@ -331,12 +331,12 @@ export function Meridian() {
             What we build for ourselves first.
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', lineHeight: 'var(--leading-relaxed)', maxWidth: 560, margin: '0 0 var(--space-6)' }}>
-            Before a system goes to a client, we run it ourselves. These are builds Meridian owns and operates.
+            Before a system goes to a client, we run it ourselves. Below is what we operate directly, alongside work we’ve delivered.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-5)' }}>
             {exampleBuilds.map((b) => (
               <Card key={b.title}>
-                {b.status === 'LIVE' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
+                {b.status === 'LIVE' || b.status === 'DELIVERED' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
                   {b.title}
                 </h3>
