@@ -37,14 +37,14 @@ const pricingTiers = [
     body: 'A private app for your household: shared chores and goals tracked in real time, encrypted journaling, and an offline-capable family directory. Built once, yours outright.',
   },
   {
-    eyebrow: 'Starting at $1,200',
+    eyebrow: 'Starting at $750',
     title: 'Business Suites',
     body: 'Booking, ordering, and dispatch built for how your business actually runs — salons, restaurants, transport fleets. Client history, scheduling, and real-time status in one system you own.',
   },
   {
-    eyebrow: 'Starting at $750',
+    eyebrow: 'Starting at $1,200',
     title: 'Web Architecture',
-    body: 'From a single fast landing page to a full interactive build with its own 3D layer. One-Page ($750), Tri-Page ($1,500), Five-Page Suite ($2,500), Apex Build ($5,000+).',
+    body: 'From a single fast landing page to a full interactive build with its own 3D layer. One-Page ($1,200), Tri-Page ($2,000), Five-Page Suite ($3,000), Apex Build ($5,000+).',
   },
 ];
 
@@ -315,8 +315,8 @@ export function Meridian() {
             Tell us what you’re trying to build.
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-lead)', margin: '0 0 var(--space-5)' }}>
-            Personal builds start at $250. Business builds start at $1,200. Web builds start at
-            $750. Thirty minutes tells us the right starting point for yours.
+            Personal builds start at $250. Business builds start at $750. Web builds start at
+            $1,200. Thirty minutes tells us the right starting point for yours.
           </p>
           <button
             onClick={() => setChatOpen(true)}
