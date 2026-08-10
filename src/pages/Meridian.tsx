@@ -122,8 +122,8 @@ export function Meridian() {
                 margin: 'var(--space-4) 0 var(--space-5)',
               }}
             >
-              Every build starts as a line.{' '}
-              <span style={{ color: 'var(--text-gold)' }}>We give it structure.</span>
+              Every build starts as open space.{' '}
+              <span style={{ color: 'var(--text-gold)' }}>We build the structure inside it.</span>
             </h1>
             <p
               style={{
