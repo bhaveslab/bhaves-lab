@@ -165,7 +165,9 @@ export function Meridian() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+  <PolyhedronGlobe size={520} />
+</div>
             <PolyhedronGlobe size={380} />
           </div>
         </section>
