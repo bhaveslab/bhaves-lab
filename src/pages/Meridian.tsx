@@ -6,8 +6,8 @@ import { PolyhedronGlobe } from '../components/PolyhedronGlobe';
 import { ChatIntake } from '../components/ChatIntake';
 
 const traits = [
-  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one.' },
-  { title: 'Scoped per project', body: 'No fixed packages. Pricing follows the actual shape of the build.' },
+  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one — not rented, not resold.' },
+  { title: 'Cash or trade', body: 'Western clients pay cash. Belizean and Central American partners can pay in trade — real estate access, equipment, inventory, local services.' },
   { title: 'Software + hardware', body: 'One team for the code and the physical system it runs on.' },
   { title: 'A Bhavé’s Lab company', body: 'The same team and standards behind the Lab’s own product line.' },
 ];
@@ -135,7 +135,7 @@ export function Meridian() {
           }}
         >
           <div style={{ maxWidth: 640 }}>
-            <Eyebrow tick>Custom software &amp; hardware builds</Eyebrow>
+            <Eyebrow tick>Owned infrastructure, not rented</Eyebrow>
             <h1
               style={{
                 fontFamily: 'var(--font-body)',
@@ -158,9 +158,10 @@ export function Meridian() {
                 maxWidth: 560,
               }}
             >
-              Meridian is the build arm of Bhavé’s Lab — the team that designs and ships the
-              software and physical systems ambitious companies can’t buy off the shelf. Same team
-              behind the Lab’s own products, now pointed at yours.
+              Local operators across Belize — restaurants, hotels, tour guides, fleets — lose
+              15–30% of every booking to foreign platforms that also hold their customer data
+              hostage. We build the owned alternative: your app, your data, your infrastructure —
+              starting in Belize, expanding across Central America.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)' }}>
               <button
