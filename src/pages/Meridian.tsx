@@ -57,7 +57,33 @@ export function Meridian() {
     >
       <FieldBackground particleDensity="moderate" showPolyhedronMark={false} />
 
+      <style>{`
+        .bl-meridian-header { padding: var(--space-5) var(--space-6); }
+        .bl-meridian-logo { height: 28px; width: auto; }
+        .bl-meridian-wordmark { font-size: 18px; }
+        .bl-meridian-hero { grid-template-columns: 1.1fr 0.9fr; padding: 0 var(--space-6); }
+        .bl-meridian-globe-wrap { transform: translateX(48px); }
+
+        @media (max-width: 768px) {
+          .bl-meridian-header { padding: var(--space-4) var(--space-5); }
+          .bl-meridian-logo { height: 22px; }
+          .bl-meridian-wordmark { font-size: 15px; }
+          .bl-meridian-hero { grid-template-columns: 1fr; padding: 112px var(--space-5) var(--space-6); }
+          .bl-meridian-globe-wrap { transform: none; margin-top: var(--space-5); }
+          .bl-meridian-globe-inner {
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+          }
+          .bl-meridian-globe-inner > div { transform: scale(0.5); }
+        }
+      `}</style>
+
       <header
+        className="bl-meridian-header"
         style={{
           position: 'fixed',
           top: 0,
@@ -67,12 +93,11 @@ export function Meridian() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: 'var(--space-5) var(--space-6)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src="/meridian/meridian-logo.png" alt="Meridian" style={{ height: 28, width: 'auto' }} />
-           <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, letterSpacing: '0.01em' }}>
+          <img src="/meridian/meridian-logo.png" alt="Meridian" className="bl-meridian-logo" />
+           <div className="bl-meridian-wordmark" style={{ fontFamily: 'var(--font-serif)', letterSpacing: '0.01em' }}>
   MERIDIAN <span style={{ color: 'var(--text-gold)' }}>GLOBAL</span>
 </div>
 
@@ -101,12 +126,11 @@ export function Meridian() {
 
       <main style={{ position: 'relative', zIndex: 10 }}>
         <section
+          className="bl-meridian-hero"
           style={{
             minHeight: '100vh',
             display: 'grid',
-            gridTemplateColumns: '1.1fr 0.9fr',
             alignItems: 'center',
-            padding: '0 var(--space-6)',
             gap: 'var(--space-6)',
           }}
         >
@@ -170,8 +194,10 @@ export function Meridian() {
             </div>
           </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(48px)' }}>
-  <PolyhedronGlobe size={520} />
+        <div className="bl-meridian-globe-wrap" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+  <div className="bl-meridian-globe-inner">
+    <PolyhedronGlobe size={520} />
+  </div>
 </div>
 
 
