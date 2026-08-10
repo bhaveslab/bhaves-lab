@@ -17,14 +17,16 @@ type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
 
 export function ChatIntake({ open, onClose }: ChatIntakeProps) {
   const [step, setStep] = useState(1);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [buildType, setBuildType] = useState('');
   const [details, setDetails] = useState('');
   const [status, setStatus] = useState<SubmitStatus>('idle');
 
   if (!open) return null;
 
-  const canContinue = step === 1 ? email.includes('@') : step === 2 ? buildType.length > 0 : true;
+  const canContinue = step === 1 ? name.trim().length > 0 && email.includes('@') : step === 2 ? buildType.length > 0 : true;
 
   const handleSubmit = async () => {
     setStatus('sending');
@@ -32,7 +34,7 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
       const response = await fetch('/api/meridian-intake', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, buildType, details }),
+        body: JSON.stringify({ name, email, phone, buildType, details }),
       });
       const data = await response.json().catch(() => null);
       setStatus(response.ok && data?.ok ? 'success' : 'error');
@@ -104,13 +106,30 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
             {step === 1 && (
               <>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-                  What's your work email?
+                  Who are we talking to?
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-4)' }}>
-                  So we know where to send the next message.
+                  Your name and email — so we know who's reaching out.
                 </p>
                 <input
                   autoFocus
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Your name"
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    background: 'var(--surface-input)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-body)',
+                    marginBottom: 12,
+                  }}
+                />
+                <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -169,6 +188,26 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-4)' }}>
                   Optional — timeline, constraints, what's already built.
                 </p>
+                <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-2)' }}>
+                  Phone (optional) — if you'd rather we call.
+                </p>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="(555) 000-0000"
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    background: 'var(--surface-input)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: 'var(--text-body)',
+                    marginBottom: 12,
+                  }}
+                />
                 <textarea
                   autoFocus
                   value={details}
