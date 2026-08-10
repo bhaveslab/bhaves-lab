@@ -6,8 +6,8 @@ import { PolyhedronGlobe } from '../components/PolyhedronGlobe';
 import { ChatIntake } from '../components/ChatIntake';
 
 const traits = [
-  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one — not rented, not resold.' },
-  { title: 'Cash or trade', body: 'Western clients pay cash. Belizean and Central American partners can pay in trade — real estate access, equipment, inventory, local services.' },
+  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one.' },
+  { title: 'Tiered, transparent pricing', body: 'Personal, business, and web builds each start at a clear price point — no scoping call required to know where you stand.' },
   { title: 'Software + hardware', body: 'One team for the code and the physical system it runs on.' },
   { title: 'A Bhavé’s Lab company', body: 'The same team and standards behind the Lab’s own product line.' },
 ];
@@ -27,6 +27,24 @@ const buildKinds = [
     eyebrow: 'COHERENCE',
     title: 'One system',
     body: 'Front face and underneath, wired the same way.',
+  },
+];
+
+const pricingTiers = [
+  {
+    eyebrow: 'Starting at $250',
+    title: 'Personal & Family',
+    body: 'A private app for your household: shared chores and goals tracked in real time, encrypted journaling, and an offline-capable family directory. Built once, yours outright.',
+  },
+  {
+    eyebrow: 'Starting at $1,200',
+    title: 'Business Suites',
+    body: 'Booking, ordering, and dispatch built for how your business actually runs — salons, restaurants, transport fleets. Client history, scheduling, and real-time status in one system you own.',
+  },
+  {
+    eyebrow: 'Starting at $750',
+    title: 'Web Architecture',
+    body: 'From a single fast landing page to a full interactive build with its own 3D layer. One-Page ($750), Tri-Page ($1,500), Five-Page Suite ($2,500), Apex Build ($5,000+).',
   },
 ];
 
@@ -135,7 +153,7 @@ export function Meridian() {
           }}
         >
           <div style={{ maxWidth: 640 }}>
-            <Eyebrow tick>Owned infrastructure, not rented</Eyebrow>
+            <Eyebrow tick>Custom software &amp; hardware builds</Eyebrow>
             <h1
               style={{
                 fontFamily: 'var(--font-body)',
@@ -158,10 +176,10 @@ export function Meridian() {
                 maxWidth: 560,
               }}
             >
-              Local operators across Belize — restaurants, hotels, tour guides, fleets — lose
-              15–30% of every booking to foreign platforms that also hold their customer data
-              hostage. We build the owned alternative: your app, your data, your infrastructure —
-              starting in Belize, expanding across Central America.
+              Meridian is the build arm of Bhavé’s Lab — the team that designs and ships
+              software and physical systems businesses can’t buy off the shelf. We scope the
+              actual problem, build the infrastructure to solve it, and hand you full ownership
+              when it’s done.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)' }}>
               <button
@@ -253,6 +271,24 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
+          <Eyebrow tick>Pricing</Eyebrow>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
+            Three starting points.
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
+            {pricingTiers.map((tier) => (
+              <Card key={tier.title}>
+                <Eyebrow muted>{tier.eyebrow}</Eyebrow>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
+                  {tier.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', margin: 0 }}>{tier.body}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
           <Eyebrow tick>How it goes</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
             From a rough idea to infrastructure that’s actually yours.
@@ -279,8 +315,8 @@ export function Meridian() {
             Tell us what you’re trying to build.
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-lead)', margin: '0 0 var(--space-5)' }}>
-            Pricing is scoped per project — there’s no package to fit yourself into. Thirty minutes
-            tells us if we’re the right build partner.
+            Personal builds start at $250. Business builds start at $1,200. Web builds start at
+            $750. Thirty minutes tells us the right starting point for yours.
           </p>
           <button
             onClick={() => setChatOpen(true)}
