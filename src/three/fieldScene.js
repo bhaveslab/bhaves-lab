@@ -81,7 +81,7 @@ export async function mountField(canvas, opts) {
   }
 
   // Shooting stars: small pool, rare bright streaks distinct from the ambient field.
-  const STAR_COUNT = 3, TRAIL_LEN = 10;
+  const STAR_COUNT = 6, TRAIL_LEN = 10;
   const stars = [];
   for (let s = 0; s < STAR_COUNT; s++) {
     const spriteMat = new THREE.SpriteMaterial({ map: orbTex, color: 0xfff6e2, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
