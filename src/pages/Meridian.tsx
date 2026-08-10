@@ -72,7 +72,12 @@ export function Meridian() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img src="/meridian/meridian-logo.png" alt="Meridian" style={{ height: 28, width: 'auto' }} />
-          <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, letterSpacing: '0.01em' }}>MERIDIAN</div>
+           <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, letterSpacing: '0.01em' }}>
+  MERIDIAN <span style={{ color: 'var(--text-gold)' }}>GLOBAL</span>
+</div>
+
+
+
         </div>
         <button
           onClick={() => setChatOpen(true)}
@@ -165,9 +170,12 @@ export function Meridian() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', transform: 'translateX(48px)' }}>
   <PolyhedronGlobe size={520} />
 </div>
+
+
+
            
         </section>
 
