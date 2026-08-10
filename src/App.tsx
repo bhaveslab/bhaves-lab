@@ -3,7 +3,11 @@ import { Shop } from './pages/Shop';
 import { Meridian } from './pages/Meridian';
 import { Confirmation } from './pages/Shop/Confirmation';
 import { RouterProvider, useRouter } from './router';
-import { getSite } from './site';
+import { getSite, applySiteChrome } from './site';
+
+// Runs once, synchronously, before React renders anything below — see the
+// comment on applySiteChrome for why this can't be a useEffect here.
+applySiteChrome();
 
 function LabRoutes() {
   const { path } = useRouter();
