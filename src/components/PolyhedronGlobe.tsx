@@ -1,95 +1,33 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * A rotating wireframe octahedron (CSS 3D transforms) with the Meridian
- * globe mark as a small satellite object near it. Pure CSS/DOM — no
- * canvas, no Three.js — so it's predictable and easy to reposition/resize
- * by hand.
+ * Meridian globe mark — slow self-rotation with a gentle float.
  *
- * The globe mark is deliberately NOT nested inside the octahedron's
- * preserve-3d rotation group: a flat image with its own 2D transform
- * (clip-path/scale) inside a rotating 3D context drifts off-center as the
- * parent rotates (different browsers resolve the combined transform stack
- * differently). Keeping it as a sibling with its own independent
- * animation avoids that entirely.
+ * Previously wrapped in a rotating wireframe octahedron cage. Dropped: the
+ * cage's own edges periodically foreshorten toward the camera as it turns,
+ * bunching into a converging starburst that visually crosses the globe.
+ * That's inherent to a rotating wireframe shape, not fixable while the cage
+ * exists, so the cage is gone and the globe stands on its own.
  */
 
-const EDGE_COLOR = 'rgba(255, 200, 110, 0.5)';
-
-// 6 vertices of an octahedron (top, bottom, 4 equatorial), edges computed below.
-type Vec3 = [number, number, number];
-
-const R = 130; // radius in px, controls overall size
-
-const vertices: Vec3[] = [
-  [0, -R, 0], // 0 top
-  [0, R, 0], // 1 bottom
-  [R, 0, 0], // 2 +x
-  [-R, 0, 0], // 3 -x
-  [0, 0, R], // 4 +z
-  [0, 0, -R], // 5 -z
-];
-
-const edges: [number, number][] = [
-  [0, 2], [0, 3], [0, 4], [0, 5],
-  [1, 2], [1, 3], [1, 4], [1, 5],
-  [2, 4], [4, 3], [3, 5], [5, 2],
-];
-
-function edgeTransform(a: Vec3, b: Vec3) {
-  const dx = b[0] - a[0];
-  const dy = b[1] - a[1];
-  const dz = b[2] - a[2];
-  const length = Math.sqrt(dx * dx + dy * dy + dz * dz);
-  const midX = (a[0] + b[0]) / 2;
-  const midY = (a[1] + b[1]) / 2;
-  const midZ = (a[2] + b[2]) / 2;
-
-  // Rotation to align a unit X-axis vector with (dx,dy,dz)
-  const yaw = Math.atan2(dz, dx) * (180 / Math.PI);
-  const horizLen = Math.sqrt(dx * dx + dz * dz);
-  const pitch = Math.atan2(-dy, horizLen) * (180 / Math.PI);
-
-  return {
-    transform: `translate3d(${midX}px, ${midY}px, ${midZ}px) rotateY(${-yaw}deg) rotateZ(${pitch}deg)`,
-    length,
-  };
-}
-
 export function PolyhedronGlobe({ size = 340 }: { size?: number }) {
-  const cageRef = useRef<HTMLDivElement>(null);
+  const spinRef = useRef<HTMLDivElement>(null);
   const angleRef = useRef(0);
-  const satelliteRef = useRef<HTMLDivElement>(null);
-  const orbitAngleRef = useRef(0);
 
   useEffect(() => {
     let frame: number;
     const tick = () => {
-      angleRef.current += 0.12;
-      if (cageRef.current) {
-        cageRef.current.style.transform = `rotateY(${angleRef.current}deg) rotateX(${
-          14 + Math.sin(angleRef.current * 0.01) * 10
-        }deg)`;
+      angleRef.current += 0.0045;
+      if (spinRef.current) {
+        const spin = angleRef.current * (180 / Math.PI) * 0.4;
+        const bob = Math.sin(angleRef.current * 2) * 6;
+        spinRef.current.style.transform = `translateY(${bob}px) rotate(${spin}deg)`;
       }
-
-      // Independent slow orbit + self-rotation, unrelated to the cage's transform.
-      orbitAngleRef.current += 0.0045;
-      if (satelliteRef.current) {
-        const orbitRadiusX = 14;
-        const orbitRadiusY = 8;
-        const x = Math.cos(orbitAngleRef.current) * orbitRadiusX;
-        const y = Math.sin(orbitAngleRef.current) * orbitRadiusY;
-        const spin = orbitAngleRef.current * (180 / Math.PI) * 0.4;
-        satelliteRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${spin}deg)`;
-      }
-
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, []);
-
-  const satelliteSize = size * 0.42;
 
   return (
     <div
@@ -97,74 +35,31 @@ export function PolyhedronGlobe({ size = 340 }: { size?: number }) {
         width: size,
         height: size,
         position: 'relative',
-        perspective: 900,
       }}
     >
-      <div
-        ref={cageRef}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          width: 0,
-          height: 0,
-          transformStyle: 'preserve-3d',
-        }}
-      >
-        {edges.map(([ai, bi], i) => {
-          const { transform, length } = edgeTransform(vertices[ai], vertices[bi]);
-          return (
-            <div
-              key={i}
-              style={{
-                position: 'absolute',
-                width: length,
-                height: 1.5,
-                background: EDGE_COLOR,
-                boxShadow: '0 0 6px rgba(255, 176, 102, 0.35)',
-                transformOrigin: 'center center',
-                transform: `${transform} translateX(-50%)`,
-              }}
-            />
-          );
-        })}
-      </div>
-
-      {/* Satellite Meridian globe, offset outside the polyhedron's footprint
-          with its own orbit — not nested in the cage's 3D rotation, and far
-          enough out that no edge can visually cross it as the cage turns. */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '112%',
-          left: '58%',
-          width: satelliteSize,
-          height: satelliteSize,
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        <div ref={satelliteRef} style={{ width: '100%', height: '100%' }}>
-          {/* Filter lives on its own layer, isolated from the clip-path +
-              scale below — combining all three on one element rasterizes
-              a visible rotated bounding-box ghost in Chromium/WebKit once
-              the orbit's rotate() is applied. */}
-          <div style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 0 18px rgba(255, 200, 110, 0.35))' }}>
-            <img
-              src="/meridian/meridian-logo.png"
-              alt=""
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
-                objectPosition: 'top center',
-                // Source image: gold globe/network mark on top, wordmark
-                // below. Crop to roughly the globe+orbit-rings portion only.
-                clipPath: 'inset(2% 4% 34% 4%)',
-                transform: 'scale(2.3) translateY(2%)',
-                opacity: 0.95,
-              }}
-            />
-          </div>
+      <div ref={spinRef} style={{ width: '100%', height: '100%' }}>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            filter: 'drop-shadow(0 0 28px rgba(255, 200, 110, 0.4))',
+          }}
+        >
+          <img
+            src="/meridian/meridian-logo.png"
+            alt="Meridian"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'top center',
+              // Source image: gold globe/network mark on top, wordmark
+              // below. Crop to roughly the globe+orbit-rings portion only.
+              clipPath: 'inset(2% 4% 34% 4%)',
+              transform: 'scale(2.3) translateY(2%)',
+              opacity: 0.95,
+            }}
+          />
         </div>
       </div>
     </div>
