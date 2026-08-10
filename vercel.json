@@ -1,16 +1,6 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "meridiangtn.com" }],
-      "destination": "/meridian.html"
-    },
-    {
-      "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.meridiangtn.com" }],
-      "destination": "/meridian.html"
-    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
