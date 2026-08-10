@@ -1,4 +1,4 @@
-import { Home } from './pages/Home';
+import { Building } from './pages/Building';
 import { Shop } from './pages/Shop';
 import { Meridian } from './pages/Meridian';
 import { Confirmation } from './pages/Shop/Confirmation';
@@ -9,7 +9,7 @@ function LabRoutes() {
   const { path } = useRouter();
   if (path === '/shop/confirmation' || path === '/shop/confirmation/') return <Confirmation />;
   if (path === '/shop' || path === '/shop/') return <Shop />;
-  return <Home />;
+  return <Building />;
 }
 
 function Routes() {
@@ -27,3 +27,5 @@ function App() {
 }
 
 export default App;
+
+
