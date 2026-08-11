@@ -33,6 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const phone: unknown = body?.phone;
   const buildType: unknown = body?.buildType;
   const details: unknown = body?.details;
+  const lang: unknown = body?.lang;
 
   if (typeof name !== 'string' || !name.trim() || name.length > MAX_FIELD_LENGTH) {
     return badRequest(res, 'Name is required');
@@ -70,6 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         `<p><strong>Details:</strong><br>${
           safeDetails ? escapeHtml(safeDetails).replace(/\n/g, '<br>') : '<em>None provided</em>'
         }</p>`,
+        lang === 'es' ? '<p><strong>Submitted in:</strong> Spanish</p>' : '',
       ].join('\n'),
     });
 

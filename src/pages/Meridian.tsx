@@ -4,75 +4,13 @@ import { Eyebrow } from '../components/Eyebrow';
 import { Card } from '../components/Card';
 import { PolyhedronGlobe } from '../components/PolyhedronGlobe';
 import { ChatIntake } from '../components/ChatIntake';
+import { LanguageProvider, useLanguage } from '../i18n/LanguageContext';
+import { meridianCopy } from '../i18n/meridianCopy';
 
-const traits = [
-  { title: 'Client-owned', body: 'Every account, repo, and server lives in infrastructure you control from day one.' },
-  { title: 'Tiered, transparent pricing', body: 'Personal, business, and web builds each start at a clear price point — no scoping call required to know where you stand.' },
-  { title: 'Software + hardware', body: 'One team for the code and the physical system it runs on.' },
-  { title: 'A Bhavé’s Lab company', body: 'The same team and standards behind the Lab’s own product line.' },
-];
-
-const services = [
-  { title: 'Custom software', body: 'Full applications built around what you actually run — not a template with your logo on it.' },
-  { title: 'Hardware & physical systems', body: 'Devices, sensors, and kiosks wired to talk to the software behind them.' },
-  { title: 'Web architecture', body: 'From a single fast page to a full interactive build with its own 3D layer.' },
-  { title: 'Business operating systems', body: 'Booking, dispatch, ordering, and client management, built around one specific business — not a shared platform.' },
-  { title: 'Personal & family systems', body: 'Private tools built for one household. Nobody else uses your version.' },
-  { title: 'Post-launch support', body: 'We stay attached to what we build. Changes go through the team that built it, not a new vendor.' },
-];
-
-const buildKinds = [
-  {
-    eyebrow: 'SOFTWARE',
-    title: 'Infrastructure, then interface',
-    body: 'The systems behind it, built before what you see.',
-  },
-  {
-    eyebrow: 'PHYSICAL ANCHORS',
-    title: 'Containers that hold a system in place',
-    body: 'Physical pieces the software interacts with.',
-  },
-  {
-    eyebrow: 'COHERENCE',
-    title: 'One system',
-    body: 'Front face and underneath, wired the same way.',
-  },
-];
-
-const exampleBuilds = [
-  { status: 'DELIVERED', title: 'WLV — Honduras', body: 'A full operating system built and delivered for a client in Honduras. One of our first proofs of what we build in Central America.' },
-  { status: 'IN BUILD', title: 'Kitchen ordering system', body: 'Menu architecture, table management, and direct guest ordering for a restaurant floor.' },
-  { status: 'IN BUILD', title: 'Taxi Direct', body: 'Direct dispatch and ride booking, built to run without a third-party platform in between.' },
-  { status: 'IN BUILD', title: 'Fleet dispatch', body: 'Direct dispatch, rider tracking, and driver status for a transport network.' },
-];
-
-const pricingTiers = [
-  {
-    eyebrow: 'Starting at $250',
-    title: 'Personal & Family',
-    body: 'A private app for your household: shared chores and goals tracked in real time, encrypted journaling, and an offline-capable family directory. Built once, yours outright.',
-  },
-  {
-    eyebrow: 'Starting at $750',
-    title: 'Business Suites',
-    body: 'Booking, ordering, and dispatch built for how your business actually runs — salons, restaurants, transport fleets. Client history, scheduling, and real-time status in one system you own.',
-  },
-  {
-    eyebrow: 'Starting at $1,200',
-    title: 'Web Architecture',
-    body: 'From a single fast landing page to a full interactive build with its own 3D layer. One-Page ($1,200), Tri-Page ($2,000), Five-Page Suite ($3,000), Apex Build ($5,000+).',
-  },
-];
-
-const processSteps = [
-  { num: '01', label: 'Scope', desc: 'We turn a rough direction into a scoped build — real constraints, real tradeoffs, no filler discovery decks.' },
-  { num: '02', label: 'Architect the system', desc: 'Software, hardware, or both — we make the structural decisions early, so nothing you build later gets stuck rebuilding the foundation.' },
-  { num: '03', label: 'Build in the open', desc: 'You see working versions early and often — not a status deck, the actual thing, running.' },
-  { num: '04', label: 'Hand you the keys', desc: 'Every account, every server, every repository is yours from the first commit. We build it. You own it. No exceptions.' },
-];
-
-export function Meridian() {
+function MeridianContent() {
   const [chatOpen, setChatOpen] = useState(false);
+  const { lang, toggleLang } = useLanguage();
+  const copy = meridianCopy[lang];
 
   useEffect(() => {
     document.title = 'Meridian — GTN';
@@ -138,24 +76,48 @@ export function Meridian() {
 
 
         </div>
-        <button
-          onClick={() => setChatOpen(true)}
-          className="bl-pill-link"
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-xs)',
-            letterSpacing: 'var(--tracking-label)',
-            textTransform: 'uppercase',
-            color: 'var(--text-primary)',
-            background: 'var(--gold-500)',
-            border: 'none',
-            borderRadius: 24,
-            padding: '10px 22px',
-            cursor: 'pointer',
-          }}
-        >
-          Chat with an expert
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button
+            onClick={toggleLang}
+            aria-label="Toggle language"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              fontFamily: 'var(--font-mono)',
+              fontSize: 'var(--text-xs)',
+              letterSpacing: 'var(--tracking-label)',
+              color: 'var(--text-primary)',
+              background: 'transparent',
+              border: '1px solid var(--border-gold)',
+              borderRadius: 24,
+              padding: '9px 14px',
+              cursor: 'pointer',
+            }}
+          >
+            <span style={{ color: lang === 'en' ? 'var(--text-gold)' : 'var(--text-faint)' }}>EN</span>
+            <span style={{ color: 'var(--text-faint)' }}>/</span>
+            <span style={{ color: lang === 'es' ? 'var(--text-gold)' : 'var(--text-faint)' }}>ES</span>
+          </button>
+          <button
+            onClick={() => setChatOpen(true)}
+            className="bl-pill-link"
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: 'var(--text-xs)',
+              letterSpacing: 'var(--tracking-label)',
+              textTransform: 'uppercase',
+              color: 'var(--text-primary)',
+              background: 'var(--gold-500)',
+              border: 'none',
+              borderRadius: 24,
+              padding: '10px 22px',
+              cursor: 'pointer',
+            }}
+          >
+            {copy.header.chatButton}
+          </button>
+        </div>
       </header>
 
       <main style={{ position: 'relative', zIndex: 10 }}>
@@ -169,7 +131,7 @@ export function Meridian() {
           }}
         >
           <div style={{ maxWidth: 640 }}>
-            <Eyebrow tick>Custom software &amp; hardware builds</Eyebrow>
+            <Eyebrow tick>{copy.hero.eyebrow}</Eyebrow>
             <h1
               style={{
                 fontFamily: 'var(--font-body)',
@@ -180,8 +142,8 @@ export function Meridian() {
                 margin: 'var(--space-4) 0 var(--space-5)',
               }}
             >
-              Every build starts as open space.{' '}
-              <span style={{ color: 'var(--text-gold)' }}>We build the structure inside it.</span>
+              {copy.hero.h1Part1}{' '}
+              <span style={{ color: 'var(--text-gold)' }}>{copy.hero.h1Part2}</span>
             </h1>
             <p
               style={{
@@ -192,10 +154,7 @@ export function Meridian() {
                 maxWidth: 560,
               }}
             >
-              Meridian is the build arm of Bhavé’s Lab — the team that designs and ships
-              software and physical systems businesses can’t buy off the shelf. We scope the
-              actual problem, build the infrastructure to solve it, and hand you full ownership
-              when it’s done.
+              {copy.hero.paragraph}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)' }}>
               <button
@@ -213,7 +172,7 @@ export function Meridian() {
                   cursor: 'pointer',
                 }}
               >
-                Chat with an expert
+                {copy.hero.ctaButton}
               </button>
               <a
                 href="#what-we-build"
@@ -224,7 +183,7 @@ export function Meridian() {
                   textDecoration: 'underline',
                 }}
               >
-                See what we build ↓
+                {copy.hero.seeMore}
               </a>
             </div>
           </div>
@@ -237,7 +196,6 @@ export function Meridian() {
 
 
 
-           
         </section>
 
         <section
@@ -252,7 +210,7 @@ export function Meridian() {
             paddingTop: 'var(--space-6)',
           }}
         >
-          {traits.map((t) => (
+          {copy.traits.map((t) => (
             <div key={t.title}>
               <div style={{ fontFamily: 'var(--font-body)', fontWeight: 700 as unknown as number, marginBottom: 6 }}>
                 {t.title}
@@ -275,7 +233,7 @@ export function Meridian() {
             gap: 'var(--space-5)',
           }}
         >
-          {buildKinds.map((item) => (
+          {copy.buildKinds.map((item) => (
             <Card key={item.eyebrow}>
               <Eyebrow muted>{item.eyebrow}</Eyebrow>
               <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
@@ -287,12 +245,12 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>Services</Eyebrow>
+          <Eyebrow tick>{copy.servicesHeading.eyebrow}</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
-            What we build, specifically.
+            {copy.servicesHeading.title}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-5)' }}>
-            {services.map((s) => (
+            {copy.services.map((s) => (
               <Card key={s.title}>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-3)' }}>
                   {s.title}
@@ -304,12 +262,12 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>How it goes</Eyebrow>
+          <Eyebrow tick>{copy.processHeading.eyebrow}</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
-            From a rough idea to infrastructure that’s actually yours.
+            {copy.processHeading.title}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--space-6)' }}>
-            {processSteps.map((step) => (
+            {copy.processSteps.map((step) => (
               <div key={step.num}>
                 <div style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-gold)', fontSize: 'var(--text-eyebrow)' }}>
                   {step.num}
@@ -326,17 +284,17 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>Our own builds</Eyebrow>
+          <Eyebrow tick>{copy.buildsHeading.eyebrow}</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-3)' }}>
-            What we build for ourselves first.
+            {copy.buildsHeading.title}
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-body)', lineHeight: 'var(--leading-relaxed)', maxWidth: 560, margin: '0 0 var(--space-6)' }}>
-            Before a system goes to a client, we run it ourselves. Below is what we operate directly, alongside work we’ve delivered.
+            {copy.buildsHeading.intro}
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-5)' }}>
-            {exampleBuilds.map((b) => (
+            {copy.exampleBuilds.map((b) => (
               <Card key={b.title}>
-                {b.status === 'LIVE' || b.status === 'DELIVERED' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
+                {b.statusKind === 'delivered' ? <Eyebrow>{b.status}</Eyebrow> : <Eyebrow muted>{b.status}</Eyebrow>}
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
                   {b.title}
                 </h3>
@@ -347,12 +305,12 @@ export function Meridian() {
         </section>
 
         <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Eyebrow tick>Pricing</Eyebrow>
+          <Eyebrow tick>{copy.pricingHeading.eyebrow}</Eyebrow>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-display-3)', maxWidth: 640, margin: 'var(--space-4) 0 var(--space-6)' }}>
-            Three starting points.
+            {copy.pricingHeading.title}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 'var(--space-5)' }}>
-            {pricingTiers.map((tier) => (
+            {copy.pricingTiers.map((tier) => (
               <Card key={tier.title}>
                 <Eyebrow muted>{tier.eyebrow}</Eyebrow>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: 'var(--space-3) 0' }}>
@@ -366,11 +324,10 @@ export function Meridian() {
 
         <section style={{ maxWidth: 'var(--container-prose)', margin: '0 auto', padding: 'var(--pad-section) var(--space-6)', textAlign: 'center' }}>
           <h2 style={{ fontFamily: 'var(--font-serif)', fontWeight: 'var(--weight-light)' as unknown as number, fontSize: 'var(--text-display-3)', margin: '0 0 var(--space-4)' }}>
-            Tell us what you’re trying to build.
+            {copy.closing.title}
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-lead)', margin: '0 0 var(--space-5)' }}>
-            Personal builds start at $250. Business builds start at $750. Web builds start at
-            $1,200. Thirty minutes tells us the right starting point for yours.
+            {copy.closing.paragraph}
           </p>
           <button
             onClick={() => setChatOpen(true)}
@@ -387,7 +344,7 @@ export function Meridian() {
               cursor: 'pointer',
             }}
           >
-            Chat with an expert
+            {copy.closing.button}
           </button>
         </section>
       </main>
@@ -410,11 +367,19 @@ export function Meridian() {
           info@meridiangtn.com
         </a>
         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>
-          Meridian is <a href="https://bhaveslab.com" style={{ color: 'var(--text-faint)' }}>a Bhavé’s Lab</a> company
+          {copy.footer.tagline} <a href="https://bhaveslab.com" style={{ color: 'var(--text-faint)' }}>Bhavé’s Lab</a>{copy.footer.suffix}
         </div>
       </footer>
 
       <ChatIntake open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
+  );
+}
+
+export function Meridian() {
+  return (
+    <LanguageProvider>
+      <MeridianContent />
+    </LanguageProvider>
   );
 }

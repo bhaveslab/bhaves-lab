@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
+import { meridianCopy } from '../i18n/meridianCopy';
 
 /**
  * Webstacks-style multi-step qualifying form, dressed as a chat panel.
@@ -16,6 +18,8 @@ const TOTAL_STEPS = 3;
 type SubmitStatus = 'idle' | 'sending' | 'success' | 'error';
 
 export function ChatIntake({ open, onClose }: ChatIntakeProps) {
+  const { lang } = useLanguage();
+  const copy = meridianCopy[lang].chatIntake;
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,7 +38,7 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
       const response = await fetch('/api/meridian-intake', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, buildType, details }),
+        body: JSON.stringify({ name, email, phone, buildType, details, lang }),
       });
       const data = await response.json().catch(() => null);
       setStatus(response.ok && data?.ok ? 'success' : 'error');
@@ -106,17 +110,17 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
             {step === 1 && (
               <>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-                  Who are we talking to?
+                  {copy.step1.heading}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-4)' }}>
-                  Your name and email — so we know who's reaching out.
+                  {copy.step1.subtext}
                 </p>
                 <input
                   autoFocus
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
+                  placeholder={copy.step1.namePlaceholder}
                   style={{
                     width: '100%',
                     padding: '12px 14px',
@@ -133,7 +137,7 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@company.com"
+                  placeholder={copy.step1.emailPlaceholder}
                   style={{
                     width: '100%',
                     padding: '12px 14px',
@@ -151,13 +155,13 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
             {step === 2 && (
               <>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-                  What are you building?
+                  {copy.step2.heading}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-4)' }}>
-                  Rough shape is fine — we'll get specific on the call.
+                  {copy.step2.subtext}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {['Software', 'Hardware', 'Both / not sure yet'].map((opt) => (
+                  {copy.step2.options.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => setBuildType(opt)}
@@ -183,19 +187,19 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
             {step === 3 && (
               <>
                 <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-                  Anything else worth knowing?
+                  {copy.step3.heading}
                 </h3>
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-4)' }}>
-                  Optional — timeline, constraints, what's already built.
+                  {copy.step3.subtext}
                 </p>
                 <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-sm)', margin: '0 0 var(--space-2)' }}>
-                  Phone (optional) — if you'd rather we call.
+                  {copy.step3.phoneLabel}
                 </p>
                 <input
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="(555) 000-0000"
+                  placeholder={copy.step3.phonePlaceholder}
                   style={{
                     width: '100%',
                     padding: '12px 14px',
@@ -242,7 +246,7 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
                     cursor: status === 'sending' ? 'not-allowed' : 'pointer',
                   }}
                 >
-                  Back
+                  {copy.back}
                 </button>
               )}
               <button
@@ -262,26 +266,26 @@ export function ChatIntake({ open, onClose }: ChatIntakeProps) {
                   cursor: canContinue && status !== 'sending' ? 'pointer' : 'not-allowed',
                 }}
               >
-                {step < TOTAL_STEPS ? 'Continue' : status === 'sending' ? 'Sending…' : 'Send'}
+                {step < TOTAL_STEPS ? copy.continue : status === 'sending' ? copy.sending : copy.send}
               </button>
             </div>
           </>
         ) : status === 'success' ? (
           <div style={{ textAlign: 'center', padding: 'var(--space-5) 0' }}>
             <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-              Got it.
+              {copy.successTitle}
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-body)' }}>
-              We'll reply from info@meridiangtn.com within a day.
+              {copy.successBody}
             </p>
           </div>
         ) : (
           <div style={{ textAlign: 'center', padding: 'var(--space-5) 0' }}>
             <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 'var(--text-title-3)', margin: '0 0 var(--space-2)' }}>
-              Couldn't send that.
+              {copy.errorTitle}
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: 'var(--text-body)', margin: '0 0 var(--space-4)' }}>
-              Email us directly and we'll pick it up from there.
+              {copy.errorBody}
             </p>
             <a
               href="mailto:info@meridiangtn.com"
