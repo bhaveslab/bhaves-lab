@@ -31,7 +31,7 @@ const BUILDS: BuildEntry[] = [
       {
         src: 'https://order.wholelisticlyfe.com',
         image: '/images/builds/kitchen-storefront.png',
-        aspect: '771 / 1663',
+        aspect: '719 / 1501',
         width: 200,
         phase: 0,
       },
@@ -49,11 +49,20 @@ const BUILDS: BuildEntry[] = [
     ],
     screens: [
       {
-        src: 'https://meridian-taxi.vercel.app',
-        image: '/images/builds/taxi-driver-passenger.png',
-        aspect: '1350 / 1023',
-        width: 400,
+        src: 'https://meridian-taxi.vercel.app/driver.html',
+        image: '/images/builds/taxi-driver.png',
+        aspect: '660 / 1311',
+        width: 190,
+        label: 'Driver',
         phase: 0,
+      },
+      {
+        src: 'https://meridian-taxi.vercel.app/passenger.html',
+        image: '/images/builds/taxi-passenger.png',
+        aspect: '655 / 1309',
+        width: 190,
+        label: 'Passenger',
+        phase: Math.PI,
       },
     ],
   },
