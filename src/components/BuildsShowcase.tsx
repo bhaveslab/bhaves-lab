@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
 interface Screen {
-  src: string;
-  label: string;
-  phase: number; // stagger offset so phones don't bob in sync
+  src: string; // live URL — used for the "open live site" tap-through
+  image: string; // pre-rendered mockup (already includes phone bezel + glow)
+  aspect: string; // matches the source image's own proportions
+  width: number; // px — sized per-image since aspect ratios differ a lot
+  label?: string;
+  phase: number; // stagger offset so multiple images don't bob in sync
 }
 
 interface BuildEntry {
@@ -24,7 +27,15 @@ const BUILDS: BuildEntry[] = [
       { label: 'Order and pay', detail: 'Checkout goes straight to the restaurant.' },
       { label: 'Track status', detail: 'Received, preparing, ready — no guesswork.' },
     ],
-    screens: [{ src: 'https://order.wholelisticlyfe.com', label: 'Storefront', phase: 0 }],
+    screens: [
+      {
+        src: 'https://order.wholelisticlyfe.com',
+        image: '/images/builds/kitchen-storefront.png',
+        aspect: '771 / 1663',
+        width: 200,
+        phase: 0,
+      },
+    ],
   },
   {
     key: 'taxi',
@@ -37,14 +48,19 @@ const BUILDS: BuildEntry[] = [
       { label: 'Ride and get paid direct', detail: 'No hidden fees, no cut taken off the top.' },
     ],
     screens: [
-      { src: 'https://meridian-taxi.vercel.app/driver.html', label: 'Driver', phase: 0 },
-      { src: 'https://meridian-taxi.vercel.app/passenger.html', label: 'Passenger', phase: Math.PI },
+      {
+        src: 'https://meridian-taxi.vercel.app',
+        image: '/images/builds/taxi-driver-passenger.png',
+        aspect: '1350 / 1023',
+        width: 400,
+        phase: 0,
+      },
     ],
   },
 ];
 
-function usePhoneFloat(phase: number) {
-  const ref = useRef<HTMLDivElement>(null);
+function usePhoneFloat<T extends HTMLElement>(phase: number) {
+  const ref = useRef<T>(null);
   const angleRef = useRef(phase);
 
   useEffect(() => {
@@ -66,27 +82,33 @@ function usePhoneFloat(phase: number) {
 }
 
 function BuildPhoneScreen({ screen, title }: { screen: Screen; title: string }) {
-  const floatRef = usePhoneFloat(screen.phase);
+  const floatRef = usePhoneFloat<HTMLAnchorElement>(screen.phase);
   const [failed, setFailed] = useState(false);
 
   return (
     <div className="bl-build-phone-col">
-      <div ref={floatRef} className="bl-build-phone">
+      <a
+        ref={floatRef}
+        className="bl-build-phone"
+        style={{ aspectRatio: screen.aspect, ['--phone-w' as string]: `${screen.width}px` } as React.CSSProperties}
+        href={screen.src}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Open ${title} live`}
+      >
         {!failed ? (
-          <iframe
-            src={screen.src}
-            loading="lazy"
-            title={`${title} — ${screen.label}`}
+          <img
+            src={screen.image}
+            alt={`${title}${screen.label ? ` — ${screen.label}` : ''} mockup`}
             onError={() => setFailed(true)}
           />
         ) : (
           <div className="bl-build-fallback">
-            <a href={screen.src} target="_blank" rel="noopener noreferrer">
-              Open live site
-            </a>
+            <span>Open live site</span>
           </div>
         )}
-      </div>
+        <div className="bl-build-phone-hint">Tap to try it live</div>
+      </a>
       {screen.label && <div className="bl-build-screen-label">{screen.label}</div>}
     </div>
   );
@@ -188,20 +210,30 @@ export function BuildsShowcase() {
         }
 
         .bl-build-phone {
-          width: 190px;
-          aspect-ratio: 9 / 18.5;
-          border-radius: 28px;
-          overflow: hidden;
-          background: #0A0A0C;
-          filter: drop-shadow(0 0 24px rgba(255, 200, 110, 0.26));
+          position: relative;
+          display: block;
+          width: min(var(--phone-w), 78vw);
+          border-radius: 12px;
+          overflow: visible;
+          text-decoration: none;
           will-change: transform;
         }
-        .bl-build-phone iframe { width: 100%; height: 100%; border: none; display: block; }
+        .bl-build-phone img { width: 100%; height: 100%; object-fit: contain; display: block; }
         .bl-build-fallback {
-          width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-          background: rgba(243,237,221,0.04);
+          width: 100%; aspect-ratio: 9 / 18.5; display: flex; align-items: center; justify-content: center;
+          background: rgba(243,237,221,0.04); border-radius: 24px;
         }
-        .bl-build-fallback a { color: var(--gold-soft, #E3C868); font-size: 12px; text-decoration: none; }
+        .bl-build-fallback span { color: var(--gold-soft, #E3C868); font-size: 12px; }
+
+        .bl-build-phone-hint {
+          position: absolute; inset: auto 6% 6% 6%; padding: 8px 0;
+          text-align: center; font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+          color: var(--text, #F3EDDD); text-transform: uppercase;
+          background: linear-gradient(to top, rgba(10,10,12,0.85), rgba(10,10,12,0));
+          opacity: 0; transition: opacity 0.25s ease; border-radius: 0 0 20px 20px;
+        }
+        .bl-build-phone:hover .bl-build-phone-hint,
+        .bl-build-phone:focus-visible .bl-build-phone-hint { opacity: 1; }
 
         .bl-build-screen-label {
           margin-top: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
@@ -235,7 +267,7 @@ export function BuildsShowcase() {
         @media (max-width: 768px) {
           .bl-build-wrap:nth-child(1),
           .bl-build-wrap:nth-child(2) { transform: none; }
-          .bl-build-phone { width: 150px; }
+          .bl-build-phone { width: min(var(--phone-w), 62vw); }
           .bl-build-phones { gap: 18px; }
         }
       `}</style>
