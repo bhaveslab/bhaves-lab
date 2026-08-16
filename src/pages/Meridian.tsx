@@ -4,6 +4,7 @@ import { Eyebrow } from '../components/Eyebrow';
 import { Card } from '../components/Card';
 import { PolyhedronGlobe } from '../components/PolyhedronGlobe';
 import { ChatIntake } from '../components/ChatIntake';
+import { BuildsShowcase } from '../components/BuildsShowcase';
 import { LanguageProvider, useLanguage } from '../i18n/LanguageContext';
 import { meridianCopy } from '../i18n/meridianCopy';
 
@@ -197,6 +198,8 @@ function MeridianContent() {
 
 
         </section>
+
+        <BuildsShowcase />
 
         <section
           style={{
