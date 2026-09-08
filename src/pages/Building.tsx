@@ -185,6 +185,30 @@ export function Building() {
           </div>
         </div>
 
+        <a
+          href="https://app.bhaveslab.com"
+          className="bl-button"
+          style={{
+            minHeight: 48,
+            marginTop: 'var(--space-6)',
+            padding: '0 clamp(24px, 6vw, 36px)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--gold-500)',
+            color: 'var(--text-on-gold)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 600,
+            letterSpacing: 'var(--tracking-wide)',
+            textDecoration: 'none',
+            textTransform: 'uppercase',
+          }}
+        >
+          Enter Bhavé
+        </a>
+
         <p
           style={{
             marginTop: 'var(--space-5)',
