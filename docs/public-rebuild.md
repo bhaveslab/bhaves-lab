@@ -1,43 +1,72 @@
-# Public observatory rebuild — review only
+# Public Lab — observatory refinement review
 
-## Verified baseline
+## Current scope
 
-- Based on `main` at `35ab307`. Repository default branch is the older `claude/home-page-initial-push-qye9yi`; other remote branches were inspected before choosing the current production lineage.
-- Vite 5, React 18, TypeScript 5; existing Three.js, Stripe and Resend retained. No dependency or lockfile changes.
-- Vercel project `bhaves-lab` / `prj_91b5CTzCcQwAkRCjLgVd5VreuZ7x`, team `team_lV8zTJpLq4jz9YyEia88aHGr`, Node 24. Shared Meridian hostname routing and its API are retained.
-- Existing clean-URL SPA rewrite retained. Existing checkout/confirmation code retained. Public `/shop` now reaches the shop entrance because every Stripe product mapping is null and fulfillment is unverified.
-- Existing Calendly reference was inspected and deliberately not carried forward, per the latest direction to build native booking.
+Continue `codex/cinematic-public-lab`, PR #5, from deployed commit `d5dcba58f1510b3cf5e8ca9ff6b0494d98dc0a66`. Preserve the approved environment, Vite/React implementation, shared Meridian hostname routing, existing APIs and legacy order confirmation. No production deployment, merge, dependency upgrade, new paid provider or private-application change.
 
-## Experience
+The repository default branch remains older than `main`; the feature branch already contains the audited main baseline. Latest branch and PR were inspected before this refinement.
 
-One continuous observatory entrance, original supplied Lil Ego on a screen, session exploration and native booking request, and an unpublished shop collection. No technology launches, product prices, preorders, private app links, or collaborator content are introduced.
+## Completed
 
-Hero environment derives from `Bhavé’s Lab: Life in Motion(3).png` (cropped above the mockup text and product grid), Library ID `libfile_18855bb0a8888191a2340cfd31203285`. WebP variants are 853×621 and 640×466. No image regeneration was used.
+- Preserved Bhavé, his coat, panoramic moonlit landscape, reflective glass and dark teal observatory. One continuous entrance, session and shop experience.
+- Replaced Lil Ego's opaque white card with a transparent observation plane: subtle boundary, grid, waveform, light sweep and scene perspective. Original character proportions and all visible source RGB are retained.
+- Added an unbranded graphite cuff with cyan inlay on another transparent screen at a different depth. This is artwork for an exploratory wearable concept, not a product, private device, development announcement or sale listing.
+- Published the approved one-session offer: The Possibility Session, Enter the Room of Clarity, 60 minutes, $175, Book Your Session. Session stands alone with no required additional purchase.
+- Kept the native request form and public email fallback. The response contract explicitly distinguishes `requestReceived: true` from `bookingConfirmed: false`; an HTTP 200 containing HTML or unrelated JSON cannot produce a success receipt.
+- Built the intimate Room of Clarity chamber and curated optional-instrument introduction as a lazy-loaded presentation. No add-on prices or purchase flow.
+- Added `/room-of-clarity` with a server access-check boundary. It fails closed while verification is not implemented. Query strings claiming payment or confirmation do not grant access. There is no client-side unlock, demo unlock or request-receipt link into the room.
+- Shop stays visible with no unverified purchases. No external scheduling service is used.
 
-`public/observatory/lil-ego-reference.jpeg` is a byte-for-byte copy of `766C1317-92A7-4057-B146-C4CBD7EFFFBB.jpeg`, Library ID `libfile_3f121e477fbc81919cc21662e7dda509`. SHA256: `0f6ed23728dfd5a244036585decb9b2ce1548ac793c9706bfc9106612f65a38b`. The whole character is displayed with its original background and proportions.
+## Exact character evidence
 
-CSS uses short opacity/transform atmospheric animations, a pause control, reduced-motion rules, system fonts, visible focus, labeled fields, consent, and a status message. No WebGL is loaded for the Lab entrance. Meridian and order confirmation are lazy-loaded.
+Original file: `public/observatory/lil-ego-reference.jpeg`, copied unchanged from the supplied `766C1317-92A7-4057-B146-C4CBD7EFFFBB.jpeg`.
 
-## Native booking boundary
+SHA256: `0f6ed23728dfd5a244036585decb9b2ce1548ac793c9706bfc9106612f65a38b`.
 
-The request form accepts name, email, a short exploration, and availability/time zone. It does not promise an available slot, charge a price, or confirm an appointment. The API validates fields, origin and consent, avoids logging submitted details, and returns success only after the email provider accepts delivery.
+`docs/lil-ego-provenance.json` records extraction and unchanged RGB evidence. `scripts/extract-lil-ego.py` creates an alpha-only cutout from the original pixels, without a generative redraw. It uses Pillow, NumPy and SciPy. `scripts/verify-public-assets.py` verifies the reference hash, zero visible RGB differences in the lossless master, transparent exterior, responsive variants and privacy boundaries. Responsive variants scale the original artwork for display; they do not redraw it.
 
-Configure in the intended preview environment before testing real delivery:
+The hero background remains derived from `Bhavé’s Lab: Life in Motion(3).png` (above the mockup text/grid). No hero regeneration occurred.
 
-- `RESEND_API_KEY` (existing provider dependency; no new vendor)
-- `LAB_BOOKING_FROM` (verified sender)
-- `LAB_BOOKING_TO` (authorized receiving inbox)
+The bracelet alone was generated as a new, unbranded concept using the built-in image tool. Prompt: “Single elegant lightweight everyday graphite black slim open cuff, polished dark metal, restrained thin cyan inlay, subtle circular abstract symbol, three-quarter view, jewelry-like proportions, transparent background; no text, logos, watch display, sensors, specifications, medical imagery or shadow plane.” The generated source was converted to lossless WebP and responsive variants at `public/observatory/bracelet-concept*.webp`.
 
-No credentials were read, changed, or committed. Missing configuration returns 503 and the interface offers the existing public contact email. Provider success is tested with a mock only; no real message was sent.
+## Actual integration status
 
-Before automatic confirmed time-slot booking: establish session duration, availability/time zone, buffers, calendar of record, cancellation policy, durable reservation storage and collision prevention. These are intentionally unresolved; no scheduling rules or architecture were invented. Add durable rate limiting/bot protection before enabling public delivery at production traffic levels; the current honeypot/origin validation is a basic request filter, not a complete abuse control.
+On November 4, 2026, the Vercel environment metadata query for this project and feature branch returned no environment variables. No secret values were requested or printed. The existing Resend account has verified sending for `auth.bhaveslab.com`, but this does not configure website delivery automatically. No credential or domain was changed, and no real email was sent.
 
-## Validation
+| Capability | Verified current state | Remaining work |
+| --- | --- | --- |
+| Request form | Client/server validation and explicit unconfirmed receipt implemented; local failure and mocked provider outcomes tested | Configure `RESEND_API_KEY`, an approved verified `LAB_BOOKING_FROM` and authorized `LAB_BOOKING_TO`; test delivery |
+| Session price | Public approved $175 / 60 minutes | No payment is collected by the current form |
+| Payments | Existing Stripe SDK and generic shop Checkout API retained; all product price mappings remain null | Session-specific verified price, credentials, Checkout integration, signed webhook and idempotent fulfillment |
+| Availability | No configured calendar, availability endpoint or reservation persistence in this repository/preview | Choose calendar of record and actual working hours/time zone; buffers, collision-safe holds/reservations and cancellation rules |
+| Confirmation email | Not implemented for confirmed appointments | Trigger only after both payment and calendar reservation are verified |
+| Room access | API deliberately returns unavailable; forged flags remain locked | Implement a booking-scoped server verifier/access credential after the booking infrastructure is selected and approved |
+| Room presentation | Implemented and visually reviewed in a local design-only fixture | Live post-confirmation reveal is not enabled or claimed |
+| Shop | Entrance with no active products or purchase actions | Verified assets, inventory, price, payments and fulfillment per product |
 
-- `npm run build` (TypeScript and Vite).
-- `node --test tests/possibility-request.test.cjs`: validation, malformed JSON, methods, origins, consent, honeypot, missing configuration and provider acceptance with mocked email.
-- Desktop and 390px iframe viewport visual inspection; screenshots in `docs/review`.
-- Reduced-motion implementation reviewed in CSS; no physical mobile device or Lighthouse lab score claimed.
-- Build's large Three.js warning belongs to retained, deferred Meridian/legacy components, not the Lab initial download.
+A major calendar/reservation architecture has not been invented. A new paid provider has not been introduced. Availability, price or payment success is never fabricated. Public email is available while delivery is unconfigured. Basic honeypot and origin filtering are present; production request delivery also needs durable abuse controls.
 
-Do not merge or promote this branch until visual approval. The private application repository was not accessed or modified.
+## Validation and limits
+
+- `npm run build`: TypeScript + Vite passes.
+- Explicit strict TypeScript check for both API modules passes.
+- `node --test tests/*.test.cjs`: 11 tests pass, including validation, provider rejection/exception, explicit unconfirmed request receipts, denied forged access and optional-instrument presentation.
+- `python3 scripts/verify-public-assets.py`: source hash, visible-pixel fidelity, transparent edges, responsive assets and public privacy checks pass.
+- `node scripts/check-public-build.mjs`: initial JavaScript gzip budget under 65 KB, CSS under 10 KB and phone hero artwork under 200 KB. Actual results in `docs/performance-check.json`.
+- Desktop, 390px phone iframe and 768px tablet iframe inspected. No horizontal document overflow at phone/tablet widths. Responsive artwork sources loaded. Menu, Escape dismissal, pause/resume, session anchors, form failure handling and forged-confirmation locked state checked in browser.
+- Axe automated WCAG 2 A/AA and 2.1 A/AA audit: desktop zero violations / 25 passed checks; cinematic-image contrast requires manual review. Mobile audit also reports zero violations after correcting the menu’s accessible name; full result in `docs/mobile-accessibility-check.json`.
+- Reduced-motion CSS disables animations and pseudo-element reflections, and the manual atmosphere control also pauses the observation screens. A physical iPhone/Safari session and OS-level reduced-motion behavior remain device tests. No Lighthouse or real-world Core Web Vitals score is claimed.
+- Retained Three.js emits the existing large-chunk warning but remains deferred with Meridian; no WebGL is used by this Lab entrance.
+
+## Screenshots
+
+- `docs/review/desktop-refined.jpg`
+- `docs/review/mobile-refined.jpg`
+- `docs/review/observation-screens.jpg` (bracelet + exact Lil Ego in environmental context)
+- `docs/review/session-refined.jpg`
+- `docs/review/room-locked.jpg` (actual visitor state)
+- `docs/review/room-design-only.jpg` (explicitly labeled design review, not a confirmed booking)
+
+Local `.qa` fixtures and the audit dependency are excluded from Git and the Vercel build. They provide visual review without adding a public room-unlock shortcut. The Room screenshot is a design artifact, not proof of a successful payment or appointment.
+
+Keep production unchanged pending visual approval.

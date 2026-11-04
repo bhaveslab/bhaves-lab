@@ -1,0 +1,16 @@
+import { readFileSync, statSync, readdirSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
+import assert from 'node:assert/strict';
+const html=readFileSync('dist/index.html','utf8');
+const entry=html.match(/src="(\/assets\/main-[^"]+\.js)"/)[1];
+const css=html.match(/href="(\/assets\/main-[^"]+\.css)"/)[1];
+const jsGzip=gzipSync(readFileSync('dist'+entry)).length;
+const cssGzip=gzipSync(readFileSync('dist'+css)).length;
+const artwork=['observatory-mobile.webp','lil-ego-cutout-336.webp','bracelet-concept-480.webp'].map(name=>({name,bytes:statSync('public/observatory/'+name).size}));
+const mobileImageBytes=artwork.reduce((sum,item)=>sum+item.bytes,0);
+assert.ok(jsGzip<65000,'Initial JavaScript gzip budget exceeded');
+assert.ok(cssGzip<10000,'CSS gzip budget exceeded');
+assert.ok(mobileImageBytes<200000,'Mobile artwork budget exceeded');
+assert.ok(readdirSync('dist/assets').some(name=>name.startsWith('RoomOfClarity-')),'Room is not lazy split');
+const report={initialJavaScriptGzipBytes:jsGzip,cssGzipBytes:cssGzip,mobileImageBytes,artwork,roomLazySplit:true,notes:'Transfer-size budget, not Lighthouse or real-device timing. Retained Meridian Three.js is deferred.'};
+console.log(JSON.stringify(report,null,2));

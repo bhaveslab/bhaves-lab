@@ -1,0 +1,21 @@
+{
+  "initialJavaScriptGzipBytes": 50518,
+  "cssGzipBytes": 6705,
+  "mobileImageBytes": 171098,
+  "artwork": [
+    {
+      "name": "observatory-mobile.webp",
+      "bytes": 57332
+    },
+    {
+      "name": "lil-ego-cutout-336.webp",
+      "bytes": 75656
+    },
+    {
+      "name": "bracelet-concept-480.webp",
+      "bytes": 38110
+    }
+  ],
+  "roomLazySplit": true,
+  "notes": "Transfer-size budget, not Lighthouse or real-device timing. Retained Meridian Three.js is deferred."
+}

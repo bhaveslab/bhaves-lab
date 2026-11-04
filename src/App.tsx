@@ -16,8 +16,16 @@ const Confirmation = lazy(() =>
   })),
 );
 
+const ClarityAccess = lazy(() =>
+  import("./pages/ClarityAccess").then((module) => ({
+    default: module.ClarityAccess,
+  })),
+);
+
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/room-of-clarity" || path === "/room-of-clarity/")
+    return <ClarityAccess />;
   if (path === "/shop/confirmation" || path === "/shop/confirmation/")
     return <Confirmation />;
   return <Home shopPage={path === "/shop" || path === "/shop/"} />;

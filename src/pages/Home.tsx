@@ -17,7 +17,13 @@ function BookingForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      if (!response.ok) throw new Error();
+      const result = await response.json();
+      if (
+        !response.ok ||
+        result.requestReceived !== true ||
+        result.bookingConfirmed !== false
+      )
+        throw new Error();
       setStatus("sent");
       form.reset();
     } catch {
@@ -34,11 +40,11 @@ function BookingForm() {
       aria-label="Possibility Session request"
     >
       <div className="form-intro">
-        <span className="lab-kicker">A PRIVATE CONVERSATION</span>
-        <h3>What’s on your mind?</h3>
+        <span className="lab-kicker">60 MINUTES · $175 · WITH BHAVÉ</span>
+        <h3>Enter the Room of Clarity.</h3>
         <p>
-          Share a little about what you’d like to explore and when you’re
-          available. We’ll reply by email to arrange your session.
+          Booking begins with a request. Share what you’d like to explore and
+          your preferred availability. We’ll reply to arrange the next steps.
         </p>
       </div>
       <div className="form-pair">
@@ -85,8 +91,9 @@ function BookingForm() {
         be contacted by email about this session request.
       </label>
       <p className="form-note">
-        This is a request. Your session is confirmed only after we agree on a
-        time. Please keep sensitive personal details out of this form.
+        60 minutes · $175. No payment is collected by this form. Sending a
+        request does not confirm a time or unlock the Room of Clarity. Please
+        keep sensitive personal details out of this form.
       </p>
       <button
         className="lab-button"
@@ -96,12 +103,12 @@ function BookingForm() {
           ? "Sending…"
           : status === "sent"
             ? "Request received"
-            : "Request a session"}
+            : "Book Your Session"}
         <span aria-hidden="true">↗</span>
       </button>
       <p role="status" aria-live="polite">
         {status === "sent"
-          ? "Thank you. Your request has been received. We’ll be in touch by email."
+          ? "Your request has been received. Your session is not yet confirmed. We’ll be in touch by email about availability and payment."
           : status === "error"
             ? message
             : ""}
@@ -130,7 +137,11 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
         Skip to content
       </a>
       <header className="lab-header">
-        <a className="lab-brand" href="/" aria-label="Bhavé’s Lab home">
+        <a
+          className="lab-brand"
+          href="/"
+          title="Home"
+        >
           <span className="orbit-mark" aria-hidden="true">
             ◌
           </span>
@@ -140,7 +151,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
         </a>
         <button
           className="menu-toggle"
-          aria-label={menu ? "Close navigation" : "Open navigation"}
+          aria-label={menu ? "Close menu" : "Menu"}
           aria-expanded={menu}
           aria-controls="lab-navigation"
           onClick={() => setMenu(!menu)}
@@ -180,17 +191,55 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
           </picture>
           <div className="lab-mist" aria-hidden="true" />
           <div className="lab-horizon" aria-hidden="true" />
-          <figure className="ego-screen">
+          <div
+            className="observation-screen ego-screen"
+            role="img"
+            aria-label="Lil Ego, the original creative character, observed on a transparent display"
+          >
+            <span className="screen-coordinate" aria-hidden="true">
+              EXPRESSION / 01
+            </span>
+            <div className="screen-grid" aria-hidden="true" />
             <img
-              src="/observatory/lil-ego-reference.jpeg"
-              alt="Lil Ego in his original orange turban, black sunglasses, orange and black outfit, and gold jewelry."
+              src="/observatory/lil-ego-cutout-336.webp"
+              srcSet="/observatory/lil-ego-cutout-336.webp 336w, /observatory/lil-ego-cutout-672.webp 672w, /observatory/lil-ego-cutout.webp 1122w"
+              sizes="(max-width: 800px) 116px, 205px"
+              alt=""
               width="1122"
               height="1402"
             />
-            <figcaption>
-              LIL EGO<span>AN ORIGINAL CREATIVE EXPRESSION</span>
-            </figcaption>
-          </figure>
+            <span className="screen-caption" aria-hidden="true">
+              Lil Ego <i>·</i> Original universe
+            </span>
+            <svg
+              className="screen-wave"
+              viewBox="0 0 200 24"
+              aria-hidden="true"
+            >
+              <path d="M0 12 Q10 0 20 12 T40 12 T60 12 T80 12 T100 12 T120 12 T140 12 T160 12 T180 12 T200 12" />
+            </svg>
+          </div>
+          <div
+            className="observation-screen bracelet-screen"
+            role="img"
+            aria-label="An unbranded graphite bracelet with a cyan accent, an artistic wearable concept, not for sale"
+          >
+            <span className="screen-coordinate" aria-hidden="true">
+              FORM / 02
+            </span>
+            <div className="screen-orbit" aria-hidden="true" />
+            <img
+              src="/observatory/bracelet-concept-480.webp"
+              srcSet="/observatory/bracelet-concept-480.webp 480w, /observatory/bracelet-concept-768.webp 768w"
+              sizes="(max-width: 800px) 130px, 250px"
+              alt=""
+              width="1536"
+              height="1024"
+            />
+            <span className="screen-caption" aria-hidden="true">
+              A possibility in form
+            </span>
+          </div>
           <div className="hero-copy">
             <p className="lab-kicker">OBSERVATION · POSSIBILITY · CREATION</p>
             <h1 id="hero-heading">
@@ -204,7 +253,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
               clear.
             </p>
             <a className="lab-button" href="#session">
-              The Possibility Session<span aria-hidden="true">↗</span>
+              Book Your Session<span aria-hidden="true">↗</span>
             </a>
           </div>
           <div className="hero-bottom">
@@ -246,18 +295,28 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
               <br />
               <em>Session.</em>
             </h2>
+            <p className="session-invitation">Enter the Room of Clarity.</p>
             <p>
-              Bring a situation, a question, an idea, or a creative possibility.
-              Together, we make space to explore it privately and find clarity
-              about what comes next.
+              Bring what’s happening. Together, we observe what is, explore
+              what’s possible, and discover what becomes clear.
+            </p>
+            <p className="session-price">
+              60 minutes <span aria-hidden="true">·</span> $175
             </p>
             <p>
-              Observation, meditation, hypnosis, and other techniques may be
-              used as appropriate within your session. The exploration follows
-              what you bring.
+              A private experience with Bhavé. Bring a situation, a question, an
+              idea, a creative possibility, or a direction you want to examine.
+            </p>
+            <p>
+              We begin with observation and conversation: what is occurring,
+              what assumptions may be present, and what becomes possible.
+            </p>
+            <p>
+              The session is complete in itself. There is no requirement to
+              purchase anything else.
             </p>
             <a className="lab-text-link" href="#booking">
-              Begin a conversation <span aria-hidden="true">↘</span>
+              Book Your Session <span aria-hidden="true">↘</span>
             </a>
           </div>
           <div id="booking">

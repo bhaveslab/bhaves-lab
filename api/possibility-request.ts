@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
 
-// Request-only: no availability, prices, payment, or confirmation is implied.
+// Published offer: 60 minutes / $175. This endpoint records a request, never a paid booking.
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") {
@@ -46,23 +46,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const from = process.env.LAB_BOOKING_FROM;
   const to = process.env.LAB_BOOKING_TO;
   if (!apiKey || !from || !to)
-    return res
-      .status(503)
-      .json({
-        error:
-          "Booking requests are not configured. Please email info@bhaveslab.com.",
-      });
+    return res.status(503).json({
+      error:
+        "Booking requests are not configured. Please email info@bhaveslab.com.",
+    });
   try {
     const { error } = await new Resend(apiKey).emails.send({
       from,
       to,
       replyTo: email,
       subject: "Possibility Session request",
-      text: `Name: ${name}\nEmail: ${email}\n\nExploration:\n${details}\n\nAvailability and time zone:\n${availability}\n\nConsent: contact by email about this session request.`,
+      text: `The Possibility Session — 60 minutes — $175\nBooking request only. Payment and availability are not confirmed.\n\nName: ${name}\nEmail: ${email}\n\nExploration:\n${details}\n\nAvailability and time zone:\n${availability}\n\nConsent: contact by email about this session request.`,
     });
     if (error)
       return res.status(502).json({ error: "Request could not be delivered" });
-    return res.status(200).json({ ok: true });
+    return res
+      .status(200)
+      .json({ requestReceived: true, bookingConfirmed: false });
   } catch {
     return res.status(502).json({ error: "Request could not be delivered" });
   }

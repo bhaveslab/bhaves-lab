@@ -4,6 +4,8 @@ const ts = require("typescript");
 const fs = require("node:fs");
 const vm = require("node:vm");
 let sent = 0;
+let providerError = null;
+let providerThrows = false;
 const source = ts.transpileModule(
   fs.readFileSync("api/possibility-request.ts", "utf8"),
   {
@@ -23,7 +25,8 @@ const context = {
       emails = {
         send: async () => {
           sent++;
-          return { error: null };
+          if (providerThrows) throw new Error("Simulated provider failure");
+          return { error: providerError };
         },
       };
     },
@@ -102,4 +105,29 @@ test("reports success only after configured provider accepts the request", async
   });
   assert.equal((await request(valid)).code, 200);
   assert.equal(sent, 1);
+});
+test("a received request explicitly remains unconfirmed and cannot open the room", async () => {
+  const response = await request({
+    ...valid,
+    paid: true,
+    bookingConfirmed: true,
+    amount: 1,
+  });
+  assert.equal(response.code, 200);
+  assert.equal(response.data.requestReceived, true);
+  assert.equal(response.data.bookingConfirmed, false);
+  assert.equal(response.data.access, undefined);
+});
+
+test("delivery rejection and exceptions never produce request receipts", async () => {
+  providerError = { message: "Rejected" };
+  let result = await request(valid);
+  assert.equal(result.code, 502);
+  assert.equal(result.data.requestReceived, undefined);
+  providerError = null;
+  providerThrows = true;
+  result = await request(valid);
+  assert.equal(result.code, 502);
+  assert.equal(result.data.requestReceived, undefined);
+  providerThrows = false;
 });

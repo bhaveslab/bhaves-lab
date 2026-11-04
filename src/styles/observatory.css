@@ -184,35 +184,7 @@
 .lab-button span {
   font-size: 20px;
 }
-.ego-screen {
-  position: absolute;
-  right: 7%;
-  top: 27%;
-  width: clamp(130px, 13vw, 205px);
-  margin: 0;
-  border: 1px solid #99e9e78c;
-  background: #06161a;
-  box-shadow: 0 0 25px #3af6ff20;
-  transform: perspective(1000px) rotateY(-12deg);
-}
-.ego-screen img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.ego-screen figcaption {
-  padding: 12px;
-  color: #f0c98e;
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-.ego-screen figcaption span {
-  display: block;
-  font-size: 6px;
-  letter-spacing: 1px;
-  color: #bed4d3;
-  margin-top: 6px;
-}
+
 .hero-bottom {
   position: absolute;
   bottom: 28px;
@@ -529,11 +501,7 @@
   .hero-copy h1 {
     font-size: 68px;
   }
-  .ego-screen {
-    top: 16%;
-    right: 7%;
-    width: 116px;
-  }
+
   .lab-section {
     padding: 85px 7%;
   }
@@ -583,17 +551,7 @@
     font-size: 8px;
     letter-spacing: 2px;
   }
-  .ego-screen {
-    top: 16%;
-    width: 105px;
-  }
-  .ego-screen figcaption {
-    padding: 8px;
-    font-size: 9px;
-  }
-  .ego-screen figcaption span {
-    font-size: 5px;
-  }
+
   .shop-entrance {
     grid-template-columns: 1fr;
     gap: 55px;
@@ -614,4 +572,461 @@
   .lab-closing {
     padding-bottom: 85px;
   }
+}
+/* Observation planes are part of the scene, never storefront cards. */
+.observation-screen {
+  position: absolute;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #8de4e25c;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #418b9224, #0b26350a 50%, #79efee13);
+  box-shadow:
+    0 0 22px #38bec41a,
+    inset 0 0 28px #72eeee0a;
+  pointer-events: none;
+}
+.observation-screen:after {
+  content: "";
+  position: absolute;
+  inset: -50% -110%;
+  background: linear-gradient(
+    115deg,
+    transparent 46%,
+    #cbffff13 50%,
+    transparent 54%
+  );
+  transform: translateX(-15%);
+  animation: screen-reflection 20s ease-in-out infinite;
+  z-index: 3;
+  pointer-events: none;
+}
+.observation-screen img {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 0 9px #8de6ef18);
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ego-screen {
+  right: 6%;
+  top: 23%;
+  width: clamp(142px, 14vw, 205px);
+  height: clamp(220px, 25vw, 340px);
+  transform: perspective(1100px) rotateY(-14deg) rotateZ(1deg);
+  background: linear-gradient(135deg, #1b505326, #06161a12);
+  padding: 18px 12px 25px;
+}
+.ego-screen img {
+  object-position: center;
+  height: 100%;
+  width: 100%;
+  opacity: 0.95;
+}
+.screen-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#77cdd615 1px, transparent 1px),
+    linear-gradient(90deg, #77cdd615 1px, transparent 1px);
+  background-size: 25px 25px;
+  opacity: 0.35;
+}
+.screen-coordinate {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font:
+    6px Arial,
+    sans-serif;
+  letter-spacing: 1.6px;
+  color: #a2dcdfb3;
+  z-index: 2;
+}
+.screen-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font:
+    8px Georgia,
+    serif;
+  letter-spacing: 0.5px;
+  color: #d7e5e2;
+  z-index: 2;
+}
+.screen-caption i {
+  color: #89d1d2;
+  padding: 0 4px;
+}
+.screen-wave {
+  position: absolute;
+  inset: auto 0 23px;
+  width: 100%;
+  height: 12px;
+  stroke: #8ee3e866;
+  fill: none;
+  stroke-width: 0.6;
+  z-index: 0;
+}
+.bracelet-screen {
+  right: 25%;
+  top: 15%;
+  width: clamp(155px, 17vw, 250px);
+  height: clamp(120px, 13vw, 195px);
+  transform: perspective(1000px) rotateY(17deg) rotateZ(-3deg);
+  padding: 18px 8px 10px;
+  border-color: #8edfdc3b;
+}
+.bracelet-screen img {
+  object-fit: contain;
+  animation: bracelet-light 14s ease-in-out infinite;
+  opacity: 1;
+  filter: brightness(1.4) drop-shadow(0 0 8px #7bd8e424);
+  mix-blend-mode: screen;
+}
+.screen-orbit {
+  position: absolute;
+  width: 58%;
+  aspect-ratio: 1;
+  border: 1px solid #8bdfdf20;
+  border-radius: 50%;
+  left: 20%;
+  top: 9%;
+  transform: rotateX(60deg);
+  box-shadow: 0 0 20px #4adae511;
+}
+.lab-hero {
+  min-height: min(800px, 100svh);
+}
+.lab-hero:after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -2px;
+  height: 100px;
+  background: linear-gradient(transparent, #030d10);
+  pointer-events: none;
+  z-index: -1;
+}
+.session-heading .session-invitation {
+  font:
+    italic 25px/1.4 Georgia,
+    serif;
+  color: #d7ece7;
+  margin-top: 0;
+}
+.session-heading .session-price {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ddf6ef;
+  font-size: 17px;
+  letter-spacing: 1px;
+  border-block: 1px solid #92dedc26;
+  padding: 18px 0;
+  margin: 28px 0;
+}
+.session-price span {
+  color: #82cccc;
+}
+.booking-form input:not([type="checkbox"]),
+.booking-form textarea {
+  font-size: 16px;
+}
+.form-intro h3 {
+  line-height: 1.2;
+}
+.clarity-locked {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  background: radial-gradient(ellipse at 50% 25%, #12475066, transparent 60%);
+}
+.clarity-locked h1 {
+  font:
+    clamp(36px, 5vw, 65px)/1.15 Georgia,
+    serif;
+  font-weight: 400;
+}
+.clarity-locked p {
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #bfceca;
+}
+.clarity-locked a:not(.lab-button) {
+  text-decoration: underline;
+}
+.clarity-locked .lab-button {
+  margin-top: 25px;
+}
+.locked-orbit {
+  color: #8bdddd;
+  font-size: 80px;
+}
+.clarity-room {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse at 50% 10%, #19495266, transparent 48%), #030d10;
+  animation: room-enter 1.3s ease-out both;
+}
+.clarity-room header,
+.clarity-room footer {
+  padding: 35px 6%;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+.clarity-room footer {
+  border-top: 1px solid #85cdcd25;
+  font-size: 12px;
+}
+.clarity-room h1 {
+  font:
+    clamp(65px, 8vw, 112px)/1.05 Georgia,
+    serif;
+  font-weight: 400;
+  letter-spacing: -3px;
+  margin: 30px 0;
+}
+.clarity-room h2 {
+  font:
+    400 clamp(36px, 4vw, 60px)/1.12 Georgia,
+    serif;
+}
+.chamber-arch {
+  position: absolute;
+  z-index: -1;
+  top: 145px;
+  left: 50%;
+  width: 75%;
+  height: 700px;
+  transform: translateX(-50%);
+  border: 1px solid #a3e6df44;
+  border-radius: 48% 48% 5% 5%;
+  box-shadow:
+    0 -8px 40px #72d6dd10,
+    inset 0 0 60px #77c7d511;
+  mask-image: linear-gradient(#000, transparent 95%);
+}
+.room-introduction {
+  text-align: center;
+  padding: 110px 24px 140px;
+}
+.room-introduction > p:not(.lab-kicker) {
+  font:
+    17px/1.9 Georgia,
+    serif;
+  color: #c1d8d4;
+}
+.room-line {
+  display: block;
+  width: 1px;
+  height: 75px;
+  margin: 40px auto 0;
+  background: linear-gradient(#87dfe7, transparent);
+}
+.room-instruments {
+  max-width: 900px;
+  padding: 0 8% 100px;
+  margin: auto;
+}
+.room-instruments > p {
+  color: #bed0cd;
+  line-height: 1.85;
+  font-size: 14px;
+}
+.room-instruments dl {
+  margin: 50px 0;
+}
+.room-instruments dl > div {
+  padding: 28px 0;
+  border-top: 1px solid #8be1dd2a;
+}
+.room-instruments dt {
+  font:
+    22px Georgia,
+    serif;
+}
+.room-instruments dt span {
+  font:
+    9px Arial,
+    sans-serif;
+  letter-spacing: 2px;
+  color: #8fe1df;
+  margin-right: 25px;
+}
+.room-instruments dd {
+  margin: 15px 0 0 43px;
+  color: #b7cbc7;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.room-assurance {
+  border-left: 1px solid #93dcdb73;
+  padding-left: 25px;
+}
+.motion-paused .observation-screen:after,
+.motion-paused .bracelet-screen img {
+  animation: none;
+}
+@keyframes screen-reflection {
+  50% {
+    transform: translateX(25%);
+  }
+}
+@keyframes bracelet-light {
+  50% {
+    opacity: 0.85;
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+@keyframes room-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 800px) {
+  .ego-screen {
+    top: 15%;
+    right: 6%;
+    width: 116px;
+    height: 188px;
+    padding: 15px 7px 22px;
+  }
+  .bracelet-screen {
+    top: 21%;
+    left: 7%;
+    right: auto;
+    width: 130px;
+    height: 105px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(52px, 8vw, 68px);
+  }
+  .lab-hero {
+    min-height: 760px;
+    max-height: none;
+  }
+  .clarity-room header {
+    align-items: flex-start;
+  }
+  .clarity-room header > .lab-kicker {
+    max-width: 110px;
+    text-align: right;
+    font-size: 8px;
+  }
+  .room-introduction {
+    padding: 100px 20px;
+  }
+  .chamber-arch {
+    height: 550px;
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  .lab-hero {
+    min-height: min(790px, 100svh);
+    padding-bottom: 100px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(46px, 14vw, 60px);
+  }
+  .ego-screen {
+    width: 105px;
+    height: 175px;
+    top: 14%;
+  }
+  .bracelet-screen {
+    top: 20%;
+    width: 124px;
+    height: 100px;
+  }
+  .hero-copy .lab-button {
+    padding: 15px 20px;
+  }
+  .screen-caption {
+    font-size: 6px;
+    left: 8px;
+  }
+  .screen-coordinate {
+    font-size: 5px;
+  }
+  .lab-section {
+    padding-block: 75px;
+  }
+  .room-introduction {
+    padding-top: 90px;
+  }
+  .room-instruments dd {
+    margin-left: 0;
+  }
+  .lab-footer > a {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+  }
+}
+@media (max-height: 740px) and (max-width: 800px) {
+  .ego-screen {
+    top: 15%;
+    height: 145px;
+    width: 88px;
+  }
+  .bracelet-screen {
+    top: 20%;
+    width: 100px;
+    height: 84px;
+  }
+  .hero-copy h1 {
+    font-size: 48px;
+    margin: 16px 0;
+  }
+  .hero-support {
+    margin: 16px 0 20px;
+    font-size: 13px;
+  }
+  .hero-copy .lab-kicker {
+    font-size: 7px;
+  }
+  .lab-hero {
+    min-height: 680px;
+    padding-bottom: 85px;
+  }
+  .hero-bottom {
+    bottom: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .observatory *,
+  .observatory *:before,
+  .observatory *:after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+.hero-bottom button,
+.menu-toggle {
+  min-height: 44px;
+}
+.lab-header nav a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
