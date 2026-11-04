@@ -1,14 +1,10 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/observatory.css";
-const Room = lazy(() =>
-  import("./RoomOfClarity").then((module) => ({
-    default: module.RoomOfClarity,
-  })),
-);
 export function ClarityAccess() {
   const [access, setAccess] = useState<"checking" | "locked" | "verified">(
     "checking",
   );
+  const [roomMarkup, setRoomMarkup] = useState<string | null>(null);
   useEffect(() => {
     document.title = "The Room of Clarity — BHAVÉ’S LAB";
     const controller = new AbortController();
@@ -20,12 +16,9 @@ export function ClarityAccess() {
       .then(async (response) => {
         if (!response.ok) throw new Error("Access not verified");
         const result = await response.json();
-        if (
-          result.access !== "confirmed" ||
-          result.paymentVerified !== true ||
-          result.availabilityVerified !== true
-        )
+        if (typeof result.html !== "string" || !result.html.trim())
           throw new Error("Access not verified");
+        setRoomMarkup(result.html);
         setAccess("verified");
       })
       .catch(() => {
@@ -39,9 +32,8 @@ export function ClarityAccess() {
         Skip to content
       </a>
       {access === "verified" ? (
-        <Suspense fallback={<p role="status">Opening the room…</p>}>
-          <Room />
-        </Suspense>
+        // HTML comes only from the authenticated, booking-authorized same-origin API.
+        <div dangerouslySetInnerHTML={{ __html: roomMarkup ?? "" }} />
       ) : (
         <main id="main" className="clarity-locked">
           <span aria-hidden="true" className="locked-orbit">
@@ -61,8 +53,8 @@ export function ClarityAccess() {
               assistance.
             </p>
           )}
-          <a className="lab-button" href="/#session">
-            Return to The Possibility Session <span aria-hidden="true">↗</span>
+          <a className="lab-button" href="/booking">
+            Return to booking <span aria-hidden="true">↗</span>
           </a>
         </main>
       )}

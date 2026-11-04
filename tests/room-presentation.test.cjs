@@ -23,7 +23,7 @@ function load(file) {
   return context.exports;
 }
 test("room introduction contains optional instruments without add-on purchases or private links", () => {
-  const { RoomOfClarity } = load("src/pages/RoomOfClarity.tsx");
+  const { RoomOfClarity } = load("api/_lib/RoomOfClarity.tsx");
   const html = renderToStaticMarkup(React.createElement(RoomOfClarity));
   for (const label of [
     "Inner Mining",
@@ -43,4 +43,23 @@ test("unverified access renders checking state, not the room or instrument prese
   assert.ok(html.includes("Checking your session access"));
   assert.ok(!html.includes("Inner Mining"));
   assert.ok(!html.includes("Bio-Well observation"));
+});
+
+test("public introduction and booking are separate stages without instrument content", () => {
+  const { Home } = load("src/pages/Home.tsx");
+  const home = renderToStaticMarkup(React.createElement(Home));
+  const { Booking } = load("src/pages/Booking.tsx");
+  const booking = renderToStaticMarkup(React.createElement(Booking));
+  assert.ok(!home.includes("<form"));
+  assert.ok(home.includes('href="/booking"'));
+  assert.ok(booking.includes("<form"));
+  assert.ok(booking.includes("does not confirm a time"));
+  for (const html of [home, booking])
+    for (const word of [
+      "Inner Mining",
+      "Bio-Well observation",
+      "Meditation",
+      "Hypnosis",
+    ])
+      assert.ok(!html.includes(word));
 });

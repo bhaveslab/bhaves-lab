@@ -19,7 +19,7 @@ assert np.array_equal(cut[visible],webp[visible]), 'Lossless master changed visi
 for name in ['lil-ego-cutout-336.webp','lil-ego-cutout-672.webp','bracelet-concept-480.webp','bracelet-concept-768.webp']:
  im=Image.open(p/name)
  assert im.mode=='RGBA' and im.getextrema()[3][0]==0
-for page in ['Home.tsx','ClarityAccess.tsx','RoomOfClarity.tsx']:
+for page in ['Home.tsx','ClarityAccess.tsx','Booking.tsx']:
  text=(root/'src/pages'/page).read_text()
  for forbidden in ['app.bhaveslab.com','Source Connect','Source Motion','Source Glasses','Source Vision Glasses']:
   assert forbidden not in text, f'Private project reference in {page}'

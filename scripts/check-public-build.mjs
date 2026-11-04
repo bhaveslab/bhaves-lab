@@ -11,6 +11,10 @@ const mobileImageBytes=artwork.reduce((sum,item)=>sum+item.bytes,0);
 assert.ok(jsGzip<65000,'Initial JavaScript gzip budget exceeded');
 assert.ok(cssGzip<10000,'CSS gzip budget exceeded');
 assert.ok(mobileImageBytes<200000,'Mobile artwork budget exceeded');
-assert.ok(readdirSync('dist/assets').some(name=>name.startsWith('RoomOfClarity-')),'Room is not lazy split');
-const report={initialJavaScriptGzipBytes:jsGzip,cssGzipBytes:cssGzip,mobileImageBytes,artwork,roomLazySplit:true,notes:'Transfer-size budget, not Lighthouse or real-device timing. Retained Meridian Three.js is deferred.'};
+for (const name of readdirSync('dist/assets').filter(name=>name.endsWith('.js'))) {
+ const code=readFileSync('dist/assets/'+name,'utf8');
+ for(const phrase of ['Inner Mining','Bio-Well observation','A few ways','No additional purchase is necessary'])assert.ok(!code.includes(phrase),'Protected Room content leaked into '+name);
+}
+assert.ok(!readdirSync('dist/assets').some(name=>name.startsWith('RoomOfClarity-')),'Protected Room client chunk emitted');
+const report={initialJavaScriptGzipBytes:jsGzip,cssGzipBytes:cssGzip,mobileImageBytes,artwork,roomContentServerOnly:true,notes:'Transfer-size budget, not Lighthouse or real-device timing. Retained Meridian Three.js is deferred.'};
 console.log(JSON.stringify(report,null,2));

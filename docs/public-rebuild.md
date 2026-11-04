@@ -13,8 +13,8 @@ The repository default branch remains older than `main`; the feature branch alre
 - Added an unbranded graphite cuff with cyan inlay on another transparent screen at a different depth. This is artwork for an exploratory wearable concept, not a product, private device, development announcement or sale listing.
 - Published the approved one-session offer: The Possibility Session, Enter the Room of Clarity, 60 minutes, $175, Book Your Session. Session stands alone with no required additional purchase.
 - Kept the native request form and public email fallback. The response contract explicitly distinguishes `requestReceived: true` from `bookingConfirmed: false`; an HTTP 200 containing HTML or unrelated JSON cannot produce a success receipt.
-- Built the intimate Room of Clarity chamber and curated optional-instrument introduction as a lazy-loaded presentation. No add-on prices or purchase flow.
-- Added `/room-of-clarity` with a server access-check boundary. It fails closed while verification is not implemented. Query strings claiming payment or confirmation do not grant access. There is no client-side unlock, demo unlock or request-receipt link into the room.
+- Built the intimate Room of Clarity chamber and curated optional-instrument introduction as a server-only presentation under `api/_lib`. No add-on prices or purchase flow.
+- Added `/room-of-clarity` with a server access-check boundary. It fails closed while verification is not implemented. Query strings claiming payment or confirmation do not grant access. There is no client-side unlock, demo unlock or request-receipt link into the room. The public introduction links to a distinct `/booking` stage; no booking form appears on the public entrance. The server checks authenticated identity, record ownership, confirmed booking, paid status and a confirmed reservation before rendering any Room markup.
 - Shop stays visible with no unverified purchases. No external scheduling service is used.
 
 ## Exact character evidence
@@ -41,7 +41,7 @@ On November 4, 2026, the Vercel environment metadata query for this project and 
 | Availability | No configured calendar, availability endpoint or reservation persistence in this repository/preview | Choose calendar of record and actual working hours/time zone; buffers, collision-safe holds/reservations and cancellation rules |
 | Confirmation email | Not implemented for confirmed appointments | Trigger only after both payment and calendar reservation are verified |
 | Room access | API deliberately returns unavailable; forged flags remain locked | Implement a booking-scoped server verifier/access credential after the booking infrastructure is selected and approved |
-| Room presentation | Implemented and visually reviewed in a local design-only fixture | Live post-confirmation reveal is not enabled or claimed |
+| Room presentation | Implemented server-side; no Room content or optional-instrument text is included in public JavaScript | Live post-confirmation reveal is not enabled or claimed |
 | Shop | Entrance with no active products or purchase actions | Verified assets, inventory, price, payments and fulfillment per product |
 
 A major calendar/reservation architecture has not been invented. A new paid provider has not been introduced. Availability, price or payment success is never fabricated. Public email is available while delivery is unconfigured. Basic honeypot and origin filtering are present; production request delivery also needs durable abuse controls.
@@ -50,7 +50,7 @@ A major calendar/reservation architecture has not been invented. A new paid prov
 
 - `npm run build`: TypeScript + Vite passes.
 - Explicit strict TypeScript check for both API modules passes.
-- `node --test tests/*.test.cjs`: 11 tests pass, including validation, provider rejection/exception, explicit unconfirmed request receipts, denied forged access and optional-instrument presentation.
+- `node --test tests/*.test.cjs`: 16 tests pass, including validation, provider rejection/exception, explicit unconfirmed request receipts, unauthenticated and other-guest denial, unpaid/refunded/cancelled reservation denial, positive server-fixture authorization, and separation of introduction/booking stages.
 - `python3 scripts/verify-public-assets.py`: source hash, visible-pixel fidelity, transparent edges, responsive assets and public privacy checks pass.
 - `node scripts/check-public-build.mjs`: initial JavaScript gzip budget under 65 KB, CSS under 10 KB and phone hero artwork under 200 KB. Actual results in `docs/performance-check.json`.
 - Desktop, 390px phone iframe and 768px tablet iframe inspected. No horizontal document overflow at phone/tablet widths. Responsive artwork sources loaded. Menu, Escape dismissal, pause/resume, session anchors, form failure handling and forged-confirmation locked state checked in browser.
@@ -67,6 +67,14 @@ A major calendar/reservation architecture has not been invented. A new paid prov
 - `docs/review/room-locked.jpg` (actual visitor state)
 - `docs/review/room-design-only.jpg` (explicitly labeled design review, not a confirmed booking)
 
-Local `.qa` fixtures and the audit dependency are excluded from Git and the Vercel build. They provide visual review without adding a public room-unlock shortcut. The Room screenshot is a design artifact, not proof of a successful payment or appointment.
+Historical design-only screenshots remain review artifacts. The old client Room module was removed; an automated build assertion rejects instrument content or a Room chunk in any public JavaScript. Local `.qa` fixtures and the audit dependency are excluded from Git and the Vercel build. They provide visual review without adding a public room-unlock shortcut. The Room screenshot is a design artifact, not proof of a successful payment or appointment.
 
 Keep production unchanged pending visual approval.
+
+## Latest stage separation
+
+1. Public observatory and introduction (`/#session`): offer, price, duration and invitation only.
+2. Individual booking (`/booking`): request details, consent, availability preference and explicit unconfirmed receipt. No Room content. Email is a request channel, not booking proof.
+3. Confirmed session (`/room-of-clarity`): generic access-check shell. Room markup is rendered only by `/api/clarity-access` after server verification of the authenticated visitor and their authoritative booking record. Protected text no longer ships in a lazy client chunk.
+
+The actual identity/booking resolver remains unavailable while integrations are absent. Its default is closed. Tests use synthetic server-owned identities and records to verify authorization branches; those fixtures are not deployed and no live booking is claimed. The booking stage is an individual request process, not a claim that authentication has been provisioned.

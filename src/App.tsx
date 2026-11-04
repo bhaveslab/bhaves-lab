@@ -22,8 +22,13 @@ const ClarityAccess = lazy(() =>
   })),
 );
 
+const Booking = lazy(() =>
+  import("./pages/Booking").then((module) => ({ default: module.Booking })),
+);
+
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/booking" || path === "/booking/") return <Booking />;
   if (path === "/room-of-clarity" || path === "/room-of-clarity/")
     return <ClarityAccess />;
   if (path === "/shop/confirmation" || path === "/shop/confirmation/")

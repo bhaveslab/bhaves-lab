@@ -1,121 +1,5 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import "../styles/observatory.css";
-
-function BookingForm() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle",
-  );
-  const [message, setMessage] = useState("");
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form));
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/possibility-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
-      if (
-        !response.ok ||
-        result.requestReceived !== true ||
-        result.bookingConfirmed !== false
-      )
-        throw new Error();
-      setStatus("sent");
-      form.reset();
-    } catch {
-      setStatus("error");
-      setMessage(
-        "Your request could not be sent. Please try again, or email info@bhaveslab.com.",
-      );
-    }
-  }
-  return (
-    <form
-      className="booking-form"
-      onSubmit={submit}
-      aria-label="Possibility Session request"
-    >
-      <div className="form-intro">
-        <span className="lab-kicker">60 MINUTES · $175 · WITH BHAVÉ</span>
-        <h3>Enter the Room of Clarity.</h3>
-        <p>
-          Booking begins with a request. Share what you’d like to explore and
-          your preferred availability. We’ll reply to arrange the next steps.
-        </p>
-      </div>
-      <div className="form-pair">
-        <label>
-          Your name
-          <input name="name" autoComplete="name" required maxLength={120} />
-        </label>
-        <label>
-          Email address
-          <input
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            maxLength={254}
-          />
-        </label>
-      </div>
-      <label>
-        What would you like to explore?
-        <textarea
-          name="details"
-          rows={3}
-          required
-          maxLength={2000}
-          placeholder="A situation, a question, an idea…"
-        />
-      </label>
-      <label>
-        Your availability and time zone
-        <input
-          name="availability"
-          required
-          maxLength={300}
-          placeholder="For example: weekday afternoons, Central time"
-        />
-      </label>
-      <label className="booking-trap" aria-hidden="true">
-        Website
-        <input name="website" tabIndex={-1} autoComplete="off" />
-      </label>
-      <label className="consent">
-        <input name="consent" type="checkbox" value="yes" required />I agree to
-        be contacted by email about this session request.
-      </label>
-      <p className="form-note">
-        60 minutes · $175. No payment is collected by this form. Sending a
-        request does not confirm a time or unlock the Room of Clarity. Please
-        keep sensitive personal details out of this form.
-      </p>
-      <button
-        className="lab-button"
-        disabled={status === "sending" || status === "sent"}
-      >
-        {status === "sending"
-          ? "Sending…"
-          : status === "sent"
-            ? "Request received"
-            : "Book Your Session"}
-        <span aria-hidden="true">↗</span>
-      </button>
-      <p role="status" aria-live="polite">
-        {status === "sent"
-          ? "Your request has been received. Your session is not yet confirmed. We’ll be in touch by email about availability and payment."
-          : status === "error"
-            ? message
-            : ""}
-      </p>
-    </form>
-  );
-}
 
 export function Home({ shopPage = false }: { shopPage?: boolean }) {
   const [menu, setMenu] = useState(false);
@@ -137,11 +21,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
         Skip to content
       </a>
       <header className="lab-header">
-        <a
-          className="lab-brand"
-          href="/"
-          title="Home"
-        >
+        <a className="lab-brand" href="/" title="Home">
           <span className="orbit-mark" aria-hidden="true">
             ◌
           </span>
@@ -252,7 +132,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
               <br className="desktop-break" /> and create from what becomes
               clear.
             </p>
-            <a className="lab-button" href="#session">
+            <a className="lab-button" href="/booking">
               Book Your Session<span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -287,7 +167,10 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
             </p>
           </div>
         </section>
-        <section id="session" className="lab-session lab-section">
+        <section
+          id="session"
+          className="lab-session lab-section session-public-introduction"
+        >
           <div className="session-heading">
             <p className="lab-kicker">02 / PRIVATE EXPLORATION</p>
             <h2>
@@ -315,12 +198,9 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
               The session is complete in itself. There is no requirement to
               purchase anything else.
             </p>
-            <a className="lab-text-link" href="#booking">
+            <a className="lab-text-link" href="/booking">
               Book Your Session <span aria-hidden="true">↘</span>
             </a>
-          </div>
-          <div id="booking">
-            <BookingForm />
           </div>
         </section>
         <section id="shop" className="lab-shop lab-section">

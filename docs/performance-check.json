@@ -1,6 +1,6 @@
 {
-  "initialJavaScriptGzipBytes": 50518,
-  "cssGzipBytes": 6705,
+  "initialJavaScriptGzipBytes": 49660,
+  "cssGzipBytes": 7034,
   "mobileImageBytes": 171098,
   "artwork": [
     {
@@ -16,6 +16,6 @@
       "bytes": 38110
     }
   ],
-  "roomLazySplit": true,
+  "roomContentServerOnly": true,
   "notes": "Transfer-size budget, not Lighthouse or real-device timing. Retained Meridian Three.js is deferred."
 }

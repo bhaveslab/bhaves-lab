@@ -1,4 +1,4 @@
-/** This module is loaded only after the server verifies room access. */
+/** SERVER ONLY. Never import this presentation into the Vite client. */
 const instruments = [
   [
     "Inner Mining",
