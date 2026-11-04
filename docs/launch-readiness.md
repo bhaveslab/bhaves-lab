@@ -1,3 +1,5 @@
+> Superseded booking architecture assessment: see [simplified-booking.md](simplified-booking.md). Customer accounts and a new Supabase/custom booking database are **not** requirements. Native Google paid scheduling must be evaluated first; its eligibility and payment-to-appointment correlation remain unverified. Historical implementation and asset evidence follows.
+
 # Final integration and launch readiness — November 4, 2026
 
 **Assessment: not production-ready.** PDFs and safe public presentation are ready for review. Standalone payment/delivery implementation remains disabled pending real test-mode configuration and E2E validation. Issue #7 has no booking backend, reservation store or identity provider; those are implementation dependencies, not merely missing environment values. No live payment, real reservation, confirmation email, or successful authenticated Room visit is claimed.

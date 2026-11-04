@@ -158,6 +158,7 @@ export function Booking() {
           </h1>
           <p className="session-price">60 minutes · $175</p>
           <p>Includes The Possibility ebook in English or Spanish.</p>
+          <p>No account or password required.</p>
           <p>
             A private experience with Bhavé. Share only what you want to
             explore; detailed personal information can wait for your session.
