@@ -1,356 +1,283 @@
-import { useEffect, useRef, useState } from 'react';
-import { FieldBackground } from '../components/FieldBackground';
-import { Eyebrow } from '../components/Eyebrow';
-import { Card } from '../components/Card';
-import { Divider } from '../components/Divider';
-import { IconButton } from '../components/IconButton';
-import { Link } from '../router';
+import { useEffect, useState } from "react";
+import "../styles/observatory.css";
 
-const buildItems = [
-  {
-    eyebrow: 'SOFTWARE',
-    title: 'Infrastructure, then interface',
-    body: 'The systems behind it, built before what you see.',
-  },
-  {
-    eyebrow: 'PHYSICAL ANCHORS',
-    title: 'Containers that hold a system in place',
-    body: 'Physical pieces the software interacts with.',
-  },
-  {
-    eyebrow: 'COHERENCE',
-    title: 'One system',
-    body: 'Front face and underneath, wired the same way.',
-  },
-];
-
-const processSteps = [
-  { num: '01', label: 'State / Baseline', desc: 'Starting point, isolated and read plainly.' },
-  { num: '02', label: 'Operator Alignment', desc: 'The build lines up with how the system actually operates.' },
-  { num: '03', label: 'Structural Mapping', desc: "The system's real shape, mapped before anything is built." },
-  { num: '04', label: 'Documentation & Architecture', desc: 'Written down, then structured.' },
-  { num: '05', label: 'Functional Expression', desc: 'Shipped as software and physical form.' },
-];
-
+const bookingEmail =
+  "mailto:info@bhaveslab.com?subject=The%20Possibility%20Session";
+function OrbitMark() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <circle cx="24" cy="24" r="17" stroke="currentColor" strokeWidth="1.3" />
+      <ellipse
+        cx="24"
+        cy="24"
+        rx="10"
+        ry="22"
+        transform="rotate(40 24 24)"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+      <circle cx="36" cy="11" r="3" fill="currentColor" />
+      <circle cx="24" cy="24" r="3" fill="currentColor" />
+    </svg>
+  );
+}
 export function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
+  const [motionPaused, setMotionPaused] = useState(false);
   useEffect(() => {
-    document.title = "Bhavé's Lab";
+    document.title = "BHAVÉ’S LAB — Life is already in motion.";
+    if (window.location.pathname.startsWith("/shop"))
+      document.getElementById("shop")?.scrollIntoView();
   }, []);
-
   useEffect(() => {
-    const onDocClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
         setMenuOpen(false);
+        document.getElementById("lab-menu-toggle")?.focus();
       }
     };
-    document.addEventListener('click', onDocClick);
-    return () => document.removeEventListener('click', onDocClick);
+    document.addEventListener("keydown", escape);
+    return () => document.removeEventListener("keydown", escape);
   }, []);
-
   return (
-    <div
-      style={{
-        position: 'relative',
-        background: 'var(--surface-void)',
-        color: 'var(--text-primary)',
-        fontFamily: 'var(--font-body)',
-        minHeight: '100vh',
-        overflowX: 'hidden',
-      }}
-    >
-      <FieldBackground particleDensity="moderate" />
-
-      <header
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 20,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 'var(--space-5) var(--space-6)',
-        }}
-      >
-        <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)', letterSpacing: '0.01em' }}>
-          Bhavé&rsquo;s Lab
-        </div>
-        <div ref={menuRef} style={{ position: 'relative' }}>
-          <IconButton
-            icon={<i className="ph-light ph-dots-three-vertical" />}
-            label="Menu"
-            onClick={(e) => {
-              e.stopPropagation();
-              setMenuOpen((v) => !v);
-            }}
-          />
-          {menuOpen && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 48,
-                right: 0,
-                minWidth: 160,
-                background: 'var(--surface-card)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-md)',
-                padding: 'var(--space-2)',
-                animation: 'bl-menu-in 160ms var(--ease-out)',
-              }}
-            >
-              <Link
-                to="/shop"
-                className="bl-menu-link"
-                style={{
-                  display: 'block',
-                  padding: 'var(--space-3)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 'var(--text-xs)',
-                  letterSpacing: 'var(--tracking-label)',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-secondary)',
-                  borderRadius: 8,
-                }}
-              >
-                Shop
-              </Link>
-            </div>
-          )}
-        </div>
+    <div className={`observatory-site${motionPaused ? " motion-paused" : ""}`}>
+      <a className="lab-skip" href="#main">
+        Skip to content
+      </a>
+      <header className="lab-header">
+        <a
+          className="lab-wordmark"
+          href="/#entrance"
+          aria-label="Bhavé’s Lab home"
+        >
+          <OrbitMark />
+          <span>
+            BHAVÉ’S LAB<small>THE GENTLEMAN OF POSSIBILITY</small>
+          </span>
+        </a>
+        <button
+          className="lab-menu-toggle"
+          id="lab-menu-toggle"
+          aria-controls="lab-navigation"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "Close" : "Menu"}{" "}
+          <span aria-hidden="true">{menuOpen ? "−" : "+"}</span>
+        </button>
+        <nav
+          id="lab-navigation"
+          className={menuOpen ? "is-open" : ""}
+          aria-label="Main navigation"
+        >
+          <a href="#perspective" onClick={() => setMenuOpen(false)}>
+            The Lab
+          </a>
+          <a href="#session" onClick={() => setMenuOpen(false)}>
+            The Possibility Session
+          </a>
+          <a href="#shop" onClick={() => setMenuOpen(false)}>
+            Shop
+          </a>
+        </nav>
       </header>
-
-      <main style={{ position: 'relative', zIndex: 10 }}>
+      <main id="main">
         <section
-          style={{
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '0 var(--space-6)',
-          }}
+          className="lab-hero"
+          id="entrance"
+          aria-labelledby="hero-title"
         >
-          <Eyebrow tick>Bhavé&rsquo;s Lab</Eyebrow>
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'clamp(40px, 7vw, var(--text-display-1))',
-              lineHeight: 'var(--leading-tight)',
-              letterSpacing: 'var(--tracking-tight)',
-              color: 'var(--text-primary)',
-              maxWidth: 900,
-              margin: 'var(--space-5) 0 var(--space-5)',
-            }}
+          <div
+            className="observatory-scene"
+            role="img"
+            aria-label="Bhavé stands inside a dark glass observatory, looking toward a panoramic mountain landscape and floating expressions of possibility."
           >
-            Systems built to hold their shape.
-          </h1>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              maxWidth: 560,
-              margin: 0,
-            }}
-          >
-            Software and physical anchors, built together, delivered as one coherent system.
-          </p>
-        </section>
-
-        <section
-          style={{
-            maxWidth: 'var(--container-max)',
-            margin: '0 auto',
-            padding: 'var(--pad-section) var(--space-6)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 'var(--space-5)',
-          }}
-        >
-          {buildItems.map((item) => (
-            <Card key={item.eyebrow}>
-              <Eyebrow muted>{item.eyebrow}</Eyebrow>
-              <h3
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 'var(--weight-regular)' as unknown as number,
-                  fontSize: 'var(--text-title-3)',
-                  color: 'var(--text-primary)',
-                  margin: 'var(--space-3) 0 var(--space-3)',
-                }}
-              >
-                {item.title}
-              </h3>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--text-body)',
-                  lineHeight: 'var(--leading-normal)',
-                  color: 'var(--text-secondary)',
-                  margin: 0,
-                }}
-              >
-                {item.body}
-              </p>
-            </Card>
-          ))}
-        </section>
-
-        <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Divider label="How We Work" />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', marginTop: 'var(--space-6)' }}>
-            {processSteps.map((step) => (
-              <div key={step.num} style={{ flex: '1 1 180px', minWidth: 160 }}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 'var(--text-eyebrow)',
-                    letterSpacing: 'var(--tracking-label)',
-                    color: 'var(--text-gold)',
-                  }}
-                >
-                  {step.num}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontWeight: 'var(--weight-medium)' as unknown as number,
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-primary)',
-                    margin: 'var(--space-2) 0 var(--space-1)',
-                    textTransform: 'uppercase',
-                    letterSpacing: 'var(--tracking-wide)',
-                  }}
-                >
-                  {step.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-muted)',
-                    lineHeight: 'var(--leading-normal)',
-                  }}
-                >
-                  {step.desc}
-                </div>
-              </div>
-            ))}
+            <img
+              className="observatory-environment"
+              src="/observatory/observatory.webp"
+              alt=""
+              width="852"
+              height="610"
+            />
+            <div className="scene-mist" />
+            <div className="scene-light" />
+          </div>
+          <figure className="ego-screen">
+            <img
+              src="/observatory/lil-ego-approved.jpeg"
+              width="1122"
+              height="1402"
+              alt="Lil Ego in his orange turban, sunglasses, black and orange outfit, and gold jewelry."
+            />
+            <figcaption>
+              <span>Lil Ego</span>
+              <small>AN ORIGINAL CREATIVE UNIVERSE</small>
+            </figcaption>
+          </figure>
+          <div className="hero-copy">
+            <p className="lab-eyebrow">
+              <span /> OBSERVATION · POSSIBILITY · CREATION
+            </p>
+            <h1 id="hero-title">
+              Life is already
+              <br />
+              in <em>motion.</em>
+            </h1>
+            <p className="hero-description">
+              We observe what is, explore what’s possible, and create from what
+              becomes clear.
+            </p>
+            <a className="lab-action" href="#session">
+              The Possibility Session <span aria-hidden="true">↗</span>
+            </a>
+            <a className="hero-shop-link" href="#shop">
+              Explore the shop <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div className="hero-bottom">
+            <a href="#perspective">
+              STEP INSIDE <span aria-hidden="true">↓</span>
+            </a>
+            <button
+              onClick={() => setMotionPaused(!motionPaused)}
+              aria-pressed={motionPaused}
+            >
+              {motionPaused ? "Resume atmosphere" : "Pause atmosphere"}{" "}
+              <span aria-hidden="true">{motionPaused ? "▷" : "Ⅱ"}</span>
+            </button>
           </div>
         </section>
-
         <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: 'var(--pad-section) var(--space-6)',
-            textAlign: 'center',
-          }}
+          className="lab-perspective lab-section"
+          id="perspective"
+          aria-labelledby="perspective-title"
         >
-          <Eyebrow tick>Full Builds</Eyebrow>
-          <h2
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'var(--text-display-3)',
-              color: 'var(--text-primary)',
-              margin: 'var(--space-5) 0',
-            }}
-          >
-            Full Builds
-          </h2>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              margin: '0 0 var(--space-4)',
-            }}
-          >
-            Pricing is scoped per project.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)', color: 'var(--text-muted)', margin: 0 }}>
-            If it&rsquo;s a fit, get in touch — details below.
-          </p>
+          <div className="section-marker">
+            <span>01 / THE LAB</span>
+            <span aria-hidden="true">∞</span>
+          </div>
+          <div className="perspective-layout">
+            <h2 id="perspective-title">
+              A little space.
+              <br />A different <em>possibility.</em>
+            </h2>
+            <div className="section-prose">
+              <p>
+                The Lab is a place for curiosity. For looking closely at what’s
+                here, allowing a question to open, and following what becomes
+                clear.
+              </p>
+              <p>
+                Life, imagination, original stories, and the natural world share
+                the same view. There is room to explore without deciding in
+                advance what you’ll find.
+              </p>
+              <p className="lab-signature">
+                Bhavé <span>THE GENTLEMAN OF POSSIBILITY</span>
+              </p>
+            </div>
+          </div>
+          <div className="possibility-line" aria-hidden="true">
+            <svg viewBox="0 0 1200 100" preserveAspectRatio="none">
+              <path d="M0 50 C180 50 170 8 300 50 S430 92 580 50 S750 10 900 50 S1060 90 1200 50" />
+              <path d="M0 50 C180 50 170 85 300 50 S430 20 580 50 S750 85 900 50 S1060 20 1200 50" />
+            </svg>
+          </div>
         </section>
-
         <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: '0 var(--space-6) var(--pad-section)',
-            textAlign: 'center',
-          }}
+          className="lab-session lab-section"
+          id="session"
+          aria-labelledby="session-title"
         >
-          <Eyebrow muted>Operator</Eyebrow>
-          <p
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-regular)' as unknown as number,
-              fontSize: 'var(--text-title-2)',
-              fontStyle: 'italic',
-              color: 'var(--text-gold)',
-              lineHeight: 'var(--leading-snug)',
-              margin: 'var(--space-5) 0 0',
-            }}
-          >
-            We build from state outward. The software, the object, the document — all of it comes from the
-            same place. That&rsquo;s why it holds together.
-          </p>
+          <div className="section-marker">
+            <span>02 / PRIVATE EXPLORATION</span>
+            <span>WITH BHAVÉ</span>
+          </div>
+          <div className="session-layout">
+            <div>
+              <p className="lab-eyebrow">ONE CONVERSATION. ROOM TO EXPLORE.</p>
+              <h2 id="session-title">
+                The Possibility
+                <br />
+                <em>Session.</em>
+              </h2>
+              <p className="session-intro">
+                Bring what’s on your mind.
+                <br />
+                Let’s see what becomes clear.
+              </p>
+            </div>
+            <div className="section-prose session-detail">
+              <p>
+                A situation. A question. An idea. A creative possibility. A
+                private space to explore what you’re experiencing and clarify
+                what you want to do with it.
+              </p>
+              <p>
+                We begin with what you bring. Observation, meditation, hypnosis,
+                and other instruments may become part of the session where
+                appropriate and with your agreement.
+              </p>
+              <p>
+                No predetermined answer. Space to observe, explore, and choose.
+              </p>
+              <a className="lab-action" href={bookingEmail}>
+                Request a session <span aria-hidden="true">↗</span>
+              </a>
+              <p className="action-note">
+                Email Bhavé to discuss your session and arrange a time.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section
+          className="lab-shop lab-section"
+          id="shop"
+          aria-labelledby="shop-title"
+        >
+          <div className="section-marker">
+            <span>03 / THE SHOP</span>
+            <span>CREATIVE EXPRESSIONS</span>
+          </div>
+          <div className="shop-layout">
+            <div className="shop-orbit" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <b>∞</b>
+            </div>
+            <div>
+              <p className="lab-eyebrow">THINGS TO TAKE WITH YOU</p>
+              <h2 id="shop-title">
+                Possibility,
+                <br />
+                in <em>print & form.</em>
+              </h2>
+              <p>Books, publications, and thoughtfully chosen objects.</p>
+              <p className="shop-status">
+                The collection is being prepared. No items are currently offered
+                for purchase here.
+              </p>
+              <a
+                className="lab-text-link"
+                href="mailto:info@bhaveslab.com?subject=Shop%20inquiry"
+              >
+                Ask about the collection <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
         </section>
       </main>
-
-      <footer
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          borderTop: '1px solid var(--border-subtle)',
-          padding: 'var(--space-7) var(--space-6)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 'var(--space-5)',
-          textAlign: 'center',
-        }}
-      >
-        <a
-          href="mailto:info@bhaveslab.com"
-          style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', letterSpacing: 'var(--tracking-wide)' }}
-        >
-          info@bhaveslab.com
+      <footer className="lab-footer">
+        <a className="lab-wordmark" href="#entrance">
+          <OrbitMark />
+          <span>BHAVÉ’S LAB</span>
         </a>
-        <a
-          href="https://calendly.com/bhaveslab-info/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bl-pill-link"
-          style={{
-            display: 'inline-block',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-xs)',
-            letterSpacing: 'var(--tracking-label)',
-            textTransform: 'uppercase',
-            color: 'var(--text-primary)',
-            background: 'transparent',
-            border: '1px solid var(--border-gold)',
-            borderRadius: 24,
-            padding: '12px 24px',
-          }}
-        >
-          What are we building?
+        <p>Life is already in motion.</p>
+        <a href="mailto:info@bhaveslab.com">
+          info@bhaveslab.com <span aria-hidden="true">↗</span>
         </a>
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>
-          Bhavé&rsquo;s Lab LLC
-        </div>
+        <small>© {new Date().getFullYear()} Bhavé’s Lab</small>
       </footer>
     </div>
   );
