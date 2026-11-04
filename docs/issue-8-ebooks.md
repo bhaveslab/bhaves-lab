@@ -33,6 +33,10 @@ Receipt deduplication uses a deterministic Resend idempotency key plus a persist
 
 ## Verification
 
+Review preview: https://bhaves-lab-git-codex-issue-8-ebooks-bhaves-lab.vercel.app/shop
+
+Production dependency audit: zero vulnerabilities after scoped compatible overrides for transitive `zod` 4.6.7 and Stripe `qs` 6.17.1. No major SDK upgrade. Deployed route checks confirm Shop/catalog HTTP 200 with checkout disabled, GET download 405, and Room access 503 without content. A guessed PDF path returns the SPA HTML, never PDF bytes.
+
 - 15 ebook tests pass using the actual two attached PDFs, with no skipped asset tests: mode/config guards, Stripe SDK raw signatures, body bounds, unpaid/wrong-price/wrong-edition denial, exact-byte integrity, duplicate/concurrent fulfillment, email retry, ownership, signed link tampering/expiry, refund/dispute revocation and booking isolation. External providers are mocked; no real charge or receipt was sent.
 - Existing 17 booking/Room/Observatory tests pass.
 - Vite production build, strict server ESM compilation, original-character/public privacy checks and transfer-size budgets pass. Initial JS ~51 KB gzip, CSS ~8.2 KB, mobile Observatory artwork ~171 KB. Existing deferred Three.js chunk warning remains.

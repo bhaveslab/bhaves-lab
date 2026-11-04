@@ -1,4 +1,4 @@
-import { readFile, stat } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { put, get } from "@vercel/blob";
 // Supply the two existing, final PDFs as arguments. Never put them in public/ or Git.
