@@ -1,3 +1,21 @@
+# The Observatory — current creative hierarchy
+
+The Observatory is the primary public experience. The approved full-screen hero and exact original character/bracelet artwork remain intact. Its main action is now “Explore the Observatory,” not booking.
+
+A new spacious “What do you see?” observation window offers Worlds, Patterns and Stories. Worlds uses a new imagined moonlit landscape; Patterns shows artistic geometric forms and flowing light; Stories places the unchanged Lil Ego cutout in a transparent observation plane. Nothing in these views is a sale listing or a scientific measurement. No visitor interpretation or next step is prescribed.
+
+The public Session introduction is now one short, optional invitation: “A possibility worth exploring? Sometimes a conversation opens another perspective.” The only booking-flow link on the homepage is “Explore The Possibility Session.” The approved 60 minutes / $175 remains visible. No Room content or instrument list is exposed.
+
+The Shop is a smaller text entrance. The illustrative book sculpture and repeated sales actions have been removed; there are still no unverified products or active purchases.
+
+The new world image was generated independently of the approved hero and character. Prompt: cinematic imagined moonlit deep-teal bay, forested mountains, distant stone arch, mist, black glass observation-window framing; no people, text, products, devices or logos. It is not presented as a real location. Responsive WebP outputs: `public/observatory/imagined-world.webp` (1280×720) and `imagined-world-mobile.webp` (480×800). The original hero and Lil Ego files were not regenerated.
+
+Checks for this refinement: TypeScript/Vite build, 17 automated tests, original asset/privacy checks and build budgets pass. Desktop and phone visual controls work; the phone document has no horizontal overflow. The atmosphere pause control pauses the new pattern animation too. OS-level reduced-motion CSS remains in place. Real iPhone/Safari testing is still outstanding.
+
+Current review captures: `docs/review/observatory-first-desktop.jpg`, `observatory-first-mobile.jpg`, `observatory-worlds.jpg`, and `observatory-stories.jpg`. Booking, payment, authentication and Room verification integration status below remains unchanged; live Room access is closed.
+
+---
+
 # Public Lab — observatory refinement review
 
 ## Current scope
@@ -50,7 +68,7 @@ A major calendar/reservation architecture has not been invented. A new paid prov
 
 - `npm run build`: TypeScript + Vite passes.
 - Explicit strict TypeScript check for both API modules passes.
-- `node --test tests/*.test.cjs`: 16 tests pass, including validation, provider rejection/exception, explicit unconfirmed request receipts, unauthenticated and other-guest denial, unpaid/refunded/cancelled reservation denial, positive server-fixture authorization, and separation of introduction/booking stages.
+- `node --test tests/*.test.cjs`: 17 tests pass, including validation, provider rejection/exception, explicit unconfirmed request receipts, unauthenticated and other-guest denial, unpaid/refunded/cancelled reservation denial, positive server-fixture authorization, and separation of introduction/booking stages.
 - `python3 scripts/verify-public-assets.py`: source hash, visible-pixel fidelity, transparent edges, responsive assets and public privacy checks pass.
 - `node scripts/check-public-build.mjs`: initial JavaScript gzip budget under 65 KB, CSS under 10 KB and phone hero artwork under 200 KB. Actual results in `docs/performance-check.json`.
 - Desktop, 390px phone iframe and 768px tablet iframe inspected. No horizontal document overflow at phone/tablet widths. Responsive artwork sources loaded. Menu, Escape dismissal, pause/resume, session anchors, form failure handling and forged-confirmation locked state checked in browser.

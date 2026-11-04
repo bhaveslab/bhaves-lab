@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import "../styles/observatory.css";
+import { ObservationField } from "../components/ObservationField";
 
 export function Home({ shopPage = false }: { shopPage?: boolean }) {
   const [menu, setMenu] = useState(false);
   const [motion, setMotion] = useState(true);
   useEffect(() => {
-    document.title = "BHAVÉ’S LAB — Life is already in motion.";
+    document.title = "BHAVÉ’S LAB — The Observatory";
     if (shopPage) document.getElementById("shop")?.scrollIntoView();
   }, [shopPage]);
   useEffect(() => {
@@ -43,8 +44,8 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
           className={menu ? "is-open" : ""}
           aria-label="Main navigation"
         >
-          <a href="#about" onClick={() => setMenu(false)}>
-            The Lab
+          <a href="#observatory" onClick={() => setMenu(false)}>
+            The Observatory
           </a>
           <a href="#session" onClick={() => setMenu(false)}>
             The Possibility Session
@@ -132,121 +133,61 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
               <br className="desktop-break" /> and create from what becomes
               clear.
             </p>
-            <a className="lab-button" href="/booking">
-              Book Your Session<span aria-hidden="true">↗</span>
+            <a className="observatory-entry-link" href="#observatory">
+              Explore the Observatory <span aria-hidden="true">↓</span>
             </a>
           </div>
           <div className="hero-bottom">
-            <a href="#about">
-              STEP INSIDE <span aria-hidden="true">↓</span>
+            <a href="#observatory">
+              LOOK A LITTLE CLOSER <span aria-hidden="true">↓</span>
             </a>
             <button onClick={() => setMotion(!motion)} aria-pressed={!motion}>
               {motion ? "Pause atmosphere" : "Resume atmosphere"}
             </button>
           </div>
         </section>
-        <section id="about" className="lab-about lab-section">
-          <p className="lab-kicker">01 / THE LAB</p>
-          <div>
-            <h2>
-              A little space.
-              <br />
-              <em>A different perspective.</em>
-            </h2>
-            <p>
-              Bhavé’s Lab is an ongoing exploration of life, possibility, and
-              the things we create along the way.
-            </p>
-            <p>
-              Some possibilities become stories. Others become objects,
-              experiences, or a new way of seeing what’s already here. We begin
-              with observation and leave room for what becomes clear.
-            </p>
-            <p className="signature">
-              Bhavé <span>— The Gentleman of Possibility</span>
-            </p>
-          </div>
-        </section>
+        <ObservationField />
         <section
           id="session"
           className="lab-session lab-section session-public-introduction"
         >
           <div className="session-heading">
-            <p className="lab-kicker">02 / PRIVATE EXPLORATION</p>
+            <p className="lab-kicker">AN INVITATION</p>
             <h2>
-              The Possibility
+              A possibility
               <br />
-              <em>Session.</em>
+              <em>worth exploring?</em>
             </h2>
-            <p className="session-invitation">Enter the Room of Clarity.</p>
-            <p>
-              Bring what’s happening. Together, we observe what is, explore
-              what’s possible, and discover what becomes clear.
-            </p>
-            <p className="session-price">
-              60 minutes <span aria-hidden="true">·</span> $175
-            </p>
-            <p>
-              A private experience with Bhavé. Bring a situation, a question, an
-              idea, a creative possibility, or a direction you want to examine.
-            </p>
-            <p>
-              We begin with observation and conversation: what is occurring,
-              what assumptions may be present, and what becomes possible.
-            </p>
-            <p>
-              The session is complete in itself. There is no requirement to
-              purchase anything else.
+            <p>Sometimes a conversation opens another perspective.</p>
+            <p className="session-offer">
+              The Possibility Session <span>60 minutes · $175</span>
             </p>
             <a className="lab-text-link" href="/booking">
-              Book Your Session <span aria-hidden="true">↘</span>
+              Explore The Possibility Session <span aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
-        <section id="shop" className="lab-shop lab-section">
-          <p className="lab-kicker">03 / THE SHOP</p>
-          <div className="shop-entrance">
-            <div className="book-sculpture" aria-hidden="true">
-              <span>BHAVÉ’S LAB</span>
-              <i>
-                Possibility,
-                <br />
-                in your hands.
-              </i>
-              <span>OBSERVE · EXPLORE · CREATE</span>
-            </div>
-            <div>
-              <h2>
-                Ideas to
-                <br />
-                <em>take with you.</em>
-              </h2>
-              <p>
-                A place for books, publications, and thoughtfully chosen
-                objects.
-              </p>
-              <p className="shop-status">
-                The collection is being prepared. No items are currently
-                available to purchase.
-              </p>
-              <a
-                className="lab-text-link"
-                href="mailto:info@bhaveslab.com?subject=Shop%20enquiry"
-              >
-                Ask about the collection <span aria-hidden="true">↗</span>
-              </a>
-            </div>
+        <section id="shop" className="observatory-shop lab-section">
+          <p className="lab-kicker">THE SHOP / TANGIBLE CREATIONS</p>
+          <div>
+            <h2>
+              Things brought
+              <br />
+              <em>into the world.</em>
+            </h2>
+            <p>Original books, objects, and editions, available when ready.</p>
+            <p className="collection-note">
+              The collection is being prepared. No items are currently available
+              to purchase.
+            </p>
           </div>
         </section>
-        <section className="lab-closing">
+        <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
           <p>
-            There is room for
-            <br />
-            <em>what becomes possible.</em>
+            Bhavé <small>The Gentleman of Possibility</small>
           </p>
-          <a href="#session">Let’s explore it together ↗</a>
-        </section>
+        </div>
       </main>
       <footer className="lab-footer">
         <a className="lab-brand" href="/">

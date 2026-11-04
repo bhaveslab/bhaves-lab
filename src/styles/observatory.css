@@ -1122,3 +1122,320 @@
     background-attachment: scroll;
   }
 }
+/* The Observatory leads; commerce is a quiet invitation at its edge. */
+.observatory-entry-link {
+  display: inline-flex;
+  gap: 30px;
+  align-items: center;
+  color: #d2e8e3 !important;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 14px 0;
+  border-bottom: 1px solid #8bd2d25e;
+}
+.observatory-entry-link:hover {
+  color: #a6eeec !important;
+}
+.possibility-field {
+  position: relative;
+  padding: 110px 0 90px;
+  background:
+    radial-gradient(ellipse at 50% 30%, #13383f35, transparent 65%), #030d10;
+  scroll-margin-top: 30px;
+}
+.field-invitation {
+  text-align: center;
+  padding: 0 24px 50px;
+}
+.field-invitation h2 {
+  font-size: clamp(45px, 5vw, 76px);
+  margin: 24px 0;
+}
+.field-invitation > p:last-child {
+  color: #bdd0cb;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.field-panorama {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: clamp(550px, 70vw, 780px);
+  overflow: hidden;
+  border-block: 1px solid #8dcaca20;
+  mask-image: linear-gradient(transparent, #000 7%, #000 93%, transparent);
+}
+.imagined-world {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.world-orb,
+.world-mountains,
+.field-geometry,
+.field-story-plane {
+  transition:
+    opacity 1.4s ease,
+    transform 1.4s ease;
+}
+.field-geometry {
+  opacity: 0.25;
+}
+.field-view-patterns .world-mountains {
+  opacity: 0.2;
+}
+.field-view-patterns .world-orb {
+  opacity: 0.08;
+}
+.field-view-patterns .field-geometry {
+  opacity: 1;
+  transform-origin: center;
+  animation: field-turn 140s linear infinite;
+}
+.field-view-patterns .field-ribbons {
+  opacity: 1;
+}
+.field-view-stories .world-orb {
+  opacity: 0.25;
+}
+.field-view-stories .field-geometry {
+  opacity: 0.12;
+}
+.field-view-stories .world-mountains {
+  opacity: 0.8;
+}
+.field-story-plane {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  height: 74%;
+  width: min(290px, 45%);
+  transform: translateX(-50%) perspective(1200px) rotateY(-9deg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(130deg, #91d6d908, #13394305);
+  border: 1px solid #82dcdb47;
+  box-shadow: 0 0 50px #56bec210;
+}
+.field-story-plane img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 24px 15px;
+  display: block;
+}
+.field-view-stories .field-story-plane {
+  visibility: visible;
+  opacity: 1;
+}
+.field-atmosphere {
+  position: absolute;
+  inset: 50% -15% 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 45% 45%, #a7e7e21c, transparent 55%);
+  animation: mist-drift 24s ease-in-out infinite alternate;
+}
+.field-ribbons {
+  opacity: 0.65;
+  animation: field-breathe 18s ease-in-out infinite alternate;
+}
+.field-view-control {
+  position: absolute;
+  bottom: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 25px;
+  z-index: 2;
+}
+.field-view-control button {
+  font:
+    11px Arial,
+    sans-serif;
+  letter-spacing: 1px;
+  background: none;
+  color: #bacfca;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 14px 4px;
+  min-height: 44px;
+}
+.field-view-control button[aria-pressed="true"] {
+  color: #d6f6ee;
+  border-bottom-color: #7bd2d2;
+}
+.field-view-control button:hover {
+  color: #b5ffff;
+}
+.field-afterthought {
+  text-align: center;
+  font:
+    italic clamp(18px, 2.1vw, 25px)/1.7 Georgia,
+    serif;
+  color: #bed5cf;
+  margin: 50px 20px 0;
+}
+.session-public-introduction {
+  padding-block: 85px;
+  border-top: 1px solid #94caca1f;
+  background: radial-gradient(ellipse at 15% 50%, #17454a25, transparent 70%);
+}
+.session-public-introduction .session-heading {
+  max-width: 650px;
+  margin: auto;
+  text-align: center;
+}
+.session-public-introduction h2 {
+  font-size: clamp(35px, 3.7vw, 53px);
+  margin: 24px 0;
+}
+.session-public-introduction p {
+  margin-inline: auto;
+}
+.session-offer {
+  color: #d2e6df !important;
+  font-size: 13px !important;
+  margin-top: 28px;
+}
+.session-offer span {
+  display: block;
+  color: #adbfba;
+  font-size: 11px;
+  margin-top: 5px;
+}
+.session-public-introduction .lab-text-link {
+  margin-top: 12px;
+}
+.observatory-shop {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8%;
+  border-top: 1px solid #94caca1f;
+  padding-block: 75px;
+}
+.observatory-shop h2 {
+  font-size: clamp(30px, 3vw, 44px);
+  margin-bottom: 20px;
+}
+.observatory-shop .collection-note {
+  font-size: 11px !important;
+  color: #a8bfbb !important;
+}
+.observatory-signature {
+  text-align: center;
+  padding: 40px 20px 70px;
+}
+.observatory-signature > span {
+  font:
+    55px Georgia,
+    serif;
+  color: #86c8c8;
+}
+.observatory-signature p {
+  font:
+    25px Georgia,
+    serif;
+  color: #d3e2dc;
+  margin: 12px;
+}
+.observatory-signature small {
+  display: block;
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #a6bbb6;
+  margin-top: 15px;
+}
+.motion-paused .field-ribbons,
+.motion-paused .field-atmosphere,
+.motion-paused .field-geometry {
+  animation-play-state: paused;
+}
+@keyframes field-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes field-breathe {
+  to {
+    opacity: 0.35;
+    transform: translateY(7px);
+  }
+}
+@media (max-width: 800px) {
+  .possibility-field {
+    padding-top: 80px;
+  }
+  .field-panorama {
+    height: 620px;
+  }
+  .imagined-world {
+    width: 130%;
+    margin-left: -15%;
+  }
+  .observatory-shop {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .field-afterthought {
+    font-size: 20px;
+  }
+  .session-public-introduction {
+    padding-block: 65px;
+  }
+  .field-story-plane {
+    width: 230px;
+    height: 72%;
+    top: 12%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .possibility-field *,
+  .possibility-field *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.field-environment {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 1.4s ease;
+}
+.field-environment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.field-panorama .imagined-world {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  pointer-events: none;
+}
+.field-view-patterns .field-environment {
+  opacity: 0.12;
+}
+.field-view-patterns .imagined-world {
+  opacity: 1;
+}
+.field-view-stories .field-environment {
+  opacity: 0.72;
+}
+.field-story-plane {
+  z-index: 2;
+}
+.field-atmosphere {
+  z-index: 1;
+}
+.field-view-control {
+  z-index: 3;
+  background: linear-gradient(90deg, transparent, #041316b8, transparent);
+  padding-inline: 18px;
+}

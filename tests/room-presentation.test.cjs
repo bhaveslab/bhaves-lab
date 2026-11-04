@@ -8,7 +8,12 @@ const { renderToStaticMarkup } = require("react-dom/server");
 function load(file) {
   const context = {
     exports: {},
-    require: (name) => (name.endsWith(".css") ? {} : require(name)),
+    require: (name) =>
+      name === "../components/ObservationField"
+        ? load("src/components/ObservationField.tsx")
+        : name.endsWith(".css")
+          ? {}
+          : require(name),
   };
   vm.runInNewContext(
     ts.transpileModule(fs.readFileSync(file, "utf8"), {
@@ -62,4 +67,18 @@ test("public introduction and booking are separate stages without instrument con
       "Hypnosis",
     ])
       assert.ok(!html.includes(word));
+});
+
+test("Observatory leads without repeated booking calls or fictional shop products", () => {
+  const { Home } = load("src/pages/Home.tsx");
+  const html = renderToStaticMarkup(React.createElement(Home));
+  assert.equal((html.match(/href="\/booking"/g) || []).length, 1);
+  assert.ok(html.includes("Explore the Observatory"));
+  assert.ok(html.includes("What do"));
+  assert.ok(html.includes("Worlds"));
+  assert.ok(html.includes("Patterns"));
+  assert.ok(html.includes("Stories"));
+  assert.ok(!html.includes("Book Your Session"));
+  assert.ok(!html.includes("book-sculpture"));
+  assert.ok(!html.includes("Room of Clarity"));
 });
