@@ -10,12 +10,6 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-const Confirmation = lazy(() =>
-  import("./pages/Shop/Confirmation").then((module) => ({
-    default: module.Confirmation,
-  })),
-);
-
 const ClarityAccess = lazy(() =>
   import("./pages/ClarityAccess").then((module) => ({
     default: module.ClarityAccess,
@@ -44,7 +38,7 @@ function LabRoutes() {
   if (path === "/room-of-clarity" || path === "/room-of-clarity/")
     return <ClarityAccess />;
   if (path === "/shop/confirmation" || path === "/shop/confirmation/")
-    return <Confirmation />;
+    return <EbookDelivery />;
   return <Home shopPage={path === "/shop" || path === "/shop/"} />;
 }
 

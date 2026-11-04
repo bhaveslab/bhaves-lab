@@ -82,3 +82,14 @@ test("Observatory leads without repeated booking calls or fictional shop product
   assert.ok(!html.includes("book-sculpture"));
   assert.ok(!html.includes("Room of Clarity"));
 });
+
+test("the session includes a selected ebook but a request grants no download", () => {
+ const {Booking} = load("src/pages/Booking.tsx");
+ const html = renderToStaticMarkup(React.createElement(Booking));
+ assert.ok(html.includes('name="ebookEdition"'));
+ assert.ok(html.includes('value="en"'));
+ assert.ok(html.includes('value="es"'));
+ assert.ok(html.includes('at no additional cost'));
+ assert.ok(html.includes('Delivery follows'));
+ assert.ok(!html.includes('href="/shop/delivery'));
+});

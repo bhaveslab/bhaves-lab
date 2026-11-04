@@ -1,5 +1,8 @@
 # Issue #8: The Possibility editions
 
+Current status is recorded in [launch-readiness.md](launch-readiness.md). That report supersedes the earlier implementation snapshot below: both review notices have now been removed with authorization, final hashes are pinned in [final-ebooks-manifest.json](final-ebooks-manifest.json), and confirmed sessions include one chosen language edition. Automatic session delivery is still blocked on Issue #7 infrastructure; it is not granted by a request.
+
+
 Feature branch: `codex/issue-8-ebooks`, based on Observatory commit `a1a7a3088ca300c34abef296af10a5a21edb696d`. Review this as a stacked PR against `codex/cinematic-public-lab` (PR #5). Production is unchanged.
 
 ## Implemented

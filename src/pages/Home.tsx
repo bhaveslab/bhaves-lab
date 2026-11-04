@@ -162,6 +162,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
             <p className="session-offer">
               The Possibility Session <span>60 minutes · $175</span>
             </p>
+            <p>Every Possibility Session includes The Possibility ebook.</p>
             <a className="lab-text-link" href="/booking">
               Explore The Possibility Session <span aria-hidden="true">↗</span>
             </a>

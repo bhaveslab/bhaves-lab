@@ -4,6 +4,8 @@ const ts = require("typescript");
 const fs = require("node:fs");
 const vm = require("node:vm");
 let sent = 0;
+let lastEmail;
+let lastOptions;
 let providerError = null;
 let providerThrows = false;
 const source = ts.transpileModule(
@@ -20,17 +22,23 @@ const context = {
   exports: {},
   process: { env },
   URL,
-  require: () => ({
-    Resend: class {
-      emails = {
-        send: async () => {
-          sent++;
-          if (providerThrows) throw new Error("Simulated provider failure");
-          return { error: providerError };
+  require: (name) =>
+    name === "node:crypto"
+      ? require(name)
+      : {
+          Resend: class {
+            emails = {
+              send: async (message, options) => {
+                lastEmail = message;
+                lastOptions = options;
+                sent++;
+                if (providerThrows)
+                  throw new Error("Simulated provider failure");
+                return { error: providerError };
+              },
+            };
+          },
         },
-      };
-    },
-  }),
 };
 vm.runInNewContext(source, context);
 const handler = context.exports.default;
@@ -40,6 +48,7 @@ const valid = {
   details: "A creative idea",
   availability: "Afternoons, Central",
   consent: "yes",
+  ebookEdition: "en",
 };
 async function request(body, extra = {}) {
   const res = {
@@ -84,6 +93,8 @@ test("rejects unsupported methods, malformed bodies, and cross-origin requests",
 test("validates required fields, bounds, consent, email, and honeypot", async () => {
   for (const change of [
     { name: "" },
+    { ebookEdition: "fr" },
+    { ebookEdition: undefined },
     { details: "x".repeat(2001) },
     { consent: "no" },
     { email: "invalid" },
@@ -130,4 +141,27 @@ test("delivery rejection and exceptions never produce request receipts", async (
   assert.equal(result.code, 502);
   assert.equal(result.data.requestReceived, undefined);
   providerThrows = false;
+});
+
+test("request retains the included language and never delivers or confirms it", async () => {
+  providerError = null;
+  providerThrows = false;
+  for (const [ebookEdition, label] of [
+    ["en", "English"],
+    ["es", "Spanish"],
+  ]) {
+    const result = await request({ ...valid, ebookEdition });
+    assert.equal(result.code, 200);
+    assert.match(
+      lastEmail.text,
+      new RegExp("Included ebook preference: " + label),
+    );
+    assert.match(lastEmail.text, /This request creates no ebook entitlement/);
+    assert.equal(result.data.bookingConfirmed, false);
+    assert.equal(result.data.download, undefined);
+    const key = lastOptions.idempotencyKey;
+    await request({ ...valid, ebookEdition });
+    assert.equal(lastOptions.idempotencyKey, key);
+    assert.match(key, /^session-request-[a-f0-9]{64}$/);
+  }
 });

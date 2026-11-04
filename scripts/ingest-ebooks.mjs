@@ -6,14 +6,14 @@ const inputs = [
   {
     lang: "en",
     file: process.argv[2],
-    sha: "3d2cb2decac7617a4a7fbdbfc52ca9368e7981674c5ceba0de44a616223daeb1",
-    bytes: 2922708,
+    sha: "8e3d68c4a55fc9a21dea03cf6eec31240df72e61ad305e60e4e266f06a1e5562",
+    bytes: 2923110,
   },
   {
     lang: "es",
     file: process.argv[3],
-    sha: "587d2ec64616b566a2febef6da26f7b8f7743bf6560bf4a537d45388417b3c31",
-    bytes: 1604365,
+    sha: "cf4ef640095d833e26ed0b1d7c9e98d207581e7e1617f38a35b23aef0ff3bdd8",
+    bytes: 1590929,
   },
 ];
 const token = process.env.EBOOK_BLOB_READ_WRITE_TOKEN;

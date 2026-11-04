@@ -221,8 +221,8 @@ export function EbookDelivery() {
       link.href = url;
       link.download =
         edition === "es"
-          ? "La_Posibilidad_ES_FINAL_REVIEW.pdf"
-          : "The_Possibility.pdf";
+          ? "La_Posibilidad_Spanish_Final.pdf"
+          : "The_Possibility_English_Final.pdf";
       const header = response.headers.get("content-disposition");
       const name = header?.match(/filename="([^"]+)"/);
       if (name) link.download = name[1];
