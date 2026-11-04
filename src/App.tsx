@@ -26,8 +26,20 @@ const Booking = lazy(() =>
   import("./pages/Booking").then((module) => ({ default: module.Booking })),
 );
 
+const EbookShop = lazy(() =>
+  import("./pages/EbookShop").then((module) => ({ default: module.EbookShop })),
+);
+const EbookDelivery = lazy(() =>
+  import("./pages/EbookShop").then((module) => ({
+    default: module.EbookDelivery,
+  })),
+);
+
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/shop" || path === "/shop/") return <EbookShop />;
+  if (path === "/shop/delivery" || path === "/shop/delivery/")
+    return <EbookDelivery />;
   if (path === "/booking" || path === "/booking/") return <Booking />;
   if (path === "/room-of-clarity" || path === "/room-of-clarity/")
     return <ClarityAccess />;

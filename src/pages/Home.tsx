@@ -169,17 +169,13 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
         </section>
         <section id="shop" className="observatory-shop lab-section">
           <p className="lab-kicker">THE SHOP / TANGIBLE CREATIONS</p>
-          <div>
-            <h2>
-              Things brought
-              <br />
-              <em>into the world.</em>
-            </h2>
-            <p>Original books, objects, and editions, available when ready.</p>
-            <p className="collection-note">
-              The collection is being prepared. No items are currently available
-              to purchase.
-            </p>
+          <div className="ebook-home-offer">
+            <h2>The Possibility.</h2>
+            <p>Life Is Already in Motion.</p>
+            <p>By Bhavé · English and Español · $9.99 per edition</p>
+            <a className="lab-text-link" href="/shop">
+              Explore the editions <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </section>
         <div className="observatory-signature">
