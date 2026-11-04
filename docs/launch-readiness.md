@@ -1,3 +1,5 @@
+> Current decision: [paid-booking-proposal.md](paid-booking-proposal.md) supersedes earlier native-paid-scheduling recommendations. The supplied Google schedule accepts unpaid appointments. A small ledger in existing private Blob storage is proposed, pending owner approval and real concurrency/recovery tests. Historical evidence below is retained.
+
 > Superseded booking architecture assessment: see [simplified-booking.md](simplified-booking.md). Customer accounts and a new Supabase/custom booking database are **not** requirements. Native Google paid scheduling must be evaluated first; its eligibility and payment-to-appointment correlation remain unverified. Historical implementation and asset evidence follows.
 
 # Final integration and launch readiness — November 4, 2026

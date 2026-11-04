@@ -13,6 +13,7 @@ assert.ok(cssGzip<10000,'CSS gzip budget exceeded');
 assert.ok(mobileImageBytes<200000,'Mobile artwork budget exceeded');
 for (const name of readdirSync('dist/assets').filter(name=>name.endsWith('.js'))) {
  const code=readFileSync('dist/assets/'+name,'utf8');
+ for(const unpaidSchedule of ['calendar.app.google/deuuggaTWKq5q6JL8','AcZssZ1zyAf0L1u-iKLzbe5-Jn-wZo2JZBOOJ-ThOpC46RPkXcqv6rtbCjqa1FEZpOzApm4vOSMEX2VK']) assert.ok(!code.includes(unpaidSchedule),'Unpaid native schedule exposed in '+name);
  for(const phrase of ['Order confirmed', 'received your payment and will follow up', 'Inner Mining','Bio-Well observation','A few ways','No additional purchase is necessary'])assert.ok(!code.includes(phrase),'Protected Room content leaked into '+name);
 }
 assert.ok(!readdirSync('dist/assets').some(name=>name.startsWith('RoomOfClarity-')),'Protected Room client chunk emitted');
