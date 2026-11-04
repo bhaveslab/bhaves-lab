@@ -4,8 +4,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import {
   hasConfirmedRoomAccess,
   resolveClarityContext,
-} from "./_lib/clarity-authorization";
-import { RoomOfClarity } from "./_lib/RoomOfClarity";
+} from "./_lib/clarity-authorization.js";
+import { RoomOfClarity } from "./_lib/RoomOfClarity.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Cache-Control", "private, no-store");

@@ -32,12 +32,12 @@ const confirmed = {
 async function invoke(context, request = {}) {
   let renders = 0;
   const handler = load("api/clarity-access.ts", (name) =>
-    name === "./_lib/clarity-authorization"
+    name === "./_lib/clarity-authorization.js"
       ? {
           ...authorization,
           ...(context ? { resolveClarityContext: async () => context } : {}),
         }
-      : name === "./_lib/RoomOfClarity"
+      : name === "./_lib/RoomOfClarity.js"
         ? room
         : name === "react-dom/server"
           ? {

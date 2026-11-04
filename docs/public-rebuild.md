@@ -78,3 +78,5 @@ Keep production unchanged pending visual approval.
 3. Confirmed session (`/room-of-clarity`): generic access-check shell. Room markup is rendered only by `/api/clarity-access` after server verification of the authenticated visitor and their authoritative booking record. Protected text no longer ships in a lazy client chunk.
 
 The actual identity/booking resolver remains unavailable while integrations are absent. Its default is closed. Tests use synthetic server-owned identities and records to verify authorization branches; those fixtures are not deployed and no live booking is claimed. The booking stage is an individual request process, not a claim that authentication has been provisioned.
+
+`node scripts/check-clarity-runtime.mjs` compiles and imports the real Node ESM API, then verifies its denied response. Relative server imports use explicit `.js` paths for Vercel’s ESM runtime.
