@@ -1,356 +1,320 @@
-import { useEffect, useRef, useState } from 'react';
-import { FieldBackground } from '../components/FieldBackground';
-import { Eyebrow } from '../components/Eyebrow';
-import { Card } from '../components/Card';
-import { Divider } from '../components/Divider';
-import { IconButton } from '../components/IconButton';
-import { Link } from '../router';
+import { useEffect, useState, type FormEvent } from "react";
+import "../styles/observatory.css";
 
-const buildItems = [
-  {
-    eyebrow: 'SOFTWARE',
-    title: 'Infrastructure, then interface',
-    body: 'The systems behind it, built before what you see.',
-  },
-  {
-    eyebrow: 'PHYSICAL ANCHORS',
-    title: 'Containers that hold a system in place',
-    body: 'Physical pieces the software interacts with.',
-  },
-  {
-    eyebrow: 'COHERENCE',
-    title: 'One system',
-    body: 'Front face and underneath, wired the same way.',
-  },
-];
-
-const processSteps = [
-  { num: '01', label: 'State / Baseline', desc: 'Starting point, isolated and read plainly.' },
-  { num: '02', label: 'Operator Alignment', desc: 'The build lines up with how the system actually operates.' },
-  { num: '03', label: 'Structural Mapping', desc: "The system's real shape, mapped before anything is built." },
-  { num: '04', label: 'Documentation & Architecture', desc: 'Written down, then structured.' },
-  { num: '05', label: 'Functional Expression', desc: 'Shipped as software and physical form.' },
-];
-
-export function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    document.title = "Bhavé's Lab";
-  }, []);
-
-  useEffect(() => {
-    const onDocClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuOpen(false);
-      }
-    };
-    document.addEventListener('click', onDocClick);
-    return () => document.removeEventListener('click', onDocClick);
-  }, []);
-
+function BookingForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  );
+  const [message, setMessage] = useState("");
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = Object.fromEntries(new FormData(form));
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/possibility-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error();
+      setStatus("sent");
+      form.reset();
+    } catch {
+      setStatus("error");
+      setMessage(
+        "Your request could not be sent. Please try again, or email info@bhaveslab.com.",
+      );
+    }
+  }
   return (
-    <div
-      style={{
-        position: 'relative',
-        background: 'var(--surface-void)',
-        color: 'var(--text-primary)',
-        fontFamily: 'var(--font-body)',
-        minHeight: '100vh',
-        overflowX: 'hidden',
-      }}
+    <form
+      className="booking-form"
+      onSubmit={submit}
+      aria-label="Possibility Session request"
     >
-      <FieldBackground particleDensity="moderate" />
-
-      <header
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 20,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          padding: 'var(--space-5) var(--space-6)',
-        }}
-      >
-        <div style={{ fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--text-primary)', letterSpacing: '0.01em' }}>
-          Bhavé&rsquo;s Lab
-        </div>
-        <div ref={menuRef} style={{ position: 'relative' }}>
-          <IconButton
-            icon={<i className="ph-light ph-dots-three-vertical" />}
-            label="Menu"
-            onClick={(e) => {
-              e.stopPropagation();
-              setMenuOpen((v) => !v);
-            }}
+      <div className="form-intro">
+        <span className="lab-kicker">A PRIVATE CONVERSATION</span>
+        <h3>What’s on your mind?</h3>
+        <p>
+          Share a little about what you’d like to explore and when you’re
+          available. We’ll reply by email to arrange your session.
+        </p>
+      </div>
+      <div className="form-pair">
+        <label>
+          Your name
+          <input name="name" autoComplete="name" required maxLength={120} />
+        </label>
+        <label>
+          Email address
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            maxLength={254}
           />
-          {menuOpen && (
-            <div
-              style={{
-                position: 'absolute',
-                top: 48,
-                right: 0,
-                minWidth: 160,
-                background: 'var(--surface-card)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-lg)',
-                boxShadow: 'var(--shadow-md)',
-                padding: 'var(--space-2)',
-                animation: 'bl-menu-in 160ms var(--ease-out)',
-              }}
-            >
-              <Link
-                to="/shop"
-                className="bl-menu-link"
-                style={{
-                  display: 'block',
-                  padding: 'var(--space-3)',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 'var(--text-xs)',
-                  letterSpacing: 'var(--tracking-label)',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-secondary)',
-                  borderRadius: 8,
-                }}
-              >
-                Shop
-              </Link>
-            </div>
-          )}
-        </div>
+        </label>
+      </div>
+      <label>
+        What would you like to explore?
+        <textarea
+          name="details"
+          rows={3}
+          required
+          maxLength={2000}
+          placeholder="A situation, a question, an idea…"
+        />
+      </label>
+      <label>
+        Your availability and time zone
+        <input
+          name="availability"
+          required
+          maxLength={300}
+          placeholder="For example: weekday afternoons, Central time"
+        />
+      </label>
+      <label className="booking-trap" aria-hidden="true">
+        Website
+        <input name="website" tabIndex={-1} autoComplete="off" />
+      </label>
+      <label className="consent">
+        <input name="consent" type="checkbox" value="yes" required />I agree to
+        be contacted by email about this session request.
+      </label>
+      <p className="form-note">
+        This is a request. Your session is confirmed only after we agree on a
+        time. Please keep sensitive personal details out of this form.
+      </p>
+      <button
+        className="lab-button"
+        disabled={status === "sending" || status === "sent"}
+      >
+        {status === "sending"
+          ? "Sending…"
+          : status === "sent"
+            ? "Request received"
+            : "Request a session"}
+        <span aria-hidden="true">↗</span>
+      </button>
+      <p role="status" aria-live="polite">
+        {status === "sent"
+          ? "Thank you. Your request has been received. We’ll be in touch by email."
+          : status === "error"
+            ? message
+            : ""}
+      </p>
+    </form>
+  );
+}
+
+export function Home({ shopPage = false }: { shopPage?: boolean }) {
+  const [menu, setMenu] = useState(false);
+  const [motion, setMotion] = useState(true);
+  useEffect(() => {
+    document.title = "BHAVÉ’S LAB — Life is already in motion.";
+    if (shopPage) document.getElementById("shop")?.scrollIntoView();
+  }, [shopPage]);
+  useEffect(() => {
+    function close(event: KeyboardEvent) {
+      if (event.key === "Escape") setMenu(false);
+    }
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, []);
+  return (
+    <div className={`observatory ${motion ? "" : "motion-paused"}`}>
+      <a className="lab-skip" href="#main">
+        Skip to content
+      </a>
+      <header className="lab-header">
+        <a className="lab-brand" href="/" aria-label="Bhavé’s Lab home">
+          <span className="orbit-mark" aria-hidden="true">
+            ◌
+          </span>
+          <span>
+            BHAVÉ’S LAB<small>THE GENTLEMAN OF POSSIBILITY</small>
+          </span>
+        </a>
+        <button
+          className="menu-toggle"
+          aria-label={menu ? "Close navigation" : "Open navigation"}
+          aria-expanded={menu}
+          aria-controls="lab-navigation"
+          onClick={() => setMenu(!menu)}
+        >
+          {menu ? "Close −" : "Menu +"}
+        </button>
+        <nav
+          id="lab-navigation"
+          className={menu ? "is-open" : ""}
+          aria-label="Main navigation"
+        >
+          <a href="#about" onClick={() => setMenu(false)}>
+            The Lab
+          </a>
+          <a href="#session" onClick={() => setMenu(false)}>
+            The Possibility Session
+          </a>
+          <a href="#shop" onClick={() => setMenu(false)}>
+            Shop
+          </a>
+        </nav>
       </header>
-
-      <main style={{ position: 'relative', zIndex: 10 }}>
-        <section
-          style={{
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '0 var(--space-6)',
-          }}
-        >
-          <Eyebrow tick>Bhavé&rsquo;s Lab</Eyebrow>
-          <h1
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'clamp(40px, 7vw, var(--text-display-1))',
-              lineHeight: 'var(--leading-tight)',
-              letterSpacing: 'var(--tracking-tight)',
-              color: 'var(--text-primary)',
-              maxWidth: 900,
-              margin: 'var(--space-5) 0 var(--space-5)',
-            }}
-          >
-            Systems built to hold their shape.
-          </h1>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              maxWidth: 560,
-              margin: 0,
-            }}
-          >
-            Software and physical anchors, built together, delivered as one coherent system.
-          </p>
-        </section>
-
-        <section
-          style={{
-            maxWidth: 'var(--container-max)',
-            margin: '0 auto',
-            padding: 'var(--pad-section) var(--space-6)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 'var(--space-5)',
-          }}
-        >
-          {buildItems.map((item) => (
-            <Card key={item.eyebrow}>
-              <Eyebrow muted>{item.eyebrow}</Eyebrow>
-              <h3
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 'var(--weight-regular)' as unknown as number,
-                  fontSize: 'var(--text-title-3)',
-                  color: 'var(--text-primary)',
-                  margin: 'var(--space-3) 0 var(--space-3)',
-                }}
-              >
-                {item.title}
-              </h3>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'var(--text-body)',
-                  lineHeight: 'var(--leading-normal)',
-                  color: 'var(--text-secondary)',
-                  margin: 0,
-                }}
-              >
-                {item.body}
-              </p>
-            </Card>
-          ))}
-        </section>
-
-        <section style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '0 var(--space-6) var(--pad-section)' }}>
-          <Divider label="How We Work" />
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-6)', marginTop: 'var(--space-6)' }}>
-            {processSteps.map((step) => (
-              <div key={step.num} style={{ flex: '1 1 180px', minWidth: 160 }}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 'var(--text-eyebrow)',
-                    letterSpacing: 'var(--tracking-label)',
-                    color: 'var(--text-gold)',
-                  }}
-                >
-                  {step.num}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontWeight: 'var(--weight-medium)' as unknown as number,
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-primary)',
-                    margin: 'var(--space-2) 0 var(--space-1)',
-                    textTransform: 'uppercase',
-                    letterSpacing: 'var(--tracking-wide)',
-                  }}
-                >
-                  {step.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-muted)',
-                    lineHeight: 'var(--leading-normal)',
-                  }}
-                >
-                  {step.desc}
-                </div>
-              </div>
-            ))}
+      <main id="main">
+        <section className="lab-hero" aria-labelledby="hero-heading">
+          <picture className="observatory-image">
+            <source
+              media="(max-width: 600px)"
+              srcSet="/observatory/observatory-mobile.webp"
+            />
+            <img
+              src="/observatory/observatory.webp"
+              alt="Bhavé inside a reflective teal observatory, contemplating panoramic mountains and flowing abstract light."
+              fetchPriority="high"
+              width="853"
+              height="621"
+            />
+          </picture>
+          <div className="lab-mist" aria-hidden="true" />
+          <div className="lab-horizon" aria-hidden="true" />
+          <figure className="ego-screen">
+            <img
+              src="/observatory/lil-ego-reference.jpeg"
+              alt="Lil Ego in his original orange turban, black sunglasses, orange and black outfit, and gold jewelry."
+              width="1122"
+              height="1402"
+            />
+            <figcaption>
+              LIL EGO<span>AN ORIGINAL CREATIVE EXPRESSION</span>
+            </figcaption>
+          </figure>
+          <div className="hero-copy">
+            <p className="lab-kicker">OBSERVATION · POSSIBILITY · CREATION</p>
+            <h1 id="hero-heading">
+              Life is already
+              <br />
+              in <em>motion.</em>
+            </h1>
+            <p className="hero-support">
+              We observe what is, explore what’s possible,
+              <br className="desktop-break" /> and create from what becomes
+              clear.
+            </p>
+            <a className="lab-button" href="#session">
+              The Possibility Session<span aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div className="hero-bottom">
+            <a href="#about">
+              STEP INSIDE <span aria-hidden="true">↓</span>
+            </a>
+            <button onClick={() => setMotion(!motion)} aria-pressed={!motion}>
+              {motion ? "Pause atmosphere" : "Resume atmosphere"}
+            </button>
           </div>
         </section>
-
-        <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: 'var(--pad-section) var(--space-6)',
-            textAlign: 'center',
-          }}
-        >
-          <Eyebrow tick>Full Builds</Eyebrow>
-          <h2
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-light)' as unknown as number,
-              fontSize: 'var(--text-display-3)',
-              color: 'var(--text-primary)',
-              margin: 'var(--space-5) 0',
-            }}
-          >
-            Full Builds
-          </h2>
-          <p
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontSize: 'var(--text-lead)',
-              lineHeight: 'var(--leading-relaxed)',
-              color: 'var(--text-secondary)',
-              margin: '0 0 var(--space-4)',
-            }}
-          >
-            Pricing is scoped per project.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-body)', color: 'var(--text-muted)', margin: 0 }}>
-            If it&rsquo;s a fit, get in touch — details below.
-          </p>
+        <section id="about" className="lab-about lab-section">
+          <p className="lab-kicker">01 / THE LAB</p>
+          <div>
+            <h2>
+              A little space.
+              <br />
+              <em>A different perspective.</em>
+            </h2>
+            <p>
+              Bhavé’s Lab is an ongoing exploration of life, possibility, and
+              the things we create along the way.
+            </p>
+            <p>
+              Some possibilities become stories. Others become objects,
+              experiences, or a new way of seeing what’s already here. We begin
+              with observation and leave room for what becomes clear.
+            </p>
+            <p className="signature">
+              Bhavé <span>— The Gentleman of Possibility</span>
+            </p>
+          </div>
         </section>
-
-        <section
-          style={{
-            maxWidth: 'var(--container-prose)',
-            margin: '0 auto',
-            padding: '0 var(--space-6) var(--pad-section)',
-            textAlign: 'center',
-          }}
-        >
-          <Eyebrow muted>Operator</Eyebrow>
-          <p
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontWeight: 'var(--weight-regular)' as unknown as number,
-              fontSize: 'var(--text-title-2)',
-              fontStyle: 'italic',
-              color: 'var(--text-gold)',
-              lineHeight: 'var(--leading-snug)',
-              margin: 'var(--space-5) 0 0',
-            }}
-          >
-            We build from state outward. The software, the object, the document — all of it comes from the
-            same place. That&rsquo;s why it holds together.
+        <section id="session" className="lab-session lab-section">
+          <div className="session-heading">
+            <p className="lab-kicker">02 / PRIVATE EXPLORATION</p>
+            <h2>
+              The Possibility
+              <br />
+              <em>Session.</em>
+            </h2>
+            <p>
+              Bring a situation, a question, an idea, or a creative possibility.
+              Together, we make space to explore it privately and find clarity
+              about what comes next.
+            </p>
+            <p>
+              Observation, meditation, hypnosis, and other techniques may be
+              used as appropriate within your session. The exploration follows
+              what you bring.
+            </p>
+            <a className="lab-text-link" href="#booking">
+              Begin a conversation <span aria-hidden="true">↘</span>
+            </a>
+          </div>
+          <div id="booking">
+            <BookingForm />
+          </div>
+        </section>
+        <section id="shop" className="lab-shop lab-section">
+          <p className="lab-kicker">03 / THE SHOP</p>
+          <div className="shop-entrance">
+            <div className="book-sculpture" aria-hidden="true">
+              <span>BHAVÉ’S LAB</span>
+              <i>
+                Possibility,
+                <br />
+                in your hands.
+              </i>
+              <span>OBSERVE · EXPLORE · CREATE</span>
+            </div>
+            <div>
+              <h2>
+                Ideas to
+                <br />
+                <em>take with you.</em>
+              </h2>
+              <p>
+                A place for books, publications, and thoughtfully chosen
+                objects.
+              </p>
+              <p className="shop-status">
+                The collection is being prepared. No items are currently
+                available to purchase.
+              </p>
+              <a
+                className="lab-text-link"
+                href="mailto:info@bhaveslab.com?subject=Shop%20enquiry"
+              >
+                Ask about the collection <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </section>
+        <section className="lab-closing">
+          <span aria-hidden="true">∞</span>
+          <p>
+            There is room for
+            <br />
+            <em>what becomes possible.</em>
           </p>
+          <a href="#session">Let’s explore it together ↗</a>
         </section>
       </main>
-
-      <footer
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          borderTop: '1px solid var(--border-subtle)',
-          padding: 'var(--space-7) var(--space-6)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 'var(--space-5)',
-          textAlign: 'center',
-        }}
-      >
-        <a
-          href="mailto:info@bhaveslab.com"
-          style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', letterSpacing: 'var(--tracking-wide)' }}
-        >
-          info@bhaveslab.com
+      <footer className="lab-footer">
+        <a className="lab-brand" href="/">
+          BHAVÉ’S LAB
         </a>
-        <a
-          href="https://calendly.com/bhaveslab-info/30min"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bl-pill-link"
-          style={{
-            display: 'inline-block',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--text-xs)',
-            letterSpacing: 'var(--tracking-label)',
-            textTransform: 'uppercase',
-            color: 'var(--text-primary)',
-            background: 'transparent',
-            border: '1px solid var(--border-gold)',
-            borderRadius: 24,
-            padding: '12px 24px',
-          }}
-        >
-          What are we building?
-        </a>
-        <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', color: 'var(--text-faint)' }}>
-          Bhavé&rsquo;s Lab LLC
-        </div>
+        <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
+        <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
   );
