@@ -18,7 +18,7 @@ function load(file, customRequire = require) {
   return context.exports;
 }
 const authorization = load("api/_lib/clarity-authorization.ts");
-const room = load("api/_lib/RoomOfClarity.tsx");
+const room = load("api/_lib/RoomOfClarity.ts");
 const confirmed = {
   infrastructureReady: true,
   identity: { subject: "guest-1" },

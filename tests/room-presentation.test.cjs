@@ -23,7 +23,7 @@ function load(file) {
   return context.exports;
 }
 test("room introduction contains optional instruments without add-on purchases or private links", () => {
-  const { RoomOfClarity } = load("api/_lib/RoomOfClarity.tsx");
+  const { RoomOfClarity } = load("api/_lib/RoomOfClarity.ts");
   const html = renderToStaticMarkup(React.createElement(RoomOfClarity));
   for (const label of [
     "Inner Mining",
