@@ -1,0 +1,11 @@
+{
+  "source": "lil-ego-reference.jpeg",
+  "source_sha256": "0f6ed23728dfd5a244036585decb9b2ce1548ac793c9706bfc9106612f65a38b",
+  "dimensions": [
+    1122,
+    1402
+  ],
+  "original_rgb_retained": true,
+  "changed_rgb_pixels": 0,
+  "extraction": "Edge-connected neutral background mask; alpha-only; no generative redraw."
+}
