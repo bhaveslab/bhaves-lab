@@ -1,3 +1,5 @@
+> Current implementation: [paid-booking-implementation.md](paid-booking-implementation.md). The owner approved the existing-Blob ledger. Code is in the draft preview; actual provider verification is blocked by missing credentials. Earlier pending-approval and no-backend statements below are historical.
+
 # Paid session booking: decision for approval — November 4, 2026
 
 **Not launch-ready. No paid scheduler or reservation ledger has been implemented.** This assessment supersedes the native-paid-scheduling recommendation in simplified-booking.md. Existing request handling and protected Room remain closed to unverified bookings. Observatory, ebook prices/assets and private application are unchanged.

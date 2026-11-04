@@ -9,7 +9,7 @@ function load(file) {
   const context = {
     exports: {},
     require: (name) =>
-      name === "../components/ObservationField"
+      name === "./PaidBooking" ? load("src/pages/PaidBooking.tsx") : name === "../components/ObservationField"
         ? load("src/components/ObservationField.tsx")
         : name.endsWith(".css")
           ? {}

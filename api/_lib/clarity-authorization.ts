@@ -33,9 +33,19 @@ export function hasConfirmedRoomAccess(context: ClarityContext): boolean {
 export async function resolveClarityContext(
   _req: VercelRequest,
 ): Promise<ClarityContext> {
-  // No booking-specific link verifier or authoritative booking lookup is configured.
-  // Keep access closed. Customers must not need accounts: verify a scoped access link,
-  // then re-fetch its exact calendar appointment and Stripe payment on the server.
-  // A redirect, event notification, email address, or free/busy result is not payment proof.
-  return { infrastructureReady: false, identity: null, booking: null };
+  if (typeof process === "undefined" || process.env.BOOKING_ENABLED !== "true")
+    return { infrastructureReady: false, identity: null, booking: null };
+  try {
+    const { runtime } = await import("./booking/runtime.js");
+    const { authorized } = await import("./booking/service.js");
+    const raw = _req.headers?.authorization;
+    if (typeof raw !== "string" || !raw.startsWith("Bearer "))
+      return { infrastructureReady: true, identity: null, booking: null };
+    const b = await authorized(await runtime(), raw.slice(7), "room");
+    return { infrastructureReady: true, identity: { subject: b.id }, booking: {
+      ownerSubject: b.id, status: "confirmed", paymentStatus: "paid", reservationStatus: "confirmed",
+    }};
+  } catch {
+    return { infrastructureReady: false, identity: null, booking: null };
+  }
 }

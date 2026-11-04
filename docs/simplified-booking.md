@@ -1,3 +1,5 @@
+> Current implementation: [paid-booking-implementation.md](paid-booking-implementation.md). The owner approved the existing-Blob ledger. Code is in the draft preview; actual provider verification is blocked by missing credentials. Earlier pending-approval and no-backend statements below are historical.
+
 > Current decision: [paid-booking-proposal.md](paid-booking-proposal.md) supersedes earlier native-paid-scheduling recommendations. The supplied Google schedule accepts unpaid appointments. A small ledger in existing private Blob storage is proposed, pending owner approval and real concurrency/recovery tests. Historical evidence below is retained.
 
 # Simplified booking integration — November 4, 2026

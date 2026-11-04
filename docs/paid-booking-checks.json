@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-04",
+  "branch": "codex/issue-8-ebooks",
+  "scope": "TEST/PREVIEW ONLY",
+  "tests": {
+    "booking": 34,
+    "existing_public_request_room": 20,
+    "ebooks_with_final_pdf_fixtures": 15,
+    "total_passed": 69,
+    "skipped": 0,
+    "providers": "simulated"
+  },
+  "checks": {
+    "strict_api_compile": "passed",
+    "production_build": "passed",
+    "ebook_runtime_smoke": 5,
+    "room_runtime_smoke": "passed",
+    "public_privacy_artwork_budgets": "passed",
+    "unpaid_native_link_exclusion": "passed"
+  },
+  "accessibility": {
+    "desktop": {
+      "violations": 0,
+      "passes": 23,
+      "width": 1353,
+      "scrollWidth": 1353
+    },
+    "mobile_iframe": {
+      "violations": 0,
+      "passes": 22,
+      "width": 380,
+      "scrollWidth": 380,
+      "outer_width": 390
+    },
+    "incomplete": [
+      "color-contrast"
+    ],
+    "physical_safari_iphone": "not tested",
+    "fixture": "synthetic availability, no real bookings"
+  },
+  "integration": {
+    "blob_real_contention": "BLOCKED: missing existing-store token; command exit 2",
+    "stripe_test_payment": "BLOCKED: no test credentials",
+    "google_calendar_write": "BLOCKED: no runtime OAuth or approved test calendar",
+    "resend_delivery": "BLOCKED: no runtime key/sender",
+    "recovery_trigger": "not configured",
+    "production_or_live_enabled": false
+  },
+  "dependency_audit": {
+    "production": 0,
+    "development_unresolved": {
+      "moderate": 3,
+      "high": 6,
+      "critical": 1
+    }
+  },
+  "screenshots": [
+    "review/paid-booking-simulated-desktop.jpg",
+    "review/paid-booking-simulated-mobile.jpg"
+  ]
+}

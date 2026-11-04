@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../styles/observatory.css";
 export function ClarityAccess() {
   const [access, setAccess] = useState<"checking" | "locked" | "verified">(
     "checking",
   );
+  const tokenRef = useRef<string | null>(null);
   const [roomMarkup, setRoomMarkup] = useState<string | null>(null);
   useEffect(() => {
     document.title = "The Room of Clarity — BHAVÉ’S LAB";
     const controller = new AbortController();
+    tokenRef.current ??= new URLSearchParams(window.location.hash.slice(1)).get("access");
+    const accessToken = tokenRef.current;
+    if (accessToken) window.history.replaceState(null, "", window.location.pathname);
     fetch("/api/clarity-access", {
+      headers: accessToken ? { Authorization: "Bearer " + accessToken } : {},
       credentials: "same-origin",
       cache: "no-store",
       signal: controller.signal,

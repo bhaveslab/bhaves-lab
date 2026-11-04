@@ -1,3 +1,4 @@
+import { PaidBooking } from "./PaidBooking";
 import { useEffect, useState, type FormEvent } from "react";
 import "../styles/observatory.css";
 function BookingForm() {
@@ -175,7 +176,7 @@ export function Booking() {
             Or begin by email ↗
           </a>
         </div>
-        <BookingForm />
+        <PaidBooking fallback={<BookingForm />} />
       </main>
     </div>
   );

@@ -9,7 +9,9 @@ import { RoomOfClarity } from "./_lib/RoomOfClarity.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Cache-Control", "private, no-store");
-  res.setHeader("Vary", "Cookie");
+  res.setHeader("Vary", "Authorization");
+  res.setHeader("Referrer-Policy", "no-referrer");
+  res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Robots-Tag", "noindex, nofollow");
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
