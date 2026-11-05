@@ -58,7 +58,7 @@ export function validateLedger(data: Ledger) {
     }
 }
 export class BlobStore implements Store {
-    constructor(private token: string, private path: string) {
+    constructor(private token: string | undefined, private path: string) {
         if (!/^bookings\/test\/[a-zA-Z0-9_-]+\.json$/.test(path))
             throw new BookingError(503, 'Test ledger path required.');
     }
