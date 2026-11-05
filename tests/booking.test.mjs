@@ -45,7 +45,7 @@ test('unconfigured HTTP/webhook API cannot confirm, charge or reveal content',as
 
 test('verified webhook can recover a lost checkout linkage without creating another charge',async()=>{const f=fixture();await reserve(f.p,f.input);const original=f.p.checkout;f.p.checkout=async b=>{await original(b);throw Error('response lost');};await assert.rejects(startCheckout(f.p,f.input.id));f.advance(40*60000);const session=[...f.sessions.values()][0];f.setPayment('paid');await linkCheckout(f.p,f.input.id,session.id);await recover(f.p,f.input.id);assert.equal(f.counts().creates,1);assert.equal((await readBooking(f.store,f.input.id)).state,'confirmed');});
 async function adapters(){
- const f=fixture(),env={BOOKING_ENABLED:'true',VERCEL_ENV:'preview',STRIPE_SECRET_KEY:'sk_test_fixture',BOOKING_TEST_CALENDAR_ID:'test-calendar@example.test',GOOGLE_CLIENT_ID:'fixture',GOOGLE_CLIENT_SECRET:'fixture',GOOGLE_REFRESH_TOKEN:'fixture',BOOKING_CALENDAR_WRITE_APPROVED:'true',BOOKING_AVAILABILITY_JSON:JSON.stringify({timezone:'America/Chicago',windows:[{day:1,start:'09:00',end:'17:00'}],noticeMinutes:60,horizonDays:30,bufferMinutes:15}),BOOKING_LEDGER_PATH:'bookings/test/fixture.json',BOOKING_STRIPE_PRICE_ID:'price_Test',BOOKING_WEBHOOK_SECRET:'whsec_fixture',BOOKING_ACCESS_SECRET:'s'.repeat(48),BOOKING_RECOVERY_SECRET:'r'.repeat(48),EBOOK_BLOB_READ_WRITE_TOKEN:'fixture',EBOOK_STRIPE_ACCOUNT_ID:'acct_fixture',RESEND_API_KEY:'fixture',EBOOK_RECEIPT_FROM:'Lab <test@example.test>',EBOOK_DOWNLOAD_SECRET:'e'.repeat(48),EBOOK_PUBLIC_ORIGIN:'https://preview.vercel.app'};
+ const f=fixture(),env={BOOKING_ENABLED:'true',VERCEL_ENV:'preview',STRIPE_SECRET_KEY:'sk_test_fixture',BOOKING_TEST_CALENDAR_ID:'test-calendar@example.test',GOOGLE_CLIENT_ID:'fixture',GOOGLE_CLIENT_SECRET:'fixture',GOOGLE_REFRESH_TOKEN:'fixture',BOOKING_CALENDAR_WRITE_APPROVED:'true',BOOKING_AVAILABILITY_JSON:JSON.stringify({timezone:'America/Chicago',windows:[{day:1,start:'09:00',end:'17:00'}],noticeMinutes:60,horizonDays:30,bufferMinutes:15}),BOOKING_DATABASE_URL:'postgresql://fixture:fixture@ep-booking-test-pooler.us-east-2.aws.neon.tech/neondb?sslmode=verify-full',BOOKING_TEST_DATABASE_HOST:'ep-booking-test-pooler.us-east-2.aws.neon.tech',BOOKING_STRIPE_PRICE_ID:'price_Test',BOOKING_WEBHOOK_SECRET:'whsec_fixture',BOOKING_ACCESS_SECRET:'s'.repeat(48),BOOKING_RECOVERY_SECRET:'r'.repeat(48),EBOOK_BLOB_READ_WRITE_TOKEN:'fixture',EBOOK_STRIPE_ACCOUNT_ID:'acct_fixture',RESEND_API_KEY:'fixture',EBOOK_RECEIPT_FROM:'Lab <test@example.test>',EBOOK_DOWNLOAD_SECRET:'e'.repeat(48),EBOOK_PUBLIC_ORIGIN:'https://preview.vercel.app'};
  let event=null,snapshot=null,pi={livemode:false,status:'succeeded',currency:'usd',amount_received:17500,latest_charge:{paid:true,refunded:false,amount_refunded:0,disputed:false}};
  const calls=[],googleCalls=[];
  const stripe={accounts:{retrieve:async()=>({id:'acct_fixture',charges_enabled:true})},prices:{retrieve:async()=>({active:true,livemode:false,currency:'usd',unit_amount:17500,type:'one_time'})},checkout:{sessions:{create:async(params,options)=>{calls.push({params,options});snapshot={id:'cs_test_fixture',livemode:false,mode:'payment',status:'complete',payment_status:'paid',client_reference_id:params.client_reference_id,metadata:params.metadata,amount_total:17500,currency:'usd',payment_intent:'pi_fixture',customer_email:params.customer_email};return {...snapshot,url:'https://checkout.stripe.com/c/pay/fixture'};},retrieve:async()=>structuredClone(snapshot),listLineItems:async()=>({has_more:false,data:[{quantity:1,price:{id:'price_Test'},amount_total:17500}]})}},paymentIntents:{retrieve:async()=>structuredClone(pi)}};
@@ -75,3 +75,80 @@ test('runtime adapter rejects duplicated price lines and a wrong-language bindin
 test('scoped authorization rejects a validly signed wrong edition and keeps future-session Room links valid',async()=>{const f=fixture();f.input.start+=20*86400000;await prepared(f);f.setPayment('paid');await recover(f.p,f.input.id);const b=await readBooking(f.store,f.input.id);await assert.rejects(authorized(f.p,token({...b,edition:'es'},'ebook',f.p.secret),'ebook'));const room=token(b,'room',f.p.secret);f.advance(8*86400000);assert.equal((await authorized(f.p,room,'room')).id,b.id);await assert.rejects(authorized(f.p,token(b,'ebook',f.p.secret),'ebook'));});
 test('HTTP cross-origin checkout and unauthorized recovery are rejected before provider initialization',async()=>{const before=process.env.EBOOK_PUBLIC_ORIGIN;process.env.EBOOK_PUBLIC_ORIGIN='https://preview.vercel.app';const response=()=>({code:200,setHeader(){},status(n){this.code=n;return this;},json(v){this.data=v;return this;}});try{let r=response();await api({method:'POST',headers:{origin:'https://evil.example'},body:{action:'checkout'}},r);assert.equal(r.code,403);r=response();await api({method:'POST',headers:{origin:'https://preview.vercel.app',authorization:'Bearer wrong'},body:{action:'recover'}},r);assert.equal(r.code,403);}finally{if(before===undefined)delete process.env.EBOOK_PUBLIC_ORIGIN;else process.env.EBOOK_PUBLIC_ORIGIN=before;}});
 test('booking webhook rejects an invalid raw signature even with test configuration present',async()=>{const {Readable}=await import('node:stream');const {env}=await adapters();const old={};for(const [key,value]of Object.entries(env)){old[key]=process.env[key];process.env[key]=value;}try{const req=Object.assign(Readable.from([Buffer.from('{}')]),{method:'POST',headers:{'stripe-signature':'invalid'}}),res={code:200,setHeader(){},status(n){this.code=n;return this;},json(v){this.data=v;return this;}};await webhook(req,res);assert.equal(res.code,400);}finally{for(const [key,value]of Object.entries(old)){if(value===undefined)delete process.env[key];else process.env[key]=value;}}});
+
+test('booking database requires a pinned TLS Preview endpoint', async () => {
+ const { bookingDatabaseUrl } = await import('../.qa/booking-runtime/_lib/booking/postgres.js');
+ const { env } = await adapters();
+ assert.equal(bookingDatabaseUrl(env), env.BOOKING_DATABASE_URL);
+ for (const changes of [
+  { VERCEL_ENV: 'production' },
+  { BOOKING_TEST_DATABASE_HOST: undefined },
+  { BOOKING_DATABASE_URL: env.BOOKING_DATABASE_URL.replace('ep-booking-test', 'ep-main') },
+ ]) assert.equal(bookingDatabaseUrl({ ...env, ...changes }), undefined);
+ const fallback = bookingDatabaseUrl({ ...env, BOOKING_DATABASE_URL: undefined,
+  DATABASE_URL: env.BOOKING_DATABASE_URL + '&sslmode=disable' });
+ assert.equal(fallback, env.BOOKING_DATABASE_URL);
+});
+
+test('PostgreSQL serializes reservations and persists interrupted checkout recovery', {
+ skip: !process.env.BOOKING_LOCAL_TEST_URL && 'Requires a fresh disposable local PostgreSQL database',
+}, async () => {
+ const url = new URL(process.env.BOOKING_LOCAL_TEST_URL);
+ assert.equal(url.hostname, '127.0.0.1');
+ assert.equal(url.pathname, '/booking_test');
+ assert.equal(url.search, '');
+ const { Pool } = await import('pg');
+ const { PostgresStore } = await import('../.qa/booking-runtime/_lib/booking/postgres.js');
+ const connectionString = url.toString();
+ const pool = new Pool({ connectionString, max: 8 });
+ const restartedPool = new Pool({ connectionString });
+ try {
+  await pool.query(await readFile(new URL('../db/booking.sql', import.meta.url), 'utf8'));
+  const f = fixture();
+  f.p.store = new PostgresStore(pool, f.p.buffer);
+  await transaction(f.p.store, d => { d.recoveryAt = f.p.now(); });
+  const candidates = Array.from({ length: 16 }, (_, i) => ({ ...f.input,
+   id: bookingId('owner', String(i)), start: f.input.start + (i % 2) * 1800000 }));
+  const outcomes = await Promise.allSettled(candidates.map(input => reserve(f.p, input)));
+  const winners = outcomes.filter(outcome => outcome.status === 'fulfilled');
+  assert.equal(winners.length, 1);
+  for (const outcome of outcomes.filter(x => x.status === 'rejected'))
+   assert.equal(outcome.reason.status, 409);
+  const id = winners[0].value.id;
+  const snapshot = await f.p.store.read();
+  assert.equal(snapshot.data.records.length, 1);
+
+  // Bypass the service's overlap check to exercise the database constraint.
+  const conflict = { ...snapshot.data.records[0], id: bookingId('owner', 'raw') };
+  conflict.eventId = 'b' + conflict.id;
+  await assert.rejects(f.p.store.write({ ...snapshot.data, revision: snapshot.data.revision + 1,
+   records: [...snapshot.data.records, conflict] }, snapshot.etag), { status: 409 });
+  assert.deepEqual(await f.p.store.read(), snapshot);
+
+  const checkout = f.p.checkout;
+  f.p.checkout = async b => {
+   await checkout(b);
+   throw new Error('Lost checkout response');
+  };
+  await assert.rejects(startCheckout(f.p, id), /Lost checkout response/);
+  await assert.rejects(f.p.store.write({ ...snapshot.data, revision: snapshot.data.revision + 1 },
+   snapshot.etag), Conflict);
+
+  f.p.store = new PostgresStore(restartedPool, f.p.buffer);
+  f.p.checkout = checkout;
+  await startCheckout(f.p, id);
+  f.setPayment('paid');
+  const notices = await Promise.allSettled(Array.from({ length: 8 }, () => recover(f.p, id)));
+  for (const notice of notices) if (notice.status === 'rejected')
+   assert.equal(notice.reason.status, 409, String(notice.reason));
+  const booking = await recover(f.p, id);
+  assert.equal(booking.state, 'confirmed');
+  assert.equal(booking.mail.sent, true);
+  assert.equal(f.sends.size, 1);
+  assert.equal(f.counts().creates, 1);
+  assert.equal(f.counts().calendarCalls, 1);
+  assert.equal((await authorized(f.p, token(booking, 'room', f.p.secret), 'room')).id, id);
+ } finally {
+  await Promise.all([pool.end(), restartedPool.end()]);
+ }
+});

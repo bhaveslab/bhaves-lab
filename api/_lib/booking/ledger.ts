@@ -1,4 +1,3 @@
-import { get, put, BlobPreconditionFailedError } from '@vercel/blob';
 export class BookingError extends Error {
     constructor(public status: number, message: string) { super(message); }
 }
@@ -55,35 +54,6 @@ export function validateLedger(data: Ledger) {
         if (!/^[a-f0-9]{64}$/.test(b.id) || ids.has(b.id) || !Number.isSafeInteger(b.start) || b.end !== b.start + 3600000 || typeof b.owner !== 'string' || b.owner.length < 1 || b.owner.length > 128 || !Number.isSafeInteger(b.created) || b.expires !== b.created + 3600000 || b.eventId !== 'b' + b.id || typeof b.email !== 'string' || b.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email) || !/^price_[A-Za-z0-9]+$/.test(b.price) || (b.confirmedAt !== undefined && !Number.isSafeInteger(b.confirmedAt)) || (b.lastRecovered !== undefined && !Number.isSafeInteger(b.lastRecovered)) || !['en', 'es'].includes(b.edition) || !['held', 'checkout', 'paid_pending', 'confirmed', 'released', 'review', 'revoked'].includes(b.state))
             throw new BookingError(503, 'Invalid reservation ledger.');
         ids.add(b.id);
-    }
-}
-export class BlobStore implements Store {
-    constructor(private token: string | undefined, private path: string) {
-        if (!/^bookings\/test\/[a-zA-Z0-9_-]+\.json$/.test(path))
-            throw new BookingError(503, 'Test ledger path required.');
-    }
-    async read() {
-        const r = await get(this.path, { access: 'private', token: this.token, useCache: false });
-        // Never recreate a missing ledger: that could erase active holds after deletion.
-        if (!r || r.statusCode !== 200 || !r.stream || !r.blob.etag)
-            throw new BookingError(503, 'Reservation ledger is unavailable.');
-        const text = await new Response(r.stream).text();
-        if (Buffer.byteLength(text) > 512000)
-            throw new BookingError(503, 'Reservation ledger limit reached.');
-        const data = JSON.parse(text) as Ledger;
-        validateLedger(data);
-        return { data, etag: r.blob.etag };
-    }
-    async write(data: Ledger, etag: string) {
-        validateLedger(data);
-        try {
-            await put(this.path, JSON.stringify(data), { access: 'private', token: this.token, addRandomSuffix: false, ifMatch: etag, contentType: 'application/json' });
-        }
-        catch (e) {
-            if (e instanceof BlobPreconditionFailedError)
-                throw new Conflict();
-            throw e;
-        }
     }
 }
 export async function transaction<T>(store: Store, change: (data: Ledger) => T): Promise<T> {

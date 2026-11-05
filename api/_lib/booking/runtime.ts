@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
-import { BlobStore, BookingError, overlaps, type Booking, type Store } from './ledger.js';
+import { BookingError, overlaps, type Booking, type Store } from './ledger.js';
+import { bookingDatabaseUrl, postgresStore } from './postgres.js';
 import type { Ports, Payment, Event } from './service.js';
 import { ports as ebookPorts } from '../ebooks/runtime.js';
 import { verifiedAsset, type EbookPorts } from '../ebooks/service.js';
@@ -39,7 +40,7 @@ export function permitted(start: number, p: Policy, now: number) {
     return p.windows.some(w => w.day === day && a.hour + ':' + a.minute >= w.start && b.hour + ':' + b.minute <= w.end);
 }
 export function ready(env: NodeJS.ProcessEnv) {
-    return env.BOOKING_ENABLED === 'true' && env.VERCEL_ENV !== 'production' && /^(sk|rk)_test_/.test(env.STRIPE_SECRET_KEY || '') && ['BOOKING_TEST_CALENDAR_ID', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REFRESH_TOKEN', 'BOOKING_AVAILABILITY_JSON', 'BOOKING_LEDGER_PATH', 'BOOKING_STRIPE_PRICE_ID', 'BOOKING_WEBHOOK_SECRET', 'BOOKING_ACCESS_SECRET', 'BOOKING_RECOVERY_SECRET', 'EBOOK_BLOB_READ_WRITE_TOKEN', 'EBOOK_STRIPE_ACCOUNT_ID', 'RESEND_API_KEY', 'EBOOK_RECEIPT_FROM', 'EBOOK_DOWNLOAD_SECRET', 'EBOOK_PUBLIC_ORIGIN'].every(k => !!env[k]) && (env.BOOKING_ACCESS_SECRET?.length || 0) >= 43 && (env.BOOKING_RECOVERY_SECRET?.length || 0) >= 43 && env.BOOKING_CALENDAR_WRITE_APPROVED === 'true';
+    return env.BOOKING_ENABLED === 'true' && env.VERCEL_ENV === 'preview' && !!bookingDatabaseUrl(env) && /^(sk|rk)_test_/.test(env.STRIPE_SECRET_KEY || '') && ['BOOKING_TEST_CALENDAR_ID', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REFRESH_TOKEN', 'BOOKING_AVAILABILITY_JSON', 'BOOKING_STRIPE_PRICE_ID', 'BOOKING_WEBHOOK_SECRET', 'BOOKING_ACCESS_SECRET', 'BOOKING_RECOVERY_SECRET', 'EBOOK_BLOB_READ_WRITE_TOKEN', 'EBOOK_STRIPE_ACCOUNT_ID', 'RESEND_API_KEY', 'EBOOK_RECEIPT_FROM', 'EBOOK_DOWNLOAD_SECRET', 'EBOOK_PUBLIC_ORIGIN'].every(k => !!env[k]) && (env.BOOKING_ACCESS_SECRET?.length || 0) >= 43 && (env.BOOKING_RECOVERY_SECRET?.length || 0) >= 43 && env.BOOKING_CALENDAR_WRITE_APPROVED === 'true';
 }
 export async function runtime(env: NodeJS.ProcessEnv = process.env, dependencies: {
     stripe?: Stripe;
@@ -95,7 +96,7 @@ export async function runtime(env: NodeJS.ProcessEnv = process.env, dependencies
         return { state: e.status === 'confirmed' && !['pending','failure'].includes(e.conferenceData?.createRequest?.status?.statusCode) ? 'confirmed' : 'pending', meet };
     }
     return {
-        store: dependencies.store || new BlobStore(env.EBOOK_BLOB_READ_WRITE_TOKEN!, env.BOOKING_LEDGER_PATH!), now: Date.now, buffer: p.bufferMinutes * 60000, secret: env.BOOKING_ACCESS_SECRET!,
+        store: dependencies.store || postgresStore(bookingDatabaseUrl(env)!, p.bufferMinutes * 60000), now: Date.now, buffer: p.bufferMinutes * 60000, secret: env.BOOKING_ACCESS_SECRET!,
         async available(start, end, exclude) {
             // A confirmed past booking is still verifiable; policy is enforced on admission only.
             const min = new Date(start - p.bufferMinutes * 60000).toISOString(), max = new Date(end + p.bufferMinutes * 60000).toISOString();
