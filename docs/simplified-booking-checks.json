@@ -1,0 +1,21 @@
+{
+  "desktop": {
+    "violations": [],
+    "passes": 23,
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  "mobile": {
+    "violations": [],
+    "passes": 23,
+    "incomplete": [
+      "color-contrast"
+    ]
+  },
+  "mobileSize": {
+    "scrollWidth": 380,
+    "width": 380
+  },
+  "note": "Chrome 390px iframe; not a physical iPhone test. Payment/email/Room positive tests use simulated providers."
+}

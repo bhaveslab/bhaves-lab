@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-04",
+  "branch": "codex/issue-8-ebooks",
+  "scope": "TEST/PREVIEW ONLY",
+  "tests": {
+    "booking": 34,
+    "existing_public_request_room": 20,
+    "ebooks_with_final_pdf_fixtures": 15,
+    "total_passed": 69,
+    "skipped": 0,
+    "providers": "simulated"
+  },
+  "checks": {
+    "strict_api_compile": "passed",
+    "production_build": "passed",
+    "ebook_runtime_smoke": 5,
+    "room_runtime_smoke": "passed",
+    "public_privacy_artwork_budgets": "passed",
+    "unpaid_native_link_exclusion": "passed"
+  },
+  "accessibility": {
+    "desktop": {
+      "violations": 0,
+      "passes": 23,
+      "width": 1353,
+      "scrollWidth": 1353
+    },
+    "mobile_iframe": {
+      "violations": 0,
+      "passes": 22,
+      "width": 380,
+      "scrollWidth": 380,
+      "outer_width": 390
+    },
+    "incomplete": [
+      "color-contrast"
+    ],
+    "physical_safari_iphone": "not tested",
+    "fixture": "synthetic availability, no real bookings"
+  },
+  "integration": {
+    "blob_real_contention": "FAILED: real Preview OIDC; one of eight writers succeeded, unexpected rejection classification; later assertions not reached; stopped",
+    "stripe_test_payment": "BLOCKED: no test credentials",
+    "google_calendar_write": "BLOCKED: no runtime OAuth or approved test calendar",
+    "resend_delivery": "Real connected-provider simulator delivered/bounced and same-batch idempotency verified; website credential/E2E not verified",
+    "recovery_trigger": "not configured",
+    "production_or_live_enabled": false,
+    "storage_connection": {
+      "preview": true,
+      "production": true,
+      "production_used_for_testing": false,
+      "auth": "Preview OIDC",
+      "objects_after_cleanup": 0
+    },
+    "preview_configured_key_count": 9,
+    "blob_failure_diagnostic": {
+      "status": "unresolved",
+      "installed_sdk": "2.8.2",
+      "offline_diagnostic_tests_passed": 11,
+      "provider_mutation_rerun": false,
+      "strict_safety_checks_unchanged": true,
+      "controlled_rerun_requires_separate_owner_authorization": true
+    }
+  },
+  "dependency_audit": {
+    "production": 0,
+    "development_unresolved": {
+      "moderate": 3,
+      "high": 6,
+      "critical": 1
+    }
+  },
+  "screenshots": [
+    "review/paid-booking-simulated-desktop.jpg",
+    "review/paid-booking-simulated-mobile.jpg"
+  ]
+}

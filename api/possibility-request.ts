@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { Resend } from "resend";
+import { createHash } from "node:crypto";
 
 // Published offer: 60 minutes / $175. This endpoint records a request, never a paid booking.
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -42,6 +43,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     body.consent !== "yes"
   )
     return res.status(400).json({ error: "Invalid contact or consent" });
+  if (body.ebookEdition !== "en" && body.ebookEdition !== "es")
+    return res
+      .status(400)
+      .json({ error: "Choose English or Spanish for the included ebook" });
+  const ebookLanguage = body.ebookEdition === "es" ? "Spanish" : "English";
+  const deliveryKey = createHash("sha256")
+    .update(
+      JSON.stringify({ name, email, details, availability, ebookLanguage }),
+    )
+    .digest("hex");
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.LAB_BOOKING_FROM;
   const to = process.env.LAB_BOOKING_TO;
@@ -51,13 +62,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "Booking requests are not configured. Please email info@bhaveslab.com.",
     });
   try {
-    const { error } = await new Resend(apiKey).emails.send({
-      from,
-      to,
-      replyTo: email,
-      subject: "Possibility Session request",
-      text: `The Possibility Session — 60 minutes — $175\nBooking request only. Payment and availability are not confirmed.\n\nName: ${name}\nEmail: ${email}\n\nExploration:\n${details}\n\nAvailability and time zone:\n${availability}\n\nConsent: contact by email about this session request.`,
-    });
+    const { error } = await new Resend(apiKey).emails.send(
+      {
+        from,
+        to,
+        replyTo: email,
+        subject: "Possibility Session request",
+        text: `The Possibility Session — 60 minutes — $175\nBooking request only. Payment and availability are not confirmed.\n\nName: ${name}\nEmail: ${email}\n\nExploration:\n${details}\n\nAvailability and time zone:\n${availability}\n\nIncluded ebook preference: ${ebookLanguage}. One edition is included only after verified $175 payment and confirmed calendar reservation. This request creates no ebook entitlement.\n\nConsent: contact by email about this session request.`,
+      },
+      { idempotencyKey: `session-request-${deliveryKey}` },
+    );
     if (error)
       return res.status(502).json({ error: "Request could not be delivered" });
     return res

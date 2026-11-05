@@ -1,3 +1,5 @@
+> Current integration and asset status: [launch-readiness.md](launch-readiness.md). The Observatory design below remains unchanged; the secondary Shop now presents the two ebook editions, and the session includes one selected edition only after verified confirmation.
+
 # The Observatory — current creative hierarchy
 
 The Observatory is the primary public experience. The approved full-screen hero and exact original character/bracelet artwork remain intact. Its main action is now “Explore the Observatory,” not booking.
