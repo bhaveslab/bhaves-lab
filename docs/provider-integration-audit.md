@@ -1,3 +1,5 @@
+> Diagnostic follow-up: [blob-failure-diagnostic.md](blob-failure-diagnostic.md). SDK and assertion inspected; sanitized response instrumentation added and validated offline. No real rerun. The actual prior failure remains unresolved and the safety stop below remains in force.
+
 # Real provider audit and Blob safety stop — November 4, 2026 (America/Chicago)
 
 **STOP: the real Blob contention probe failed. No further provider mutation tests were run after that failure. Paid booking and retail remain disabled. No alternative database, permanent ledger, PDF ingestion, live payment, merge or production deployment.**

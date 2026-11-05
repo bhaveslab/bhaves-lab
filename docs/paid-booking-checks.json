@@ -52,7 +52,15 @@
       "auth": "Preview OIDC",
       "objects_after_cleanup": 0
     },
-    "preview_configured_key_count": 9
+    "preview_configured_key_count": 9,
+    "blob_failure_diagnostic": {
+      "status": "unresolved",
+      "installed_sdk": "2.8.2",
+      "offline_diagnostic_tests_passed": 11,
+      "provider_mutation_rerun": false,
+      "strict_safety_checks_unchanged": true,
+      "controlled_rerun_requires_separate_owner_authorization": true
+    }
   },
   "dependency_audit": {
     "production": 0,
