@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { randomUUID,createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { get,put,del,BlobPreconditionFailedError } from '@vercel/blob';
-import {installBlobDiagnostics,describeError} from './lib/blob-probe-diagnostics.mjs';
+import {installBlobDiagnostics,describeError,logBlobContenders} from './lib/blob-probe-diagnostics.mjs';
 const token=process.env.EBOOK_BLOB_READ_WRITE_TOKEN||process.env.BLOB_READ_WRITE_TOKEN;
 const expectedStore='store_O9OJNZXDYMzkyTu5';
 const sameStore=(process.env.BLOB_STORE_ID||'').replace(/^store_/,'')===expectedStore.replace(/^store_/,'');
@@ -22,7 +22,7 @@ try{
  const initial=await read();
  // All contenders use the same etag: exactly one must commit, regardless of response order.
  const results=await Promise.all(Array.from({length:8},(_,i)=>diagnostics.track('contention-'+i,()=>put(path,JSON.stringify({version:1,revision:1,records:[{winner:i}]}),{token,access:'private',addRandomSuffix:false,ifMatch:initial.etag,contentType:'application/json'}))));
- console.log(JSON.stringify({blobContentionDiagnostics:diagnostics.summary(results)}));
+ logBlobContenders(diagnostics.summary(results).operations);
  assert.equal(results.filter(r=>r.status==='fulfilled').length,1,'Conditional write must have exactly one winner');
  for(const r of results.filter(r=>r.status==='rejected'))assert.ok(r.reason instanceof BlobPreconditionFailedError,'Unexpected provider error: fail test; do not introduce another store');
  const current=await read();etag=current.etag;assert.equal(current.data.revision,1);assert.equal(current.data.records.length,1);assert.notEqual(current.etag,initial.etag);
@@ -44,7 +44,7 @@ try{
  const p={store:new BlobStore(token,path),now:Date.now,buffer:15*60000,available:async()=>true,asset:async()=>Buffer.from('probe')};
  const start=Date.now()+4*3600000;
  const attempts=await Promise.all(Array.from({length:12},(_,i)=>diagnostics.track('reservation-'+i,()=>reserve(p,{id:createHash('sha256').update(path+':'+i).digest('hex'),owner:'probe',start,edition:'en',email:'probe@example.test',price:'price_probe',origin:'https://preview.vercel.app'}))));
- console.log(JSON.stringify({blobReservationDiagnostics:diagnostics.summary(attempts)}));
+ logBlobContenders(diagnostics.summary(attempts).operations);
  assert.equal(attempts.filter(r=>r.status==='fulfilled').length,1,'Actual slot protection must admit one claimant');
  for(const r of attempts.filter(r=>r.status==='rejected'))assert.equal(r.reason.status,409,'Unexpected Blob/provider error requires stopping and review');
  assert.equal((await read()).data.records.length,1);

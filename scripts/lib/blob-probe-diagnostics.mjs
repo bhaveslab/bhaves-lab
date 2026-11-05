@@ -42,6 +42,25 @@ export function describeError(error,responses=[],env=process.env) {
  // Classification is informational: it NEVER changes the exact-class safety assertion.
  return {sdk,exactExpectedClass,classification,responses};
 }
+// Keep physical log lines below the observed 2 KB build-log limit.
+export function logBlobContenders(operations, write = console.log) {
+ for (const operation of operations) {
+  const record = JSON.stringify({ blobContender: operation });
+  if (Buffer.byteLength(record) <= 1800) {
+   write(record);
+   continue;
+  }
+
+  // Oversized histories remain one logical record, with numbered transport frames.
+  const encoded = Buffer.from(record).toString('base64');
+  const chunks = encoded.match(/.{1,1200}/g);
+  for (const [index, data] of chunks.entries()) {
+   write(JSON.stringify({
+    blobContenderFrame: { label: operation.label, part: index + 1, total: chunks.length, data },
+   }));
+  }
+ }
+}
 function observesBlob(options){
  try {
   const origin=String(options.origin),path=String(options.path);

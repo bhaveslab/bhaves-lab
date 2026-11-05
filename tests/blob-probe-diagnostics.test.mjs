@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { MockAgent,getGlobalDispatcher,setGlobalDispatcher } from 'undici';
 import { put,BlobPreconditionFailedError } from '@vercel/blob';
-import { installBlobDiagnostics,describeError,sanitize } from '../scripts/lib/blob-probe-diagnostics.mjs';
+import { installBlobDiagnostics,describeError,sanitize,logBlobContenders } from '../scripts/lib/blob-probe-diagnostics.mjs';
 const dummyToken='vercel_blob_rw_offline_not_a_real_credential';
 async function mocked(status,code,message,operation){
  const old=getGlobalDispatcher(),oldRetries=process.env.VERCEL_BLOB_RETRIES;
@@ -87,4 +87,32 @@ test('concurrent offline writes retain their own response evidence and diagnosti
   assert.equal(results[0].label,'first');assert.equal(results[0].diagnostic.responses[0].httpStatus,412);
   assert.equal(results[1].label,'second');assert.equal(results[1].diagnostic.responses[0].httpStatus,429);mock.assertNoPendingInterceptors();
  }finally{d.restore();setGlobalDispatcher(old);await mock.close();}
+});
+
+test('each contender is a separate log record and long retry histories survive the line limit', () => {
+ const first = { label: 'contention-0', status: 'fulfilled', responses: [{ httpStatus: 200 }] };
+ const second = {
+  label: 'contention-1',
+  responses: Array.from({ length: 64 }, (_, attempt) => ({
+   httpStatus: attempt === 63 ? 400 : 503,
+   providerCode: attempt === 63 ? 'bad_request' : 'service_unavailable',
+   message: 'é'.repeat(1000),
+  })),
+ };
+ const third = { label: 'contention-2', responses: [{ httpStatus: 412, providerCode: 'precondition_failed' }] };
+ const lines = [];
+ logBlobContenders([first, second, third], line => lines.push(line));
+
+ assert.ok(lines.every(line => Buffer.byteLength(line) <= 1800));
+ assert.deepEqual(JSON.parse(lines[0]), { blobContender: first });
+ assert.deepEqual(JSON.parse(lines.at(-1)), { blobContender: third });
+ const frames = lines.slice(1, -1).map(line => JSON.parse(line).blobContenderFrame);
+ assert.ok(frames.length > 1);
+ for (const [index, frame] of frames.entries()) {
+  assert.equal(frame.label, second.label);
+  assert.equal(frame.part, index + 1);
+  assert.equal(frame.total, frames.length);
+ }
+ const decoded = Buffer.from(frames.map(frame => frame.data).join(''), 'base64').toString('utf8');
+ assert.deepEqual(JSON.parse(decoded), { blobContender: second });
 });
