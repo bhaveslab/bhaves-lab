@@ -1,3 +1,5 @@
+> Latest real-provider gate: [provider-integration-audit.md](provider-integration-audit.md). Preview OIDC Blob access is verified; the real contention probe FAILED on unexpected rejection classification. Testing stopped. Nine Preview variables and connected-provider email simulator probes are now completed. Earlier missing-connection statements below are historical.
+
 # Paid booking implementation — review, not launch authorization
 
 The owner approved the minimal ledger in the **existing** private Vercel Blob store. This document supersedes the proposal's pending-approval status. No other provider, Supabase project, customer account, subscription or production change has been introduced. The repository branch remains `codex/issue-8-ebooks`, draft PR #9 stacked on Observatory PR #5; booking coordination remains Issue #7.

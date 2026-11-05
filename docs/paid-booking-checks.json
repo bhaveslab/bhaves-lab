@@ -39,12 +39,20 @@
     "fixture": "synthetic availability, no real bookings"
   },
   "integration": {
-    "blob_real_contention": "BLOCKED: missing existing-store token; command exit 2",
+    "blob_real_contention": "FAILED: real Preview OIDC; one of eight writers succeeded, unexpected rejection classification; later assertions not reached; stopped",
     "stripe_test_payment": "BLOCKED: no test credentials",
     "google_calendar_write": "BLOCKED: no runtime OAuth or approved test calendar",
-    "resend_delivery": "BLOCKED: no runtime key/sender",
+    "resend_delivery": "Real connected-provider simulator delivered/bounced and same-batch idempotency verified; website credential/E2E not verified",
     "recovery_trigger": "not configured",
-    "production_or_live_enabled": false
+    "production_or_live_enabled": false,
+    "storage_connection": {
+      "preview": true,
+      "production": true,
+      "production_used_for_testing": false,
+      "auth": "Preview OIDC",
+      "objects_after_cleanup": 0
+    },
+    "preview_configured_key_count": 9
   },
   "dependency_audit": {
     "production": 0,
