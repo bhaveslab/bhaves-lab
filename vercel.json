@@ -1,4 +1,21 @@
 {
   "cleanUrls": true,
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "rewrites": [
+    {
+      "source": "/labels/nyra",
+      "destination": "/labels/nyra.html"
+    },
+    {
+      "source": "/labels/fly-gang",
+      "destination": "/labels/fly-gang.html"
+    },
+    {
+      "source": "/labels/dom",
+      "destination": "/labels/dom.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
