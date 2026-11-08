@@ -50,6 +50,9 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
+        <Link to="/library" onClick={() => setMenu(false)}>
+            Digital Library
+          </Link>
         </nav>
       </header>
       <main id="main">
