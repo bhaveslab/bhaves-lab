@@ -40,3 +40,7 @@
 .library-single .library-price{font:400 30px/1.2 Georgia,serif;color:#edf5ec;margin:26px 0 12px}
 .library-single .library-price span{font:400 12px/1.5 Arial,sans-serif;color:#b5ccc9;display:block;margin-top:6px}
 @media(max-width:700px){.library-single .library-book{grid-template-columns:1fr;gap:28px}.library-single .library-book-art{width:min(100%,340px);margin:0 auto}.library-single .library-shelf{margin-top:55px}}
+
+/* Final jacket artwork: preserve the full cover without cropping or inset padding. */
+.library-book-art.library-book-cover{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:contain;padding:0}
+@media(max-width:700px){.library-single .library-book-cover{max-width:340px}}

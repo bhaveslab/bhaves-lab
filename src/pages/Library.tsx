@@ -62,12 +62,14 @@ export function Library() {
         <section className="library-shelf" aria-labelledby="library-book-heading">
           <div className="library-grid">
             <article className="library-book">
-              <div className="library-book-art" role="img" aria-label="The Possibility Game ebook cover, dark teal with a luminous orbit">
-                <span>BHAVÉ’S LAB / DIGITAL EDITION</span>
-                <span className="library-art-mark" aria-hidden="true">◌</span>
-                <strong>THE<br />POSSIBILITY<br />GAME</strong>
-                <small>BHAVÉ · THE GENTLEMAN OF POSSIBILITY</small>
-              </div>
+              <img
+                className="library-book-art library-book-cover"
+                src="/observatory/the-possibility-game-cover.webp"
+                alt="The Possibility Game by Bhavé — 30 Days to a Possible Reality — and Beyond. Cover showing a cyan-lit Observatory overlooking mountains and water."
+                width="1024"
+                height="1536"
+                decoding="async"
+              />
               <div className="library-book-copy">
                 <p className="library-volume">EBOOK / PDF · 49 PAGES</p>
                 <h2 id="library-book-heading">The Possibility Game</h2>
