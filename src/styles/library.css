@@ -29,3 +29,14 @@
 @media(max-width:850px){.library-grid{grid-template-columns:1fr;gap:40px}.library-book{grid-template-columns:minmax(130px,38%) 1fr}.library-main{padding-top:55px}.library-shelf{margin-top:72px}}
 @media(max-width:480px){.library-header{padding:20px 18px}.library-header a:last-child{font-size:11px}.library-main{padding:50px 22px 80px}.library-book{grid-template-columns:minmax(110px,42%) 1fr;gap:16px}.library-book-art{padding:12px}.library-book-copy h3{font-size:19px}.library-shelf{margin-top:64px}.library-book-art strong{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.library-world *{scroll-behavior:auto}}
+
+/* Single-edition library: only The Possibility Game is on offer. */
+.library-single .library-shelf{margin-top:72px}
+.library-single .library-grid{grid-template-columns:minmax(0,1fr);max-width:1010px}
+.library-single .library-book{grid-template-columns:minmax(230px,38%) 1fr;gap:clamp(28px,5vw,76px);align-items:center}
+.library-single .library-book-art{max-width:370px}
+.library-single .library-book-copy h2{font:400 clamp(30px,3.6vw,46px)/1.15 Georgia,serif;margin:0 0 14px;letter-spacing:-.025em}
+.library-single .library-book-copy>p:not(.library-volume):not(.library-subtitle):not(.library-price):not(.library-availability){font-size:15px;line-height:1.7;color:#d0e0da}
+.library-single .library-price{font:400 30px/1.2 Georgia,serif;color:#edf5ec;margin:26px 0 12px}
+.library-single .library-price span{font:400 12px/1.5 Arial,sans-serif;color:#b5ccc9;display:block;margin-top:6px}
+@media(max-width:700px){.library-single .library-book{grid-template-columns:1fr;gap:28px}.library-single .library-book-art{width:min(100%,340px);margin:0 auto}.library-single .library-shelf{margin-top:55px}}
