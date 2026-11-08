@@ -14,8 +14,12 @@ const Meridian = lazy(() =>
 const Library = lazy(() =>
   import("./pages/Library").then((module) => ({ default: module.Library })),
 );
+const LibraryDelivery = lazy(() =>
+  import("./pages/LibraryDelivery").then((module) => ({ default: module.LibraryDelivery })),
+);
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/library/delivery" || path === "/library/delivery/") return <LibraryDelivery />;
   if (path === "/library" || path === "/library/") return <Library />;
   return <Home />;
 }
