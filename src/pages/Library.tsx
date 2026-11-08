@@ -3,99 +3,59 @@ import { Link } from "../router";
 import "../styles/observatory.css";
 import "../styles/library.css";
 
-const volumes = [
-  {
-    collection: "THE GOSPEL",
-    books: [
-      {
-        number: "01",
-        title: "The Gospel: Lost Chapters",
-        subtitle: "The original work",
-        detail: "Digital ebook · Edition file to be verified",
-        price: null,
-      },
-      {
-        number: "02",
-        title: "The Gospel: Lost Chapters — Study Guide",
-        subtitle: "A companion to the original work",
-        detail: "Digital study guide · Edition in preparation",
-        price: null,
-      },
-    ],
-  },
-  {
-    collection: "THE POSSIBILITY",
-    books: [
-      {
-        number: "01",
-        title: "The Possibility",
-        subtitle: "Life Is Already in Motion",
-        detail: "Digital ebook · English and Spanish editions",
-        price: "$9.99",
-      },
-      {
-        number: "02",
-        title: "The Possibility Game",
-        subtitle: "30 Days to a Possible Reality — and Beyond",
-        detail: "Digital guide · 30 missions + unlimited self-created missions",
-        price: "$9.99",
-      },
-    ],
-  },
-] as const;
-
 export function Library() {
   useEffect(() => {
-    document.title = "Digital Library — BHAVÉ’S LAB";
+    document.title = "The Possibility Game — BHAVÉ’S LAB";
   }, []);
 
   return (
     <div className="observatory library-world">
-      <a className="lab-skip" href="#library-main">Skip to library</a>
+      <a className="lab-skip" href="#library-main">Skip to the ebook</a>
       <header className="library-header">
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
         <Link to="/">← The Observatory</Link>
       </header>
-      <main id="library-main" className="library-main">
-        <p className="lab-kicker">ORIGINAL PUBLICATIONS / DIGITAL EDITIONS</p>
-        <h1>The <em>Library.</em></h1>
+      <main id="library-main" className="library-main library-single">
+        <p className="lab-kicker">THE DIGITAL LIBRARY / ONE ORIGINAL EXPERIENCE</p>
+        <h1>The <em>Possibility Game.</em></h1>
         <p className="library-lede">
-          Words to explore. Guides to carry into your own experience.
-          Nothing to become. Nothing to prove.
+          Thirty days to a possible reality — and beyond.
+          Select your possibility, explore your world, and create your own missions.
+          Life is already in motion.
         </p>
-        <p className="library-format">EBOOKS ONLY · DIGITAL DOWNLOADS</p>
-        {volumes.map((volume) => (
-          <section className="library-shelf" key={volume.collection} aria-label={volume.collection}>
-            <div className="library-shelf-heading">
-              <p className="lab-kicker">COLLECTION</p>
-              <h2>{volume.collection}</h2>
-            </div>
-            <div className="library-grid">
-              {volume.books.map((book) => (
-                <article className="library-book" key={book.title}>
-                  <div className="library-book-art" aria-hidden="true">
-                    <span>BHAVÉ’S LAB</span>
-                    <span className="library-art-mark">◌</span>
-                    <strong>{book.title}</strong>
-                    <small>BHAVÉ</small>
-                  </div>
-                  <div className="library-book-copy">
-                    <p className="library-volume">VOLUME {book.number}</p>
-                    <h3>{book.title}</h3>
-                    <p className="library-subtitle">{book.subtitle}</p>
-                    <p className="library-detail">{book.detail}</p>
-                    <p className="library-availability">
-                      {book.price ? <><strong>{book.price}</strong> · </> : null}
-                      Purchase links will appear after secure delivery is verified.
-                    </p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+        <section className="library-shelf" aria-labelledby="library-book-heading">
+          <div className="library-grid">
+            <article className="library-book">
+              <div className="library-book-art" role="img" aria-label="The Possibility Game ebook cover, dark teal with a luminous orbit">
+                <span>BHAVÉ’S LAB / DIGITAL EDITION</span>
+                <span className="library-art-mark" aria-hidden="true">◌</span>
+                <strong>THE<br />POSSIBILITY<br />GAME</strong>
+                <small>BHAVÉ · THE GENTLEMAN OF POSSIBILITY</small>
+              </div>
+              <div className="library-book-copy">
+                <p className="library-volume">EBOOK / PDF · 49 PAGES</p>
+                <h2 id="library-book-heading">The Possibility Game</h2>
+                <p className="library-subtitle">30 Days to a Possible Reality — and Beyond</p>
+                <p>
+                  Thirty guided missions through the Source Vision Framework:
+                  State, Perception, Formation, Decision, Experience, Reality.
+                </p>
+                <p>
+                  Explore surprising possibilities, make small real-life moves,
+                  record your observations, and keep playing long after Day 30.
+                  Create as many of your own missions as you wish.
+                </p>
+                <p className="library-price">$9.99 <span>USD · one-time purchase · digital ebook only</span></p>
+                <p className="library-availability">
+                  Secure checkout and private ebook delivery are being verified.
+                  Purchasing will open once they are ready.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
         <p className="library-closing">
-          Life is already in motion. <em>The possibilities are endless.</em>
+          Thirty days are the invitation. <em>Possibility has no ending.</em>
         </p>
         <Link to="/" className="library-back">Return to the Observatory ↑</Link>
       </main>
