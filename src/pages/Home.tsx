@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/observatory.css";
-import { ObservationField } from "../components/ObservationField";\nimport { Link } from "../router";
+import { ObservationField } from "../components/ObservationField";
+import { Link } from "../router";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
