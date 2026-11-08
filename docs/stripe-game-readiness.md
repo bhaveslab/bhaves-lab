@@ -44,3 +44,18 @@ Ingest only after existing private-store credentials are securely available: nod
 5. After verification, configure the separate live key/price/webhook and https://www.bhaveslab.com origin. Enable production purchasing only after verification and authorization. No real-money test has been authorized or completed here.
 
 An attempted batch saving canonical origin, account/sender, separate protected download secrets and disabled flags was rejected by automatic approval review because checking readiness did not explicitly authorize persistent configuration changes. No values from that rejected batch were applied. This is separate from the missing runtime Stripe and private-store credentials.
+
+## Authorized setup completed after the audit
+
+The owner authorized configuring the existing Stripe/Vercel setup and confirmed no current sales tax/VAT/GST collection. Automatic tax was not enabled.
+
+- Existing Bhave Stripe account: test product prod_Vahn4qiZ6hGwYd, default one-time USD price price_1UZWNY2c1Eq7UIp4gxvIXCqE at 999 cents.
+- Test webhook we_1UZWOO2c1Eq7UIp44nHSeGZR targets the verified branch alias https://bhaves-lab-git-fix-possibility-game-payment-v-ad236e-bhaves-lab.vercel.app/api/ebooks/webhook and subscribes to checkout.session.completed and checkout.session.async_payment_succeeded. Signing secret was saved as a sensitive variable for this Preview branch only. No test event delivery has been verified yet.
+- Saved production canonical origin https://www.bhaveslab.com, existing account identity and verified sender. Generated separate production and branch-only Preview download-signing secrets; stored as sensitive values without publishing them.
+- Saved the Game test price ID for this Preview branch. Production retail/live-payment flags remain false. These environment changes require a new deployment before they affect runtime. No production deployment was triggered here.
+- No live Stripe product, live webhook, real charge or refund was created.
+
+Remaining blocking credentials are STRIPE_SECRET_KEY (a restricted test key for the existing Bhave account, scoped to this Preview branch) and EBOOK_BLOB_READ_WRITE_TOKEN (the existing private bhaves-lab-ebooks-preview store). The connected tools can manage products/webhooks but cannot export a deployment API key or the private-store token. They must be added directly to protected Vercel settings, not chat.
+
+After those two secrets are available: upload and privately read back the pinned PDF, redeploy Preview, then exercise real Stripe test Checkout, signed webhook, Resend receipt and download access before any live activation. All existing 15 local simulated-provider checks still pass; this setup has not established end-to-end success.
+
