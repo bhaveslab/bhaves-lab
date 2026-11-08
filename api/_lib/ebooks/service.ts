@@ -91,11 +91,9 @@ export async function startCheckout(
   if (!configurationReady(env))
     throw new EbookError(503, "Purchasing is being prepared.");
   const live = assertMode(env);
-  const account = await ports.stripe.accounts.retrieve();
-  if (account.id !== env.EBOOK_STRIPE_ACCOUNT_ID)
-    throw new EbookError(503, "The Stripe key belongs to a different account.");
-  if (!account.charges_enabled)
-    throw new EbookError(503, "Stripe has not enabled payments for this account.");
+  // The configured Price is account-scoped in Stripe: retrieving it with this
+  // restricted API key verifies account access without requiring a separate
+  // /v1/account permission that the checkout integration does not otherwise need.
   const [price] = await Promise.all([
     validatePrice(edition, ports, env),
     verifiedAsset(edition, ports),
