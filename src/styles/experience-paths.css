@@ -1,0 +1,96 @@
+/* The Observatory's two quiet companion experiences. */
+.game-invitation{
+  position:relative;isolation:isolate;display:grid;
+  grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);
+  gap:clamp(26px,6vw,92px);align-items:center;
+  max-width:1220px;margin:0 auto;padding:90px clamp(24px,6vw,80px) 112px;
+  border-top:1px solid #83c6c522;
+}
+.game-promo-art{
+  min-width:0;position:relative;overflow:hidden;aspect-ratio:3/4;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(180deg,#041016cc 0%,#041d2666 45%,#041016e6 100%),url('/observatory/observatory.webp') center/cover no-repeat;
+  border:1px solid #579a9c65;box-shadow:0 34px 80px #0008;
+  padding:clamp(16px,2.5vw,36px);color:#f2f6f3;
+}
+.game-promo-art .game-promo-top,.game-promo-art .game-promo-bottom{
+  font:500 10px/1.5 Arial,sans-serif;letter-spacing:.19em;position:relative;z-index:1;
+}
+.game-promo-art .game-promo-title{
+  position:relative;z-index:1;display:block;font:400 clamp(32px,4vw,65px)/1.02 Georgia,serif;
+  letter-spacing:-.045em;text-wrap:balance;text-shadow:0 4px 24px #001;
+}
+.game-promo-art .game-promo-title em{display:block;color:#93f1ea;font-style:normal;}
+.game-invitation-copy h2{
+  margin:18px 0 22px;font:400 clamp(35px,4.6vw,61px)/1.1 Georgia,serif;
+  letter-spacing:-.025em;text-wrap:balance;
+}
+.game-invitation-copy h2 em{color:#9ce8e3;font-weight:400;}
+.game-invitation-copy>p:not(.lab-kicker){max-width:560px;color:#c9dad5;font:400 clamp(16px,1.5vw,19px)/1.75 Georgia,serif;}
+.game-invitation-meta{font:400 13px/1.6 Arial,sans-serif!important;letter-spacing:.03em;color:#b8d3d0!important;margin:20px 0 33px;}
+.game-invitation-meta strong{font-size:22px;color:#f0f7f4;}
+.game-invitation-link{
+  display:inline-flex;align-items:center;justify-content:space-between;gap:30px;
+  padding:16px 22px;min-height:49px;border:1px solid #92d4d0!important;
+  background:#0e363a8a;color:#ebfaf5!important;font:500 13px Arial,sans-serif;
+  transition:background .2s ease,border-color .2s ease;
+}
+.game-invitation-link:hover{background:#20525a;}
+.game-invitation-link:focus-visible{outline:2px solid #a3efeb;outline-offset:4px;}
+.lil-ego-world{min-height:100svh;background:radial-gradient(ellipse at 18% 35%,#17404b7c,transparent 50%),#030d10;}
+.lil-ego-header{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:26px clamp(24px,6vw,80px);border-bottom:1px solid #94caca22;
+}
+.lil-ego-header nav{display:flex;flex-wrap:wrap;gap:18px 26px;font:500 12px Arial,sans-serif;color:#bdd8d5;}
+.lil-ego-header a:focus-visible{outline:2px solid #8ee5df;outline-offset:6px;}
+.lil-ego-intro{
+  display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);
+  gap:clamp(24px,7vw,100px);align-items:center;
+  max-width:1250px;margin:0 auto;padding:clamp(56px,7vw,110px) clamp(24px,6vw,80px) 92px;
+}
+.lil-ego-portrait{
+  position:relative;display:flex;align-items:end;justify-content:center;
+  min-height:480px;max-height:690px;overflow:hidden;
+  background:radial-gradient(circle at 50% 53%,#2b74795c 0%,#0c2a305a 42%,transparent 72%);
+  border:1px solid #32555e70;
+}
+.lil-ego-halo{
+  position:absolute;top:14%;left:12%;width:76%;aspect-ratio:1;
+  border:1px solid #77c6c64a;border-radius:50%;
+  box-shadow:0 0 100px #35b1c125,inset 0 0 90px #35b1c114;
+}
+.lil-ego-portrait img{
+  position:relative;z-index:1;display:block;width:min(94%,440px);height:auto;
+  object-fit:contain;max-height:620px;filter:drop-shadow(0 24px 50px #0008);
+}
+.lil-ego-signal{
+  position:absolute;z-index:2;top:22px;left:24px;
+  color:#9bd2d0;font:500 10px Arial,sans-serif;letter-spacing:.13em;
+}
+.lil-ego-copy{max-width:620px;}
+.lil-ego-copy h1{
+  font:400 clamp(58px,7vw,100px)/1 Georgia,serif;letter-spacing:-.06em;
+  margin:18px 0 28px;
+}
+.lil-ego-copy h1 em{color:#a0e9df;}
+.lil-ego-copy>p:not(.lab-kicker){color:#c5d9d4;font:400 clamp(16px,1.6vw,19px)/1.85 Georgia,serif;margin:18px 0;}
+.lil-ego-copy .lil-ego-lede{color:#f1faf5!important;font-size:clamp(20px,2.25vw,27px)!important;line-height:1.45!important;}
+.lil-ego-copy .lil-ego-question{color:#9de9df!important;font-size:clamp(23px,2.8vw,34px)!important;margin-top:38px!important;}
+.lil-ego-copy .lil-ego-coming{font:400 13px/1.7 Arial,sans-serif!important;color:#a7bfbd!important;}
+.lil-ego-closing{
+  text-align:center;padding:55px 24px 100px;border-top:1px solid #94caca26;
+}
+.lil-ego-closing p{font:400 clamp(27px,3vw,40px)/1.3 Georgia,serif;margin:0 0 27px;}
+.lil-ego-closing em{color:#9ce8e3;}
+.lil-ego-closing a{color:#9ce8e3!important;font:400 13px Arial,sans-serif;border-bottom:1px solid #579b9e;padding-bottom:7px;}
+@media(max-width:760px){
+  .game-invitation,.lil-ego-intro{grid-template-columns:1fr;}
+  .game-invitation{padding:62px 24px 86px;gap:34px;}
+  .game-promo-art{width:min(100%,320px);margin-inline:auto;}
+  .lil-ego-header{padding:20px 22px;align-items:flex-start;flex-direction:column;}
+  .lil-ego-intro{padding:50px 24px 68px;gap:26px;}
+  .lil-ego-portrait{min-height:330px;max-height:500px;}
+  .lil-ego-portrait img{max-height:480px;width:min(90%,310px);}
+}
+@media(prefers-reduced-motion:reduce){.game-invitation-link{transition:none;}}
