@@ -1,47 +1,24 @@
 export const EBOOKS = {
-  en: {
-    sku: "possibility-en-v1",
+  game: {
+    sku: "possibility-game-en-v1",
     language: "English",
     lang: "en",
-    title: "The Possibility",
-    subtitle: "Life Is Already in Motion",
+    title: "The Possibility Game",
+    subtitle: "30 Days to a Possible Reality — and Beyond",
     cents: 999,
     currency: "usd",
-    pages: 12,
-    filename: "The_Possibility_English_Final.pdf",
-    sha256: "8e3d68c4a55fc9a21dea03cf6eec31240df72e61ad305e60e4e266f06a1e5562",
-    bytes: 2923110,
-    path: "ebooks/8e3d68c4a55fc9a21dea03cf6eec31240df72e61ad305e60e4e266f06a1e5562.pdf",
-    priceEnv: "STRIPE_EBOOK_EN_PRICE_ID",
-  },
-  es: {
-    sku: "possibility-es-v1",
-    language: "Español",
-    lang: "es",
-    title: "La posibilidad",
-    subtitle: "La vida ya está en movimiento",
-    cents: 999,
-    currency: "usd",
-    pages: 12,
-    filename: "La_Posibilidad_Spanish_Final.pdf",
-    sha256: "cf4ef640095d833e26ed0b1d7c9e98d207581e7e1617f38a35b23aef0ff3bdd8",
-    bytes: 1590929,
-    path: "ebooks/cf4ef640095d833e26ed0b1d7c9e98d207581e7e1617f38a35b23aef0ff3bdd8.pdf",
-    priceEnv: "STRIPE_EBOOK_ES_PRICE_ID",
+    pages: 49,
+    filename: "The_Possibility_Game_Observatory_Edition.pdf",
+    sha256: "14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d",
+    bytes: 2979876,
+    path: "ebooks/14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d.pdf",
+    priceEnv: "STRIPE_EBOOK_GAME_PRICE_ID",
   },
 } as const;
 export type Edition = keyof typeof EBOOKS;
 export function editionForSku(sku: unknown): Edition | null {
-  return (
-    (Object.keys(EBOOKS) as Edition[]).find((key) => EBOOKS[key].sku === sku) ??
-    null
-  );
+  return (Object.keys(EBOOKS) as Edition[]).find((key) => EBOOKS[key].sku === sku) ?? null;
 }
 export class EbookError extends Error {
-  constructor(
-    public status: number,
-    message: string,
-  ) {
-    super(message);
-  }
+  constructor(public status: number, message: string) { super(message); }
 }
