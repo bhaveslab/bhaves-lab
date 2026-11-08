@@ -1,12 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "../router";
 import "../styles/observatory.css";
 import "../styles/library.css";
 
 export function Library() {
+  const [available, setAvailable] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const request = useRef<string | null>(null);
+
   useEffect(() => {
     document.title = "The Possibility Game — BHAVÉ’S LAB";
+    fetch("/api/ebooks/catalog")
+      .then((response) => response.json())
+      .then((data) => setAvailable(data.checkoutAvailable === true &&
+        Array.isArray(data.editions) &&
+        data.editions.length === 1 &&
+        data.editions[0].edition === "game" &&
+        data.editions[0].cents === 999))
+      .catch(() => setAvailable(false));
   }, []);
+
+  async function buy() {
+    if (!available || busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      request.current ??= crypto.randomUUID();
+      const response = await fetch("/api/ebooks/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ edition: "game", requestId: request.current }),
+      });
+      const data = await response.json();
+      if (!response.ok || typeof data.url !== "string" ||
+          new URL(data.url).origin !== "https://checkout.stripe.com") {
+        throw Error("Secure checkout is not ready.");
+      }
+      window.location.assign(data.url);
+    } catch {
+      setError("Secure checkout is currently unavailable. Please check back.");
+      setBusy(false);
+    }
+  }
 
   return (
     <div className="observatory library-world">
@@ -46,9 +82,20 @@ export function Library() {
                   Create as many of your own missions as you wish.
                 </p>
                 <p className="library-price">$9.99 <span>USD · one-time purchase · digital ebook only</span></p>
+                <button className="lab-button" type="button" onClick={() => void buy()}
+                  disabled={!available || busy}>
+                  {busy ? "Opening secure checkout…" : "Purchase PDF · $9.99"}
+                </button>
+                {!available && (
+                  <p className="library-availability">
+                    Secure checkout and private ebook delivery are being verified.
+                    Purchasing will open once they are ready.
+                  </p>
+                )}
+                <p className="library-availability" role="status">{error}</p>
                 <p className="library-availability">
-                  Secure checkout and private ebook delivery are being verified.
-                  Purchasing will open once they are ready.
+                  A private download link will be sent to the buyer's email after
+                  verified payment. The link is valid for seven days.
                 </p>
               </div>
             </article>
