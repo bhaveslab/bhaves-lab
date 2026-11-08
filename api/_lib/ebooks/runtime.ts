@@ -10,7 +10,7 @@ export function ports(env: NodeJS.ProcessEnv = process.env): EbookPorts {
   return {
     stripe,
     async readAsset(edition: Edition) {
-      if (!env.EBOOK_BLOB_READ_WRITE_TOKEN && !(env.BLOB_STORE_ID && env.VERCEL_OIDC_TOKEN))
+      if (!env.EBOOK_BLOB_READ_WRITE_TOKEN && !(env.BLOB_STORE_ID && env.VERCEL_ENV))
         throw new EbookError(503, "Digital delivery is being prepared.");
       const result = await get(EBOOKS[edition].path, {
         access: "private",
