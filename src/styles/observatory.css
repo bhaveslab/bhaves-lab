@@ -1,0 +1,1553 @@
+.observatory {
+  --ink: #ecf4f0;
+  --muted: #b2c5c5;
+  --cyan: #88e0e0;
+  background: #030d10;
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+  overflow: clip;
+}
+.observatory * {
+  box-sizing: border-box;
+}
+.observatory a {
+  color: inherit;
+  text-decoration: none;
+}
+.observatory button,
+.observatory input,
+.observatory textarea {
+  font: inherit;
+}
+.observatory a:focus-visible,
+.observatory button:focus-visible,
+.observatory input:focus-visible,
+.observatory textarea:focus-visible {
+  outline: 2px solid #a2ffff;
+  outline-offset: 5px;
+}
+.observatory button {
+  cursor: pointer;
+}
+.lab-skip {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 99;
+  background: #092c32;
+  padding: 15px;
+}
+.lab-skip:focus {
+  top: 10px;
+}
+.lab-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 5;
+  padding: 30px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(#020d10e8, transparent);
+}
+.lab-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+.lab-brand small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 2.8px;
+  margin-top: 8px;
+  color: #d0e6e5;
+}
+.orbit-mark {
+  font-size: 49px;
+  color: var(--cyan);
+  line-height: 1;
+}
+.lab-header nav {
+  display: flex;
+  gap: 30px;
+  font-size: 12px;
+  color: #dae5e2;
+}
+.lab-header nav a {
+  padding: 12px 0;
+}
+.lab-header nav a:hover,
+.lab-text-link:hover {
+  color: var(--cyan);
+}
+.menu-toggle {
+  display: none;
+}
+.lab-hero {
+  position: relative;
+  min-height: 800px;
+  height: 100svh;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  padding: 160px 8% 110px;
+}
+.observatory-image {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+}
+.observatory-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 37%;
+}
+.lab-hero:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, #020d10e8 0%, #020d1080 40%, transparent 70%),
+    linear-gradient(0deg, #030d10 0%, transparent 65%);
+  z-index: -1;
+}
+.lab-mist {
+  position: absolute;
+  inset: 35% -10% 0;
+  z-index: -2;
+  background: radial-gradient(ellipse at 65% 70%, #c6ffff28, transparent 40%);
+  animation: mist-drift 22s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.lab-horizon {
+  position: absolute;
+  bottom: 8%;
+  left: 10%;
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #78e4ed60, transparent);
+  box-shadow: 0 0 35px 4px #5de1e240;
+  animation: light-breathe 9s ease-in-out infinite;
+}
+.hero-copy {
+  max-width: 680px;
+}
+.lab-kicker {
+  font-size: 10px;
+  line-height: 1.6;
+  font-weight: 500;
+  letter-spacing: 3px;
+  color: var(--cyan);
+}
+.hero-copy h1 {
+  font:
+    400 clamp(62px, 6.5vw, 106px)/1.03 Georgia,
+    serif;
+  letter-spacing: -3px;
+  margin: 25px 0;
+}
+.observatory em {
+  font-weight: 400;
+  color: #bce6e0;
+}
+.hero-support {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #d2dfdc;
+  max-width: 460px;
+  margin: 25px 0 30px;
+}
+.lab-button {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  border: 1px solid #80dadd80;
+  border-radius: 3px;
+  background: #07343caa;
+  color: var(--ink);
+  padding: 17px 23px;
+  font-size: 12px;
+  box-shadow: inset 0 0 18px #72f0f00d;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+.lab-button:hover {
+  background: #124851;
+  border-color: #b2ffff;
+}
+.lab-button span {
+  font-size: 20px;
+}
+
+.hero-bottom {
+  position: absolute;
+  bottom: 28px;
+  left: 8%;
+  right: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #b5c8c8;
+}
+.hero-bottom a span {
+  margin-left: 25px;
+}
+.hero-bottom button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 10px;
+  padding: 10px;
+}
+.lab-section {
+  max-width: 1400px;
+  margin: auto;
+  padding: 130px 8%;
+  scroll-margin-top: 35px;
+}
+.lab-about {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 7%;
+  border-bottom: 1px solid #9bd3d329;
+}
+.observatory h2 {
+  font:
+    400 clamp(40px, 4.2vw, 66px)/1.13 Georgia,
+    serif;
+  letter-spacing: -1px;
+  margin: 0 0 30px;
+}
+.lab-section p:not(.lab-kicker) {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 520px;
+}
+.lab-section .signature {
+  margin-top: 40px;
+  color: #e2e8df !important;
+  font-family: Georgia, serif;
+  font-size: 25px !important;
+}
+.signature span {
+  display: block;
+  font:
+    10px Arial,
+    sans-serif;
+  letter-spacing: 1px;
+  margin-top: 12px;
+}
+.lab-session {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10%;
+  background: radial-gradient(ellipse at 90% 40%, #0c30364d, transparent 65%);
+}
+.session-heading {
+  padding-top: 20px;
+}
+.session-heading .lab-kicker {
+  margin-bottom: 28px;
+}
+.lab-text-link {
+  display: inline-flex;
+  gap: 40px;
+  font-size: 12px;
+  margin-top: 25px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #8ec6c26b;
+}
+.booking-form {
+  padding: 35px;
+  border: 1px solid #8ad8da36;
+  background: #07191dc9;
+  scroll-margin-top: 30px;
+}
+.form-intro h3 {
+  font:
+    32px Georgia,
+    serif;
+  margin: 18px 0;
+}
+.form-intro p {
+  font-size: 12px !important;
+}
+.booking-form label {
+  display: block;
+  font-size: 11px;
+  color: #d7e5e2;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+.booking-form input:not([type="checkbox"]),
+.booking-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid #a2cbcd44;
+  border-radius: 2px;
+  padding: 12px;
+  color: #f3f8f4;
+  background: #061115;
+  min-width: 0;
+}
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+  color: #91a8a8;
+  font-size: 11px;
+}
+.form-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.booking-form .consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 10px;
+}
+.consent input {
+  margin-top: 3px;
+  accent-color: #8bddda;
+}
+.booking-form .form-note {
+  font-size: 10px !important;
+  line-height: 1.7 !important;
+}
+.booking-form .lab-button {
+  width: 100%;
+  margin-top: 15px;
+}
+.booking-form .lab-button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.booking-form [role="status"] {
+  font-size: 12px !important;
+  margin-bottom: 0;
+}
+.booking-trap {
+  position: absolute;
+  left: -10000px;
+}
+.lab-shop {
+  border-top: 1px solid #9bd3d329;
+}
+.shop-entrance {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 14%;
+  padding-top: 50px;
+}
+.book-sculpture {
+  aspect-ratio: 3/4;
+  max-width: 280px;
+  width: 80%;
+  padding: 35px 25px;
+  margin: auto;
+  background: linear-gradient(
+    110deg,
+    #21454a,
+    #0d242a 13%,
+    #07171b 17%,
+    #153239
+  );
+  border: 1px solid #83bbb478;
+  border-left: 9px solid #22494c;
+  box-shadow:
+    22px 30px 60px #000,
+    0 0 90px #57e4e019;
+  transform: perspective(1000px) rotateY(16deg) rotateZ(-6deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #aecdc6;
+}
+.book-sculpture span {
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 2px;
+}
+.book-sculpture i {
+  font:
+    35px/1.2 Georgia,
+    serif;
+}
+.shop-status {
+  font-size: 12px !important;
+  border-left: 1px solid var(--cyan);
+  padding-left: 20px;
+  margin-top: 25px;
+}
+.lab-closing {
+  text-align: center;
+  padding: 70px 20px 130px;
+  background: radial-gradient(ellipse at bottom, #12404b55, transparent 60%);
+}
+.lab-closing > span {
+  font-size: 64px;
+  color: var(--cyan);
+  font-family: Georgia, serif;
+}
+.lab-closing p {
+  font:
+    40px/1.3 Georgia,
+    serif;
+}
+.lab-closing a {
+  font-size: 11px;
+  color: var(--muted);
+}
+.lab-footer {
+  border-top: 1px solid #9bd3d329;
+  padding: 30px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.lab-footer .lab-brand {
+  font-size: 13px;
+}
+.motion-paused .lab-mist,
+.motion-paused .lab-horizon {
+  animation: none;
+}
+@keyframes mist-drift {
+  to {
+    transform: translate3d(5%, 5%, 0);
+    opacity: 0.55;
+  }
+}
+@keyframes light-breathe {
+  50% {
+    opacity: 0.35;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .observatory * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (max-width: 800px) {
+  .lab-header {
+    padding: 22px 6%;
+    align-items: flex-start;
+  }
+  .lab-brand {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+  .lab-brand small {
+    font-size: 6px;
+    letter-spacing: 1.5px;
+  }
+  .orbit-mark {
+    font-size: 39px;
+  }
+  .menu-toggle {
+    display: block;
+    background: #082126;
+    border: 1px solid #83c5c54d;
+    color: #e5f4f1;
+    padding: 10px;
+    font-size: 11px;
+  }
+  .lab-header nav {
+    display: none;
+    position: absolute;
+    top: 80px;
+    right: 6%;
+    left: 6%;
+    padding: 20px;
+    background: #06191b;
+    border: 1px solid #80cccc66;
+  }
+  .lab-header nav.is-open {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lab-header nav a {
+    padding: 12px;
+  }
+  .lab-hero {
+    padding: 130px 7% 100px;
+    min-height: 760px;
+    max-height: 1100px;
+  }
+  .observatory-image img {
+    object-position: 48% center;
+  }
+  .lab-hero:before {
+    background: linear-gradient(0deg, #030d10 3%, #030d10d9 30%, #030d1020 78%);
+  }
+  .hero-copy h1 {
+    font-size: 68px;
+  }
+
+  .lab-section {
+    padding: 85px 7%;
+  }
+  .lab-about {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .lab-session {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+  .shop-entrance {
+    gap: 8%;
+  }
+  .book-sculpture {
+    width: 90%;
+    padding: 25px 15px;
+  }
+  .book-sculpture i {
+    font-size: 25px;
+  }
+  .book-sculpture span {
+    font-size: 6px;
+  }
+  .lab-footer {
+    flex-wrap: wrap;
+  }
+  .hero-bottom {
+    left: 7%;
+  }
+  .lab-closing p {
+    font-size: 32px;
+  }
+}
+@media (max-width: 480px) {
+  .lab-hero {
+    min-height: 790px;
+  }
+  .hero-copy h1 {
+    font-size: 60px;
+    letter-spacing: -2px;
+  }
+  .hero-support {
+    font-size: 14px;
+  }
+  .hero-copy .lab-kicker {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .shop-entrance {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+  .book-sculpture {
+    max-width: 210px;
+  }
+  .booking-form {
+    padding: 24px;
+  }
+  .form-pair {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .desktop-break {
+    display: none;
+  }
+  .lab-closing {
+    padding-bottom: 85px;
+  }
+}
+/* Observation planes are part of the scene, never storefront cards. */
+.observation-screen {
+  position: absolute;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid #8de4e25c;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #418b9224, #0b26350a 50%, #79efee13);
+  box-shadow:
+    0 0 22px #38bec41a,
+    inset 0 0 28px #72eeee0a;
+  pointer-events: none;
+}
+.observation-screen:after {
+  content: "";
+  position: absolute;
+  inset: -50% -110%;
+  background: linear-gradient(
+    115deg,
+    transparent 46%,
+    #cbffff13 50%,
+    transparent 54%
+  );
+  transform: translateX(-15%);
+  animation: screen-reflection 20s ease-in-out infinite;
+  z-index: 3;
+  pointer-events: none;
+}
+.observation-screen img {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 0 9px #8de6ef18);
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ego-screen {
+  right: 6%;
+  top: 23%;
+  width: clamp(142px, 14vw, 205px);
+  height: clamp(220px, 25vw, 340px);
+  transform: perspective(1100px) rotateY(-14deg) rotateZ(1deg);
+  background: linear-gradient(135deg, #1b505326, #06161a12);
+  padding: 18px 12px 25px;
+}
+.ego-screen img {
+  object-position: center;
+  height: 100%;
+  width: 100%;
+  opacity: 0.95;
+}
+.screen-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#77cdd615 1px, transparent 1px),
+    linear-gradient(90deg, #77cdd615 1px, transparent 1px);
+  background-size: 25px 25px;
+  opacity: 0.35;
+}
+.screen-coordinate {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font:
+    6px Arial,
+    sans-serif;
+  letter-spacing: 1.6px;
+  color: #a2dcdfb3;
+  z-index: 2;
+}
+.screen-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font:
+    8px Georgia,
+    serif;
+  letter-spacing: 0.5px;
+  color: #d7e5e2;
+  z-index: 2;
+}
+.screen-caption i {
+  color: #89d1d2;
+  padding: 0 4px;
+}
+.screen-wave {
+  position: absolute;
+  inset: auto 0 23px;
+  width: 100%;
+  height: 12px;
+  stroke: #8ee3e866;
+  fill: none;
+  stroke-width: 0.6;
+  z-index: 0;
+}
+.bracelet-screen {
+  right: 25%;
+  top: 15%;
+  width: clamp(155px, 17vw, 250px);
+  height: clamp(120px, 13vw, 195px);
+  transform: perspective(1000px) rotateY(17deg) rotateZ(-3deg);
+  padding: 18px 8px 10px;
+  border-color: #8edfdc3b;
+}
+.bracelet-screen img {
+  object-fit: contain;
+  animation: bracelet-light 14s ease-in-out infinite;
+  opacity: 1;
+  filter: brightness(1.4) drop-shadow(0 0 8px #7bd8e424);
+  mix-blend-mode: screen;
+}
+.screen-orbit {
+  position: absolute;
+  width: 58%;
+  aspect-ratio: 1;
+  border: 1px solid #8bdfdf20;
+  border-radius: 50%;
+  left: 20%;
+  top: 9%;
+  transform: rotateX(60deg);
+  box-shadow: 0 0 20px #4adae511;
+}
+.lab-hero {
+  min-height: min(800px, 100svh);
+}
+.lab-hero:after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -2px;
+  height: 100px;
+  background: linear-gradient(transparent, #030d10);
+  pointer-events: none;
+  z-index: -1;
+}
+.session-heading .session-invitation {
+  font:
+    italic 25px/1.4 Georgia,
+    serif;
+  color: #d7ece7;
+  margin-top: 0;
+}
+.session-heading .session-price {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #ddf6ef;
+  font-size: 17px;
+  letter-spacing: 1px;
+  border-block: 1px solid #92dedc26;
+  padding: 18px 0;
+  margin: 28px 0;
+}
+.session-price span {
+  color: #82cccc;
+}
+.booking-form input:not([type="checkbox"]),
+.booking-form textarea {
+  font-size: 16px;
+}
+.form-intro h3 {
+  line-height: 1.2;
+}
+.clarity-locked {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  background: radial-gradient(ellipse at 50% 25%, #12475066, transparent 60%);
+}
+.clarity-locked h1 {
+  font:
+    clamp(36px, 5vw, 65px)/1.15 Georgia,
+    serif;
+  font-weight: 400;
+}
+.clarity-locked p {
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #bfceca;
+}
+.clarity-locked a:not(.lab-button) {
+  text-decoration: underline;
+}
+.clarity-locked .lab-button {
+  margin-top: 25px;
+}
+.locked-orbit {
+  color: #8bdddd;
+  font-size: 80px;
+}
+.clarity-room {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse at 50% 10%, #19495266, transparent 48%), #030d10;
+  animation: room-enter 1.3s ease-out both;
+}
+.clarity-room header,
+.clarity-room footer {
+  padding: 35px 6%;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+.clarity-room footer {
+  border-top: 1px solid #85cdcd25;
+  font-size: 12px;
+}
+.clarity-room h1 {
+  font:
+    clamp(65px, 8vw, 112px)/1.05 Georgia,
+    serif;
+  font-weight: 400;
+  letter-spacing: -3px;
+  margin: 30px 0;
+}
+.clarity-room h2 {
+  font:
+    400 clamp(36px, 4vw, 60px)/1.12 Georgia,
+    serif;
+}
+.chamber-arch {
+  position: absolute;
+  z-index: -1;
+  top: 145px;
+  left: 50%;
+  width: 75%;
+  height: 700px;
+  transform: translateX(-50%);
+  border: 1px solid #a3e6df44;
+  border-radius: 48% 48% 5% 5%;
+  box-shadow:
+    0 -8px 40px #72d6dd10,
+    inset 0 0 60px #77c7d511;
+  mask-image: linear-gradient(#000, transparent 95%);
+}
+.room-introduction {
+  text-align: center;
+  padding: 110px 24px 140px;
+}
+.room-introduction > p:not(.lab-kicker) {
+  font:
+    17px/1.9 Georgia,
+    serif;
+  color: #c1d8d4;
+}
+.room-line {
+  display: block;
+  width: 1px;
+  height: 75px;
+  margin: 40px auto 0;
+  background: linear-gradient(#87dfe7, transparent);
+}
+.room-instruments {
+  max-width: 900px;
+  padding: 0 8% 100px;
+  margin: auto;
+}
+.room-instruments > p {
+  color: #bed0cd;
+  line-height: 1.85;
+  font-size: 14px;
+}
+.room-instruments dl {
+  margin: 50px 0;
+}
+.room-instruments dl > div {
+  padding: 28px 0;
+  border-top: 1px solid #8be1dd2a;
+}
+.room-instruments dt {
+  font:
+    22px Georgia,
+    serif;
+}
+.room-instruments dt span {
+  font:
+    9px Arial,
+    sans-serif;
+  letter-spacing: 2px;
+  color: #8fe1df;
+  margin-right: 25px;
+}
+.room-instruments dd {
+  margin: 15px 0 0 43px;
+  color: #b7cbc7;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.room-assurance {
+  border-left: 1px solid #93dcdb73;
+  padding-left: 25px;
+}
+.motion-paused .observation-screen:after,
+.motion-paused .bracelet-screen img {
+  animation: none;
+}
+@keyframes screen-reflection {
+  50% {
+    transform: translateX(25%);
+  }
+}
+@keyframes bracelet-light {
+  50% {
+    opacity: 0.85;
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+@keyframes room-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 800px) {
+  .ego-screen {
+    top: 15%;
+    right: 6%;
+    width: 116px;
+    height: 188px;
+    padding: 15px 7px 22px;
+  }
+  .bracelet-screen {
+    top: 21%;
+    left: 7%;
+    right: auto;
+    width: 130px;
+    height: 105px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(52px, 8vw, 68px);
+  }
+  .lab-hero {
+    min-height: 760px;
+    max-height: none;
+  }
+  .clarity-room header {
+    align-items: flex-start;
+  }
+  .clarity-room header > .lab-kicker {
+    max-width: 110px;
+    text-align: right;
+    font-size: 8px;
+  }
+  .room-introduction {
+    padding: 100px 20px;
+  }
+  .chamber-arch {
+    height: 550px;
+    width: 90%;
+  }
+}
+@media (max-width: 480px) {
+  .lab-hero {
+    min-height: min(790px, 100svh);
+    padding-bottom: 100px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(46px, 14vw, 60px);
+  }
+  .ego-screen {
+    width: 105px;
+    height: 175px;
+    top: 14%;
+  }
+  .bracelet-screen {
+    top: 20%;
+    width: 124px;
+    height: 100px;
+  }
+  .hero-copy .lab-button {
+    padding: 15px 20px;
+  }
+  .screen-caption {
+    font-size: 6px;
+    left: 8px;
+  }
+  .screen-coordinate {
+    font-size: 5px;
+  }
+  .lab-section {
+    padding-block: 75px;
+  }
+  .room-introduction {
+    padding-top: 90px;
+  }
+  .room-instruments dd {
+    margin-left: 0;
+  }
+  .lab-footer > a {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+  }
+}
+@media (max-height: 740px) and (max-width: 800px) {
+  .ego-screen {
+    top: 15%;
+    height: 145px;
+    width: 88px;
+  }
+  .bracelet-screen {
+    top: 20%;
+    width: 100px;
+    height: 84px;
+  }
+  .hero-copy h1 {
+    font-size: 48px;
+    margin: 16px 0;
+  }
+  .hero-support {
+    margin: 16px 0 20px;
+    font-size: 13px;
+  }
+  .hero-copy .lab-kicker {
+    font-size: 7px;
+  }
+  .lab-hero {
+    min-height: 680px;
+    padding-bottom: 85px;
+  }
+  .hero-bottom {
+    bottom: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .observatory *,
+  .observatory *:before,
+  .observatory *:after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+.hero-bottom button,
+.menu-toggle {
+  min-height: 44px;
+}
+.lab-header nav a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.session-public-introduction {
+  grid-template-columns: 1fr;
+}
+.session-public-introduction .session-heading {
+  max-width: 760px;
+}
+.booking-world {
+  min-height: 100svh;
+  background:
+    linear-gradient(100deg, #030d10ee, #030d10db),
+    url("/observatory/observatory.webp") center/cover fixed;
+}
+.booking-stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+  padding: 32px 6%;
+  border-bottom: 1px solid #8cdada24;
+}
+.booking-stage-header > a:last-child {
+  font-size: 12px;
+  color: #c4dad6;
+}
+.booking-stage {
+  max-width: 1300px;
+  margin: auto;
+  padding: 70px 7% 110px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9%;
+  align-items: start;
+}
+.booking-context nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 55px;
+  color: #a2b9b6;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+.booking-context [aria-current] {
+  color: #9ae7e1;
+}
+.booking-context h1 {
+  font:
+    400 clamp(44px, 5vw, 70px)/1.12 Georgia,
+    serif;
+  letter-spacing: -1px;
+}
+.booking-context > p:not(.lab-kicker) {
+  font-size: 14px;
+  line-height: 1.9;
+  color: #bed0cd;
+}
+.booking-context .session-price {
+  font-size: 18px !important;
+  color: #e3f6f0 !important;
+}
+.booking-stage .form-intro h2 {
+  font:
+    32px/1.2 Georgia,
+    serif;
+}
+.booking-stage .booking-form {
+  animation: room-enter 0.8s ease-out both;
+}
+@media (max-width: 800px) {
+  .booking-stage {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-top: 40px;
+  }
+  .booking-context nav {
+    margin-bottom: 35px;
+  }
+  .booking-stage-header {
+    align-items: flex-start;
+  }
+  .booking-stage-header .lab-brand {
+    font-size: 14px;
+  }
+  .booking-stage-header > a:last-child {
+    font-size: 10px;
+    max-width: 120px;
+    text-align: right;
+  }
+  .booking-world {
+    background-attachment: scroll;
+  }
+}
+/* The Observatory is the public experience. */
+.observatory-entry-link {
+  display: inline-flex;
+  gap: 30px;
+  align-items: center;
+  color: #d2e8e3 !important;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 14px 0;
+  border-bottom: 1px solid #8bd2d25e;
+}
+.observatory-entry-link:hover {
+  color: #a6eeec !important;
+}
+.possibility-field {
+  position: relative;
+  padding: 110px 0 90px;
+  background:
+    radial-gradient(ellipse at 50% 30%, #13383f35, transparent 65%), #030d10;
+  scroll-margin-top: 30px;
+}
+.field-invitation {
+  text-align: center;
+  padding: 0 24px 50px;
+}
+.field-invitation h2 {
+  font-size: clamp(45px, 5vw, 76px);
+  margin: 24px 0;
+}
+.field-invitation > p:last-child {
+  color: #bdd0cb;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.field-panorama {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: clamp(550px, 70vw, 780px);
+  overflow: hidden;
+  border-block: 1px solid #8dcaca20;
+  mask-image: linear-gradient(transparent, #000 7%, #000 93%, transparent);
+}
+.imagined-world {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.world-orb,
+.world-mountains,
+.field-geometry,
+.field-story-plane {
+  transition:
+    opacity 1.4s ease,
+    transform 1.4s ease;
+}
+.field-geometry {
+  opacity: 0.25;
+}
+.field-view-patterns .world-mountains {
+  opacity: 0.2;
+}
+.field-view-patterns .world-orb {
+  opacity: 0.08;
+}
+.field-view-patterns .field-geometry {
+  opacity: 1;
+  transform-origin: center;
+  animation: field-turn 140s linear infinite;
+}
+.field-view-patterns .field-ribbons {
+  opacity: 1;
+}
+.field-view-stories .world-orb {
+  opacity: 0.25;
+}
+.field-view-stories .field-geometry {
+  opacity: 0.12;
+}
+.field-view-stories .world-mountains {
+  opacity: 0.8;
+}
+.field-story-plane {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  height: 74%;
+  width: min(290px, 45%);
+  transform: translateX(-50%) perspective(1200px) rotateY(-9deg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(130deg, #91d6d908, #13394305);
+  border: 1px solid #82dcdb47;
+  box-shadow: 0 0 50px #56bec210;
+}
+.field-story-plane img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 24px 15px;
+  display: block;
+}
+.field-view-stories .field-story-plane {
+  visibility: visible;
+  opacity: 1;
+}
+.field-atmosphere {
+  position: absolute;
+  inset: 50% -15% 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 45% 45%, #a7e7e21c, transparent 55%);
+  animation: mist-drift 24s ease-in-out infinite alternate;
+}
+.field-ribbons {
+  opacity: 0.65;
+  animation: field-breathe 18s ease-in-out infinite alternate;
+}
+.field-view-control {
+  position: absolute;
+  bottom: 38px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 25px;
+  z-index: 2;
+}
+.field-view-control button {
+  font:
+    11px Arial,
+    sans-serif;
+  letter-spacing: 1px;
+  background: none;
+  color: #bacfca;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  padding: 14px 4px;
+  min-height: 44px;
+}
+.field-view-control button[aria-pressed="true"] {
+  color: #d6f6ee;
+  border-bottom-color: #7bd2d2;
+}
+.field-view-control button:hover {
+  color: #b5ffff;
+}
+.field-afterthought {
+  text-align: center;
+  font:
+    italic clamp(18px, 2.1vw, 25px)/1.7 Georgia,
+    serif;
+  color: #bed5cf;
+  margin: 50px 20px 0;
+}
+.session-public-introduction {
+  padding-block: 85px;
+  border-top: 1px solid #94caca1f;
+  background: radial-gradient(ellipse at 15% 50%, #17454a25, transparent 70%);
+}
+.session-public-introduction .session-heading {
+  max-width: 650px;
+  margin: auto;
+  text-align: center;
+}
+.session-public-introduction h2 {
+  font-size: clamp(35px, 3.7vw, 53px);
+  margin: 24px 0;
+}
+.session-public-introduction p {
+  margin-inline: auto;
+}
+.session-offer {
+  color: #d2e6df !important;
+  font-size: 13px !important;
+  margin-top: 28px;
+}
+.session-offer span {
+  display: block;
+  color: #adbfba;
+  font-size: 11px;
+  margin-top: 5px;
+}
+.session-public-introduction .lab-text-link {
+  margin-top: 12px;
+}
+.observatory-shop {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8%;
+  border-top: 1px solid #94caca1f;
+  padding-block: 75px;
+}
+.observatory-shop h2 {
+  font-size: clamp(30px, 3vw, 44px);
+  margin-bottom: 20px;
+}
+.observatory-shop .collection-note {
+  font-size: 11px !important;
+  color: #a8bfbb !important;
+}
+.observatory-signature {
+  text-align: center;
+  padding: 40px 20px 70px;
+}
+.observatory-signature > span {
+  font:
+    55px Georgia,
+    serif;
+  color: #86c8c8;
+}
+.observatory-signature p {
+  font:
+    25px Georgia,
+    serif;
+  color: #d3e2dc;
+  margin: 12px;
+}
+.observatory-signature small {
+  display: block;
+  font:
+    8px Arial,
+    sans-serif;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #a6bbb6;
+  margin-top: 15px;
+}
+.motion-paused .field-ribbons,
+.motion-paused .field-atmosphere,
+.motion-paused .field-geometry {
+  animation-play-state: paused;
+}
+@keyframes field-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes field-breathe {
+  to {
+    opacity: 0.35;
+    transform: translateY(7px);
+  }
+}
+@media (max-width: 800px) {
+  .possibility-field {
+    padding-top: 80px;
+  }
+  .field-panorama {
+    height: 620px;
+  }
+  .imagined-world {
+    width: 130%;
+    margin-left: -15%;
+  }
+  .observatory-shop {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .field-afterthought {
+    font-size: 20px;
+  }
+  .session-public-introduction {
+    padding-block: 65px;
+  }
+  .field-story-plane {
+    width: 230px;
+    height: 72%;
+    top: 12%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .possibility-field *,
+  .possibility-field *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.field-environment {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transition: opacity 1.4s ease;
+}
+.field-environment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+.field-panorama .imagined-world {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+  pointer-events: none;
+}
+.field-view-patterns .field-environment {
+  opacity: 0.12;
+}
+.field-view-patterns .imagined-world {
+  opacity: 1;
+}
+.field-view-stories .field-environment {
+  opacity: 0.72;
+}
+.field-story-plane {
+  z-index: 2;
+}
+.field-atmosphere {
+  z-index: 1;
+}
+.field-view-control {
+  z-index: 3;
+  background: linear-gradient(90deg, transparent, #041316b8, transparent);
+  padding-inline: 18px;
+}
+
+/* Included ebook preference uses the established booking form controls. */
+.booking-form select {
+  width: 100%;
+  padding: 14px 16px;
+  color: #e1edeb;
+  background: #071619;
+  border: 1px solid rgba(136, 204, 205, 0.3);
+  border-radius: 0;
+  font: inherit;
+  min-height: 48px;
+}
+.booking-form select:focus-visible {
+  outline: 2px solid #9cddda;
+  outline-offset: 3px;
+}
+
+.observation-reflection {
+  text-align: center;
+  padding: 90px 24px 60px;
+  border-top: 1px solid #94caca1f;
+  background: radial-gradient(ellipse at 50% 50%, #17454a25, transparent 70%);
+  scroll-margin-top: 30px;
+}
+.observation-reflection h2 {
+  font: 400 clamp(36px, 5vw, 64px)/1.2 Georgia, serif;
+  margin: 24px 0;
+}
+.observation-reflection > p:not(.lab-kicker) {
+  color: #bdd0cb;
+  font: 17px/1.8 Georgia, serif;
+}
+
+/* The writing unfolds within the existing Observatory, without another flow. */
+.reflection-copy {
+  max-width: 660px;
+  margin-inline: auto;
+}
+.reflection-copy > p:not(.lab-kicker),
+.source-vision > p {
+  color: #c7d8d3;
+  font: 400 clamp(17px, 1.6vw, 20px)/1.9 Georgia, serif;
+  margin: 30px auto;
+  text-wrap: pretty;
+}
+.source-vision {
+  max-width: 1080px;
+  margin: 90px auto;
+  padding-block: 50px;
+  border-block: 1px solid #94caca26;
+}
+.source-vision h3 {
+  color: #dceae5;
+  font: 400 clamp(24px, 3vw, 34px)/1.4 Georgia, serif;
+  margin: 0 0 36px;
+}
+.framework-flow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 36px;
+  color: #d9f0e8;
+  font: 400 clamp(16px, 1.8vw, 21px)/1.7 Georgia, serif;
+}
+.framework-flow li {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+.framework-flow span {
+  color: #88c5c5;
+}
+.source-vision > p {
+  max-width: 640px;
+  margin-bottom: 0;
+}
+.reflection-open {
+  margin-block: 70px 90px;
+}
+.observation-reflection > p.observation-closing {
+  color: #dceae5;
+  font: 400 clamp(25px, 3.4vw, 43px)/1.65 Georgia, serif;
+  margin: 80px auto 20px;
+}
+.observation-closing span,
+.observation-closing em {
+  display: block;
+}
+.observation-closing em {
+  margin-top: 20px;
+}
+@media (max-width: 600px) {
+  .observation-reflection {
+    padding: 70px 24px 40px;
+  }
+  .source-vision {
+    margin-block: 60px;
+    padding-block: 36px;
+  }
+  .framework-flow {
+    gap: 12px 14px;
+  }
+  .framework-flow li {
+    gap: 14px;
+  }
+  .reflection-open {
+    margin-block: 50px 60px;
+  }
+}
