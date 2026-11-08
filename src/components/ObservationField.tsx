@@ -15,7 +15,7 @@ export function ObservationField() {
           What do <em>you see?</em>
         </h2>
         <p>
-          A character. A device. A story.
+          A landscape. A pattern. A story.
           <br />A world not yet imagined.
         </p>
       </div>
@@ -204,8 +204,8 @@ export function ObservationField() {
         </div>
       </div>
       <p className="field-afterthought">
-        Perhaps what catches your attention reveals
-        <br />a possibility you want to explore.
+        What becomes clear
+        <br />when you observe?
       </p>
     </section>
   );

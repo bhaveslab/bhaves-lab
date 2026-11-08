@@ -1122,7 +1122,7 @@
     background-attachment: scroll;
   }
 }
-/* The Observatory leads; commerce is a quiet invitation at its edge. */
+/* The Observatory is the public experience. */
 .observatory-entry-link {
   display: inline-flex;
   gap: 30px;
@@ -1454,4 +1454,20 @@
 .booking-form select:focus-visible {
   outline: 2px solid #9cddda;
   outline-offset: 3px;
+}
+
+.observation-reflection {
+  text-align: center;
+  padding: 90px 24px 60px;
+  border-top: 1px solid #94caca1f;
+  background: radial-gradient(ellipse at 50% 50%, #17454a25, transparent 70%);
+  scroll-margin-top: 30px;
+}
+.observation-reflection h2 {
+  font: 400 clamp(36px, 5vw, 64px)/1.2 Georgia, serif;
+  margin: 24px 0;
+}
+.observation-reflection > p:not(.lab-kicker) {
+  color: #bdd0cb;
+  font: 17px/1.8 Georgia, serif;
 }

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Home } from "./pages/Home";
-import { RouterProvider, useRouter } from "./router";
+import { RouterProvider } from "./router";
 import { getSite, applySiteChrome } from "./site";
 
 // Runs once, synchronously, before React renders anything below — see the
@@ -10,36 +10,10 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-const ClarityAccess = lazy(() =>
-  import("./pages/ClarityAccess").then((module) => ({
-    default: module.ClarityAccess,
-  })),
-);
-
-const Booking = lazy(() =>
-  import("./pages/Booking").then((module) => ({ default: module.Booking })),
-);
-
-const EbookShop = lazy(() =>
-  import("./pages/EbookShop").then((module) => ({ default: module.EbookShop })),
-);
-const EbookDelivery = lazy(() =>
-  import("./pages/EbookShop").then((module) => ({
-    default: module.EbookDelivery,
-  })),
-);
-
+// Commercial and private routes are intentionally absent from the public bundle.
+// Retired URLs return to the Observatory; their source remains in the repository.
 function LabRoutes() {
-  const { path } = useRouter();
-  if (path === "/shop" || path === "/shop/") return <EbookShop />;
-  if (path === "/shop/delivery" || path === "/shop/delivery/")
-    return <EbookDelivery />;
-  if (path === "/booking" || path === "/booking/") return <Booking />;
-  if (path === "/room-of-clarity" || path === "/room-of-clarity/")
-    return <ClarityAccess />;
-  if (path === "/shop/confirmation" || path === "/shop/confirmation/")
-    return <EbookDelivery />;
-  return <Home shopPage={path === "/shop" || path === "/shop/"} />;
+  return <Home />;
 }
 
 function Routes() {

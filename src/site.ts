@@ -13,14 +13,9 @@ export function getSite(): Site {
   return 'lab';
 }
 
-// Per-site tab title + favicon. `lab` points at public/favicon.png, which
-// doesn't exist in the repo yet — Bhavé's Lab has no dedicated icon asset to
-// crop from (unlike Meridian's logo). The href is still wired up so dropping
-// a real file in later is a one-file swap; until then the browser just gets
-// a 404 on that request and shows no custom icon, which doesn't break
-// anything.
+// Each public site keeps its own identity.
 const SITE_CHROME: Record<Site, { title: string; favicon: string }> = {
-  lab: { title: "Bhavé's Lab", favicon: '/favicon.png' },
+  lab: { title: "Bhavé's Lab", favicon: '/observatory/favicon.svg' },
   meridian: { title: 'Meridian — Global Technology Network', favicon: '/meridian/favicon.png' },
 };
 

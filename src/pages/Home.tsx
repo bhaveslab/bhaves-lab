@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import "../styles/observatory.css";
 import { ObservationField } from "../components/ObservationField";
 
-export function Home({ shopPage = false }: { shopPage?: boolean }) {
+export function Home() {
   const [menu, setMenu] = useState(false);
   const [motion, setMotion] = useState(true);
   useEffect(() => {
     document.title = "BHAVÉ’S LAB — The Observatory";
-    if (shopPage) document.getElementById("shop")?.scrollIntoView();
-  }, [shopPage]);
+  }, []);
   useEffect(() => {
     function close(event: KeyboardEvent) {
       if (event.key === "Escape") setMenu(false);
@@ -27,7 +26,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
             ◌
           </span>
           <span>
-            BHAVÉ’S LAB<small>THE GENTLEMAN OF POSSIBILITY</small>
+            BHAVÉ’S LAB<small>Bhavé — The Gentleman of Possibility</small>
           </span>
         </a>
         <button
@@ -47,11 +46,8 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
           <a href="#observatory" onClick={() => setMenu(false)}>
             The Observatory
           </a>
-          <a href="#session" onClick={() => setMenu(false)}>
-            The Possibility Session
-          </a>
-          <a href="#shop" onClick={() => setMenu(false)}>
-            Shop
+          <a href="#possibility" onClick={() => setMenu(false)}>
+            Possibility
           </a>
         </nav>
       </header>
@@ -65,7 +61,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
             <img
               src="/observatory/observatory.webp"
               alt="Bhavé inside a reflective teal observatory, contemplating panoramic mountains and flowing abstract light."
-              fetchPriority="high"
+              {...{ fetchpriority: "high" }}
               width="853"
               height="621"
             />
@@ -103,7 +99,7 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
           <div
             className="observation-screen bracelet-screen"
             role="img"
-            aria-label="An unbranded graphite bracelet with a cyan accent, an artistic wearable concept, not for sale"
+            aria-label="An unbranded graphite bracelet with a cyan accent, an imagined form"
           >
             <span className="screen-coordinate" aria-hidden="true">
               FORM / 02
@@ -147,37 +143,13 @@ export function Home({ shopPage = false }: { shopPage?: boolean }) {
           </div>
         </section>
         <ObservationField />
-        <section
-          id="session"
-          className="lab-session lab-section session-public-introduction"
-        >
-          <div className="session-heading">
-            <p className="lab-kicker">AN INVITATION</p>
-            <h2>
-              A possibility
-              <br />
-              <em>worth exploring?</em>
-            </h2>
-            <p>Sometimes a conversation opens another perspective.</p>
-            <p className="session-offer">
-              The Possibility Session <span>60 minutes · $175</span>
-            </p>
-            <p>Every Possibility Session includes The Possibility ebook.</p>
-            <a className="lab-text-link" href="/booking">
-              Explore The Possibility Session <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </section>
-        <section id="shop" className="observatory-shop lab-section">
-          <p className="lab-kicker">THE SHOP / TANGIBLE CREATIONS</p>
-          <div className="ebook-home-offer">
-            <h2>The Possibility.</h2>
-            <p>Life Is Already in Motion.</p>
-            <p>By Bhavé · English and Español · $9.99 per edition</p>
-            <a className="lab-text-link" href="/shop">
-              Explore the editions <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+        <section id="possibility" className="observation-reflection" aria-labelledby="possibility-heading">
+          <p className="lab-kicker">POSSIBILITY</p>
+          <h2 id="possibility-heading">What else is <em>possible?</em></h2>
+          <p>What becomes clear when you observe?</p>
+          <a className="observatory-entry-link" href="#observatory">
+            Look again <span aria-hidden="true">↑</span>
+          </a>
         </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
