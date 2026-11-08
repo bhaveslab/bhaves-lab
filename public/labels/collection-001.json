@@ -1,0 +1,110 @@
+{
+  "format_version": 1,
+  "document_type": "design_concept_register",
+  "updated_date": "2026-11-07",
+  "website_project": "bhaveslab/bhaves-lab",
+  "release_status": "draft_only",
+  "sales_enabled": false,
+  "prices_published": false,
+  "online_checkout_enabled": false,
+  "customer_accounts": false,
+  "domains_assigned": false,
+  "separate_business_ownership_registered": false,
+  "sample_orders_placed": false,
+  "notes": "Catalog records first creative directions only. No production authorization is implied.",
+  "labels": [
+    {
+      "slug": "nyra",
+      "brand": "NÝRA",
+      "child": "Nyriah",
+      "status": "artwork_proofs_prepared",
+      "products": [
+        {
+          "sku": "NYRA-001",
+          "title": "NÝRA Signature",
+          "direction": "approved_by_parent",
+          "artwork": "NYRA_01_Signature.svg / .png"
+        },
+        {
+          "sku": "NYRA-002",
+          "title": "No Permission Needed",
+          "direction": "approved_by_parent",
+          "artwork": "NYRA_02_No_Permission_Needed.svg / .png"
+        },
+        {
+          "sku": "NYRA-003",
+          "title": "Soft. Loud. Free.",
+          "direction": "approved_by_parent",
+          "artwork": "NYRA_03_Soft_Loud_Free.svg / .png"
+        }
+      ]
+    },
+    {
+      "slug": "fly-gang",
+      "brand": "FLY GANG",
+      "child": "Darion",
+      "status": "design_studies",
+      "products": [
+        {
+          "sku": "FLYG-001",
+          "title": "Fly Gang",
+          "direction": "exploratory",
+          "artwork": null
+        },
+        {
+          "sku": "FLYG-002",
+          "title": "Above the Noise",
+          "direction": "exploratory",
+          "artwork": null
+        },
+        {
+          "sku": "FLYG-003",
+          "title": "Flight Mode",
+          "direction": "exploratory",
+          "artwork": null
+        }
+      ]
+    },
+    {
+      "slug": "dom",
+      "brand": "DOM",
+      "child": "Dominic",
+      "status": "design_studies",
+      "products": [
+        {
+          "sku": "DOM-001",
+          "title": "DOM Signature",
+          "direction": "exploratory",
+          "artwork": null
+        },
+        {
+          "sku": "DOM-002",
+          "title": "Well Dressed",
+          "direction": "exploratory",
+          "artwork": null
+        },
+        {
+          "sku": "DOM-003",
+          "title": "After Hours",
+          "direction": "exploratory",
+          "artwork": null
+        }
+      ]
+    }
+  ],
+  "mandatory_before_sample": [
+    "Brand-owner review and final concept choice",
+    "Choose blank garment and decoration method",
+    "Confirm printer dimensions, garment size and color with vendor",
+    "Approve final front/back art and label",
+    "Receive sample quote and explicit purchase permission"
+  ],
+  "mandatory_before_sale": [
+    "Inspect finished samples",
+    "Agree on product prices, tax and returns",
+    "Confirm ownership, merchant-of-record and payout route for each child's independent brand",
+    "Set up separated brand storefront, payment, customer communication and order management",
+    "End-to-end checkout test"
+  ],
+  "pdf_or_image_assets_note": "NÝRA transparent SVG and PNG artwork was exported in the conversation as a downloadable package; not yet committed to this repository."
+}
