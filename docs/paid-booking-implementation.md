@@ -1,3 +1,5 @@
+> Historical commercial work, superseded November 8, 2026. The public Lab is observation-only. Do not continue booking development, run migrations, or activate these flows. See [current direction and verification](observation-only.md).
+
 # Paid booking implementation — review, not launch authorization
 
 The reservation ledger uses PostgreSQL on the existing Neon integration. Private Vercel Blob serves only the ebook PDFs. The repository branch remains `codex/issue-8-ebooks`, draft PR #9 stacked on Observatory PR #5; booking coordination remains Issue #7.

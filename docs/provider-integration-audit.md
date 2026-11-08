@@ -1,3 +1,5 @@
+> Historical commercial work, superseded November 8, 2026. The public Lab is observation-only. Do not continue booking development, run migrations, or activate these flows. See [current direction and verification](observation-only.md).
+
 > Diagnostic follow-up: [blob-failure-diagnostic.md](blob-failure-diagnostic.md). SDK and assertion inspected; sanitized response instrumentation added and validated offline. No real rerun. The actual prior failure remains unresolved and the safety stop below remains in force.
 
 # Real provider audit and Blob safety stop — November 4, 2026 (America/Chicago)

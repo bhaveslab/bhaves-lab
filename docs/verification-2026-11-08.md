@@ -1,3 +1,5 @@
+> Historical commercial work, superseded November 8, 2026. The public Lab is observation-only. Do not continue booking development, run migrations, or activate these flows. See [current direction and verification](observation-only.md).
+
 # Verification — November 8, 2026
 
 Status: blocked; not operational for paid booking or ebook purchases. No production migration, merge, payment activation, calendar write, real charge or email was performed.
