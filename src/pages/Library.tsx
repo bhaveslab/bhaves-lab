@@ -33,13 +33,17 @@ export function Library() {
         body: JSON.stringify({ edition: "game", requestId: request.current }),
       });
       const data = await response.json();
-      if (!response.ok || typeof data.url !== "string" ||
+      if (!response.ok) {
+        throw Error(typeof data.error === "string" && data.error.length < 180
+          ? data.error : "Secure checkout is not ready.");
+      }
+      if (typeof data.url !== "string" ||
           new URL(data.url).origin !== "https://checkout.stripe.com") {
         throw Error("Secure checkout is not ready.");
       }
       window.location.assign(data.url);
-    } catch {
-      setError("Secure checkout is currently unavailable. Please check back.");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Secure checkout is currently unavailable.");
       setBusy(false);
     }
   }
