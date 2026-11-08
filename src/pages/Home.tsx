@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "../styles/observatory.css";
 import { ObservationField } from "../components/ObservationField";
+import { Link } from "../router";
+import "../styles/experience-paths.css";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
@@ -49,6 +51,12 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
+          <Link to="/library" onClick={() => setMenu(false)}>
+            The Game
+          </Link>
+          <Link to="/lil-ego" onClick={() => setMenu(false)}>
+            Lil Ego
+          </Link>
         </nav>
       </header>
       <main id="main">
@@ -186,6 +194,39 @@ export function Home() {
             <span>The possibilities are endless.</span>
             <em>What will you discover?</em>
           </p>
+        </section>
+        <section
+          id="possibility-game"
+          className="game-invitation"
+          aria-labelledby="game-invitation-heading"
+        >
+          <div className="game-promo-art" role="img" aria-label="The Possibility Game digital book, presented against the cinematic Observatory landscape">
+            <span className="game-promo-top">BHAVÉ’S LAB / DIGITAL EDITION</span>
+            <strong className="game-promo-title">
+              THE POSSIBILITY <em>GAME</em>
+            </strong>
+            <span className="game-promo-bottom">30 DAYS TO A POSSIBLE REALITY — AND BEYOND</span>
+          </div>
+          <div className="game-invitation-copy">
+            <p className="lab-kicker">AN INVITATION TO EXPLORE</p>
+            <h2 id="game-invitation-heading">
+              Your next <em>possibility.</em>
+            </h2>
+            <p>
+              Thirty playful missions through the Source Vision Framework.
+              Choose a possibility, live the experience, and record what unfolds.
+            </p>
+            <p>
+              Day 30 is not the end. Create your own missions and continue exploring
+              whatever comes next.
+            </p>
+            <p className="game-invitation-meta">
+              <strong>$9.99</strong> USD · One-time · Ebook only
+            </p>
+            <Link className="game-invitation-link" to="/library">
+              Explore The Possibility Game <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
         </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>

@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Home } from "./pages/Home";
-import { RouterProvider } from "./router";
+import { RouterProvider, useRouter } from "./router";
 import { getSite, applySiteChrome } from "./site";
 
 // Runs once, synchronously, before React renders anything below — see the
@@ -10,9 +10,21 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-// Commercial and private routes are intentionally absent from the public bundle.
-// Retired URLs return to the Observatory; their source remains in the repository.
+// Booking and commercial routes remain outside the public bundle.
+const Library = lazy(() =>
+  import("./pages/Library").then((module) => ({ default: module.Library })),
+);
+const LibraryDelivery = lazy(() =>
+  import("./pages/LibraryDelivery").then((module) => ({ default: module.LibraryDelivery })),
+);
+const LilEgo = lazy(() =>
+  import("./pages/LilEgo").then((module) => ({ default: module.LilEgo })),
+);
 function LabRoutes() {
+  const { path } = useRouter();
+  if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
+  if (path === "/library/delivery" || path === "/library/delivery/") return <LibraryDelivery />;
+  if (path === "/library" || path === "/library/") return <Library />;
   return <Home />;
 }
 

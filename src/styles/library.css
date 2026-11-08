@@ -1,0 +1,46 @@
+.library-world{min-height:100svh;background:radial-gradient(ellipse at 70% -10%,#16454b88,transparent 48%),#030d10}
+.library-header{display:flex;justify-content:space-between;align-items:center;padding:25px max(28px,6vw);border-bottom:1px solid #274146;color:#d6e6e4;font-size:13px}
+.library-header a:focus-visible,.library-back:focus-visible{outline:2px solid #8ee5df;outline-offset:6px}
+.library-main{max-width:1170px;margin:0 auto;padding:68px max(24px,5vw) 100px}
+.library-main h1{font:400 clamp(52px,8vw,96px)/1.05 Georgia,serif;letter-spacing:-.055em;margin:16px 0 24px}
+.library-main h1 em{color:#9ee7e4;font-weight:400}
+.library-lede{max-width:650px;color:#c1d3d1;font-size:clamp(16px,2vw,21px);line-height:1.6}
+.library-format{color:#d5b879;font-size:11px;letter-spacing:.18em;margin-top:26px}
+.library-shelf{margin:100px 0 0}
+.library-shelf-heading{border-bottom:1px solid #315054;padding-bottom:18px;margin-bottom:28px}
+.library-shelf-heading h2{font:400 clamp(22px,3vw,34px)/1.2 Georgia,serif;letter-spacing:.06em;margin:12px 0 0}
+.library-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,45px)}
+.library-book{display:grid;grid-template-columns:minmax(112px,42%) 1fr;gap:25px;align-items:start}
+.library-book-art{aspect-ratio:3/4;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;padding:clamp(13px,2vw,27px);background:radial-gradient(circle at 95% 15%,#2b6870 0,#092930 35%,#061519 75%);border:1px solid #315862;box-shadow:0 14px 45px #0006;min-width:0;position:relative;overflow:hidden}
+.library-book-art span:first-child{font-size:8px;letter-spacing:.12em;color:#99d6d1}
+.library-book-art .library-art-mark{position:absolute;right:14%;top:20%;font-size:95px;line-height:1;color:#7bd4d01c;font-weight:100;pointer-events:none}
+.library-book-art strong{font:400 clamp(17px,2vw,28px)/1.12 Georgia,serif;letter-spacing:-.025em;overflow-wrap:anywhere;z-index:1}
+.library-book-art small{font:700 9px Arial,sans-serif;letter-spacing:.15em;color:#d5b879}
+.library-book-copy{min-width:0}
+.library-volume{color:#d5b879;font-size:10px;letter-spacing:.12em;margin:0 0 12px}
+.library-book-copy h3{font:400 clamp(20px,2vw,27px)/1.25 Georgia,serif;margin:0 0 8px}
+.library-subtitle{font-style:italic;color:#a9ceca;line-height:1.5;font-size:13px;margin:0 0 17px}
+.library-detail,.library-availability{font-size:12px;line-height:1.6;color:#a2b8b8}
+.library-availability{border-top:1px solid #365457;margin-top:16px;padding-top:13px}
+.library-availability strong{color:#e4edeb}
+.library-closing{font:400 clamp(24px,4vw,43px)/1.3 Georgia,serif;max-width:650px;margin:110px 0 35px}
+.library-closing em{color:#9de2dc}
+.library-back{display:inline-block;color:#9de2dc!important;border-bottom:1px solid #579b9e;padding-bottom:8px;font-size:13px}
+@media(max-width:850px){.library-grid{grid-template-columns:1fr;gap:40px}.library-book{grid-template-columns:minmax(130px,38%) 1fr}.library-main{padding-top:55px}.library-shelf{margin-top:72px}}
+@media(max-width:480px){.library-header{padding:20px 18px}.library-header a:last-child{font-size:11px}.library-main{padding:50px 22px 80px}.library-book{grid-template-columns:minmax(110px,42%) 1fr;gap:16px}.library-book-art{padding:12px}.library-book-copy h3{font-size:19px}.library-shelf{margin-top:64px}.library-book-art strong{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.library-world *{scroll-behavior:auto}}
+
+/* Single-edition library: only The Possibility Game is on offer. */
+.library-single .library-shelf{margin-top:72px}
+.library-single .library-grid{grid-template-columns:minmax(0,1fr);max-width:1010px}
+.library-single .library-book{grid-template-columns:minmax(230px,38%) 1fr;gap:clamp(28px,5vw,76px);align-items:center}
+.library-single .library-book-art{max-width:370px}
+.library-single .library-book-copy h2{font:400 clamp(30px,3.6vw,46px)/1.15 Georgia,serif;margin:0 0 14px;letter-spacing:-.025em}
+.library-single .library-book-copy>p:not(.library-volume):not(.library-subtitle):not(.library-price):not(.library-availability){font-size:15px;line-height:1.7;color:#d0e0da}
+.library-single .library-price{font:400 30px/1.2 Georgia,serif;color:#edf5ec;margin:26px 0 12px}
+.library-single .library-price span{font:400 12px/1.5 Arial,sans-serif;color:#b5ccc9;display:block;margin-top:6px}
+@media(max-width:700px){.library-single .library-book{grid-template-columns:1fr;gap:28px}.library-single .library-book-art{width:min(100%,340px);margin:0 auto}.library-single .library-shelf{margin-top:55px}}
+
+/* Final jacket artwork: preserve the full cover without cropping or inset padding. */
+.library-book-art.library-book-cover{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:contain;padding:0}
+@media(max-width:700px){.library-single .library-book-cover{max-width:340px}}
