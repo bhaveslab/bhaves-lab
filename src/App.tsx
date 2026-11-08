@@ -17,8 +17,12 @@ const Library = lazy(() =>
 const LibraryDelivery = lazy(() =>
   import("./pages/LibraryDelivery").then((module) => ({ default: module.LibraryDelivery })),
 );
+const LilEgo = lazy(() =>
+  import("./pages/LilEgo").then((module) => ({ default: module.LilEgo })),
+);
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
   if (path === "/library/delivery" || path === "/library/delivery/") return <LibraryDelivery />;
   if (path === "/library" || path === "/library/") return <Library />;
   return <Home />;
