@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import Stripe from "stripe";
+import { createHmac } from "node:crypto";
 import { EBOOKS } from "../.qa/ebook-runtime/_lib/ebooks/catalog.js";
 import {
   digest,
@@ -21,8 +22,7 @@ const env = {
   STRIPE_SECRET_KEY: "sk_test_fixture",
   STRIPE_WEBHOOK_SECRET_EBOOKS: "whsec_fixture",
   EBOOK_STRIPE_ACCOUNT_ID: "acct_expected",
-  STRIPE_EBOOK_EN_PRICE_ID: "price_English",
-  STRIPE_EBOOK_ES_PRICE_ID: "price_Spanish",
+  STRIPE_EBOOK_GAME_PRICE_ID: "price_Game",
   EBOOK_BLOB_READ_WRITE_TOKEN: "fixture",
   RESEND_API_KEY: "fixture",
   EBOOK_RECEIPT_FROM: "Books <test@example.com>",
@@ -33,12 +33,11 @@ const env = {
 };
 const now = Math.floor(Date.now() / 1000);
 const fixtureFiles = {
-  en: process.env.EBOOK_TEST_EN_FILE,
-  es: process.env.EBOOK_TEST_ES_FILE,
+  game: process.env.EBOOK_TEST_GAME_FILE,
 };
 const fixtures = Object.values(fixtureFiles).every(Boolean);
 const assetTest = (name, fn) => test(name, { skip: !fixtures }, fn);
-function setup(edition = "en") {
+function setup(edition = "game") {
   const owner = "f".repeat(64);
   const state = {
     order: {
@@ -128,9 +127,9 @@ function setup(edition = "en") {
 }
 test("unconfigured and live preview checkout fail closed", async () => {
   const { ports } = setup();
-  await assert.rejects(startCheckout("en", "seed", "req", ports, {}));
+  await assert.rejects(startCheckout("game", "seed", "req", ports, {}));
   await assert.rejects(
-    startCheckout("en", "seed", "req", ports, {
+    startCheckout("game", "seed", "req", ports, {
       ...env,
       STRIPE_SECRET_KEY: "sk_live_forbidden",
       EBOOK_ALLOW_LIVE_PAYMENTS: "true",
@@ -140,10 +139,10 @@ test("unconfigured and live preview checkout fail closed", async () => {
 test("signed tokens reject tampering, expiry, arbitrary paths, and wrong token kinds", () => {
   const token = mintDownload(
     { id: "cs_test_order123", created: now },
-    "en",
+    "game",
     env.EBOOK_DOWNLOAD_SECRET,
   );
-  assert.equal(verifyDownload(token, env.EBOOK_DOWNLOAD_SECRET).edition, "en");
+  assert.equal(verifyDownload(token, env.EBOOK_DOWNLOAD_SECRET).edition, "game");
   assert.throws(() =>
     verifyDownload(token.replace(/.$/, "!"), env.EBOOK_DOWNLOAD_SECRET),
   );
@@ -193,18 +192,18 @@ test("session ID or redirect alone cannot claim a receipt", async () => {
   await assert.rejects(receiptAccess(state.order.id, null, ports, env));
   await assert.rejects(receiptAccess(state.order.id, "attacker", ports, env));
 });
-test("validly signed but wrong-language or unfulfilled download is denied", async () => {
+test("validly signed obsolete-edition or unfulfilled download is denied", async () => {
   const { ports, state } = setup();
+  const payload = Buffer.from(JSON.stringify({
+    v: 1, kind: "ebook-download", sid: state.order.id,
+    sku: "possibility-en-v1", exp: now + 600,
+  })).toString("base64url");
+  const obsolete = payload + "." + createHmac("sha256", env.EBOOK_DOWNLOAD_SECRET)
+    .update(payload).digest("base64url");
+  await assert.rejects(download(obsolete, ports, env));
   await assert.rejects(
     download(
-      mintDownload(state.order, "es", env.EBOOK_DOWNLOAD_SECRET),
-      ports,
-      env,
-    ),
-  );
-  await assert.rejects(
-    download(
-      mintDownload(state.order, "en", env.EBOOK_DOWNLOAD_SECRET),
+      mintDownload(state.order, "game", env.EBOOK_DOWNLOAD_SECRET),
       ports,
       env,
     ),
@@ -272,33 +271,33 @@ test("booking events, unpaid events, and asynchronous failure cannot fulfill ebo
   assert.equal(state.sends.size, 0);
 });
 assetTest(
-  "checkout uses approved server price, one copy, separate edition, and no session entitlement",
+  "checkout uses approved Game price, one ebook copy, and no session entitlement",
   async () => {
     const { ports, state, owner } = setup();
-    await startCheckout("en", owner, "test-request", ports, env);
+    await startCheckout("game", owner, "test-request", ports, env);
     const { data, options } = state.calls[0];
     assert.deepEqual(data.line_items, [
-      { price: "price_English", quantity: 1 },
+      { price: "price_Game", quantity: 1 },
     ]);
     assert.equal(data.metadata.purchase_kind, "ebook");
-    assert.equal(data.metadata.ebook_sku, EBOOKS.en.sku);
+    assert.equal(data.metadata.ebook_sku, EBOOKS.game.sku);
     assert.ok(!("payment_method_types" in data));
     assert.ok(options.idempotencyKey);
     assert.ok(!JSON.stringify(data).includes("room-of-clarity"));
   },
 );
 assetTest(
-  "corrupt, missing, and swapped-language assets fail before checkout or delivery",
+  "corrupt, missing, and substituted assets fail before checkout or delivery",
   async () => {
-    for (const mode of ["corrupt", "missing", "wrong-language"]) {
+    for (const mode of ["corrupt", "missing", "substituted"]) {
       const { ports, owner } = setup();
       ports.readAsset = async () => {
         if (mode === "missing") throw Error();
         return mode === "corrupt"
           ? Buffer.from("%PDF-invalid")
-          : readFile(fixtureFiles.es);
+          : Buffer.from("%PDF-" + "x".repeat(EBOOKS.game.bytes - 5));
       };
-      await assert.rejects(startCheckout("en", owner, "request", ports, env));
+      await assert.rejects(startCheckout("game", owner, "request", ports, env));
     }
   },
 );
@@ -313,7 +312,7 @@ assetTest(
     await fulfillCheckout(state.order.id, ports, env);
     assert.equal(state.sends.size, 1);
     assert.equal(state.order.metadata.ebook_delivery_status, "sent");
-    assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.en.sha256);
+    assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.game.sha256);
   },
 );
 assetTest(
@@ -329,9 +328,9 @@ assetTest(
   },
 );
 assetTest(
-  "both paid editions deliver the exact supplied bytes and correct language",
+  "the paid Game delivers the exact final PDF bytes and receipt link",
   async () => {
-    for (const edition of ["en", "es"]) {
+    for (const edition of ["game"]) {
       const { ports, state, owner } = setup(edition);
       await fulfillCheckout(state.order.id, ports, env);
       const receipt = await receiptAccess(state.order.id, owner, ports, env);

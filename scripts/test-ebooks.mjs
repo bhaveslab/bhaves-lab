@@ -30,7 +30,6 @@ execFileSync(process.execPath, ["--test", "tests/ebooks.test.mjs"], {
   stdio: "inherit",
   env: {
     ...process.env,
-    EBOOK_TEST_EN_FILE: process.argv[2] || process.env.EBOOK_TEST_EN_FILE || "",
-    EBOOK_TEST_ES_FILE: process.argv[3] || process.env.EBOOK_TEST_ES_FILE || "",
+    EBOOK_TEST_GAME_FILE: process.argv[2] || process.env.EBOOK_TEST_GAME_FILE || "",
   },
 });

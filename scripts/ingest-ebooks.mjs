@@ -1,19 +1,14 @@
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { put, get } from "@vercel/blob";
-// Supply the two existing, final PDFs as arguments. Never put them in public/ or Git.
+// Supply the final Game PDF. Never put ebook bytes in public/ or Git.
+// These pins match api/_lib/ebooks/catalog.ts and are checked before upload.
 const inputs = [
   {
-    lang: "en",
+    lang: "game",
     file: process.argv[2],
-    sha: "8e3d68c4a55fc9a21dea03cf6eec31240df72e61ad305e60e4e266f06a1e5562",
-    bytes: 2923110,
-  },
-  {
-    lang: "es",
-    file: process.argv[3],
-    sha: "cf4ef640095d833e26ed0b1d7c9e98d207581e7e1617f38a35b23aef0ff3bdd8",
-    bytes: 1590929,
+    sha: "14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d",
+    bytes: 2979876,
   },
 ];
 const token = process.env.EBOOK_BLOB_READ_WRITE_TOKEN;
@@ -23,7 +18,7 @@ if (!token)
   );
 const hash = (data) => createHash("sha256").update(data).digest("hex");
 for (const item of inputs) {
-  if (!item.file) throw Error("Pass the exact English and Spanish PDF paths.");
+  if (!item.file) throw Error("Pass the exact final Possibility Game PDF path.");
   const bytes = await readFile(item.file);
   if (
     bytes.length !== item.bytes ||
