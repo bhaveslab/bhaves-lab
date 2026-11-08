@@ -1471,3 +1471,83 @@
   color: #bdd0cb;
   font: 17px/1.8 Georgia, serif;
 }
+
+/* The writing unfolds within the existing Observatory, without another flow. */
+.reflection-copy {
+  max-width: 660px;
+  margin-inline: auto;
+}
+.reflection-copy > p:not(.lab-kicker),
+.source-vision > p {
+  color: #c7d8d3;
+  font: 400 clamp(17px, 1.6vw, 20px)/1.9 Georgia, serif;
+  margin: 30px auto;
+  text-wrap: pretty;
+}
+.source-vision {
+  max-width: 1080px;
+  margin: 90px auto;
+  padding-block: 50px;
+  border-block: 1px solid #94caca26;
+}
+.source-vision h3 {
+  color: #dceae5;
+  font: 400 clamp(24px, 3vw, 34px)/1.4 Georgia, serif;
+  margin: 0 0 36px;
+}
+.framework-flow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 36px;
+  color: #d9f0e8;
+  font: 400 clamp(16px, 1.8vw, 21px)/1.7 Georgia, serif;
+}
+.framework-flow li {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+.framework-flow span {
+  color: #88c5c5;
+}
+.source-vision > p {
+  max-width: 640px;
+  margin-bottom: 0;
+}
+.reflection-open {
+  margin-block: 70px 90px;
+}
+.observation-reflection > .observation-closing {
+  color: #dceae5;
+  font: 400 clamp(25px, 3.4vw, 43px)/1.65 Georgia, serif;
+  margin: 80px auto 20px;
+}
+.observation-closing span,
+.observation-closing em {
+  display: block;
+}
+.observation-closing em {
+  margin-top: 20px;
+}
+@media (max-width: 600px) {
+  .observation-reflection {
+    padding: 70px 24px 40px;
+  }
+  .source-vision {
+    margin-block: 60px;
+    padding-block: 36px;
+  }
+  .framework-flow {
+    gap: 12px 14px;
+  }
+  .framework-flow li {
+    gap: 14px;
+  }
+  .reflection-open {
+    margin-block: 50px 60px;
+  }
+}

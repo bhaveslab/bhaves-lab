@@ -203,10 +203,6 @@ export function ObservationField() {
           ))}
         </div>
       </div>
-      <p className="field-afterthought">
-        What becomes clear
-        <br />when you observe?
-      </p>
     </section>
   );
 }

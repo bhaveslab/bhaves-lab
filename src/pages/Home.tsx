@@ -125,9 +125,7 @@ export function Home() {
               in <em>motion.</em>
             </h1>
             <p className="hero-support">
-              We observe what is, explore what’s possible,
-              <br className="desktop-break" /> and create from what becomes
-              clear.
+              The possibilities are endless.
             </p>
             <a className="observatory-entry-link" href="#observatory">
               Explore the Observatory <span aria-hidden="true">↓</span>
@@ -143,13 +141,51 @@ export function Home() {
           </div>
         </section>
         <ObservationField />
-        <section id="possibility" className="observation-reflection" aria-labelledby="possibility-heading">
-          <p className="lab-kicker">POSSIBILITY</p>
-          <h2 id="possibility-heading">What else is <em>possible?</em></h2>
-          <p>What becomes clear when you observe?</p>
-          <a className="observatory-entry-link" href="#observatory">
-            Look again <span aria-hidden="true">↑</span>
-          </a>
+        <section
+          id="possibility"
+          className="observation-reflection"
+          aria-labelledby="possibility-heading"
+        >
+          <div className="reflection-copy">
+            <p className="lab-kicker">POSSIBILITY</p>
+            <h2 id="possibility-heading">Every experience<br />begins <em>somewhere.</em></h2>
+            <p>
+              What we observe influences what we perceive. What we perceive
+              influences what we imagine, decide, and experience.
+            </p>
+            <p>We are not here to tell you what your reality should look like.</p>
+            <p>
+              We invite you to explore what is already happening and consider
+              what else might be possible.
+            </p>
+          </div>
+          <div className="source-vision" aria-labelledby="framework-heading">
+            <h3 id="framework-heading">The Source Vision Framework</h3>
+            <ol className="framework-flow" aria-label="Source Vision sequence">
+              {["State", "Perception", "Formation", "Decision", "Experience", "Reality"].map((step, index) => (
+                <li key={step}>
+                  {step}
+                  {index < 5 && <span aria-hidden="true">→</span>}
+                </li>
+              ))}
+            </ol>
+            <p>
+              A simple way to explore how our internal state, perception,
+              imagination, and decisions participate in the experiences of life.
+            </p>
+          </div>
+          <div className="reflection-copy reflection-open">
+            <p>
+              There is no prescribed destination.<br />
+              No correct way to experience life.
+            </p>
+            <p>Just the opportunity to observe, explore, and discover.</p>
+          </div>
+          <p className="observation-closing">
+            <span>Life is already in motion.</span>
+            <span>The possibilities are endless.</span>
+            <em>What will you discover?</em>
+          </p>
         </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
