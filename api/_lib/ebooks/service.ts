@@ -24,8 +24,7 @@ export function configurationReady(env: NodeJS.ProcessEnv) {
     !!env.STRIPE_SECRET_KEY &&
     !!env.STRIPE_WEBHOOK_SECRET_EBOOKS &&
     !!env.EBOOK_STRIPE_ACCOUNT_ID &&
-    !!env.STRIPE_EBOOK_EN_PRICE_ID &&
-    !!env.STRIPE_EBOOK_ES_PRICE_ID &&
+    !!env.STRIPE_EBOOK_GAME_PRICE_ID &&
     !!env.EBOOK_BLOB_READ_WRITE_TOKEN &&
     !!env.RESEND_API_KEY &&
     !!env.EBOOK_RECEIPT_FROM &&
@@ -103,8 +102,8 @@ export async function startCheckout(
     {
       mode: "payment",
       line_items: [{ price, quantity: 1 }],
-      success_url: origin + "/shop/delivery?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: origin + "/shop?cancelled=1",
+      success_url: origin + "/library/delivery?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: origin + "/library?cancelled=1",
       metadata: {
         application: "bhaves-lab",
         purchase_kind: "ebook",
@@ -211,18 +210,12 @@ export async function fulfillCheckout(
       EBOOK_PUBLIC_ORIGIN:
         order.metadata?.ebook_receipt_origin || safeOrigin(env),
     }) +
-    "/shop/delivery#access=" +
+    "/library/delivery#access=" +
     token;
   await ports.sendReceipt({
     to: email,
-    subject:
-      edition === "es"
-        ? "Tu edición de La posibilidad"
-        : "Your edition of The Possibility",
-    text:
-      edition === "es"
-        ? `Gracias por tu compra.\n\n${book.title} — ${book.subtitle}\nEdición en español · PDF · $9.99 USD\n\nDescarga privada (disponible durante siete días desde la compra):\n${link}\n\nAyuda: info@bhaveslab.com\nEsta compra no incluye ni reserva una sesión.`
-        : `Thank you for your purchase.\n\n${book.title} — ${book.subtitle}\nEnglish edition · PDF · $9.99 USD\n\nPrivate download (available for seven days from purchase):\n${link}\n\nSupport: info@bhaveslab.com\nThis purchase does not include or book a session.`,
+    subject: "Your edition of The Possibility Game",
+    text: `Thank you for your purchase.\n\n${book.title} — ${book.subtitle}\nDigital PDF · $9.99 USD\n\nPrivate download (available for seven days from purchase):\n${link}\n\nSupport: info@bhaveslab.com`,
     idempotencyKey: "ebook-receipt-" + order.id,
   });
   await ports.stripe.checkout.sessions.update(
