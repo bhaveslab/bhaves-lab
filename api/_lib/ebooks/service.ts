@@ -32,7 +32,7 @@ export function configurationReady(env: NodeJS.ProcessEnv) {
   );
 }
 export function assertMode(env: NodeJS.ProcessEnv) {
-  const key = env.STRIPE_SECRET_KEY || "";
+  const key = (env.STRIPE_SECRET_KEY || "").trim();
   const test = /^(sk|rk)_test_/.test(key);
   const live = /^(sk|rk)_live_/.test(key);
   if (test && env.VERCEL_ENV === "production")
@@ -296,4 +296,3 @@ export async function processEbookEvent(
   await fulfillCheckout(session.id, dependencies, env);
   return { received: true };
 }
-

@@ -6,7 +6,7 @@ import type { EbookPorts } from "./service.js";
 export function ports(env: NodeJS.ProcessEnv = process.env): EbookPorts {
   if (!env.STRIPE_SECRET_KEY)
     throw new EbookError(503, "Purchasing is being prepared.");
-  const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(env.STRIPE_SECRET_KEY.trim());
   return {
     stripe,
     async readAsset(edition: Edition) {
