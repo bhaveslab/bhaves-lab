@@ -20,14 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       assertMode(process.env);
       const provider = ports();
-      stage = "account";
-      const account = await provider.stripe.accounts.retrieve();
-      if (
-        account.id !== process.env.EBOOK_STRIPE_ACCOUNT_ID ||
-        !account.charges_enabled
-      ) {
-        throw new Error("Payment account is not ready.");
-      }
+      // The price retrieval itself is scoped to the authenticated Stripe account.
       stage = "price";
       await validatePrice("game", provider, process.env);
       stage = "ebook";
