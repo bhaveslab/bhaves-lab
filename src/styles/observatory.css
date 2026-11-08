@@ -1521,7 +1521,7 @@
 .reflection-open {
   margin-block: 70px 90px;
 }
-.observation-reflection > .observation-closing {
+.observation-reflection > p.observation-closing {
   color: #dceae5;
   font: 400 clamp(25px, 3.4vw, 43px)/1.65 Georgia, serif;
   margin: 80px auto 20px;
