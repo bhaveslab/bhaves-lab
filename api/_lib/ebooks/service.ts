@@ -35,6 +35,8 @@ export function assertMode(env: NodeJS.ProcessEnv) {
   const key = env.STRIPE_SECRET_KEY || "";
   const test = /^(sk|rk)_test_/.test(key);
   const live = /^(sk|rk)_live_/.test(key);
+  if (test && env.VERCEL_ENV === "production")
+    throw new EbookError(503, "Production requires a live Stripe API key.");
   if (
     !test &&
     !(
@@ -43,7 +45,7 @@ export function assertMode(env: NodeJS.ProcessEnv) {
       env.EBOOK_ALLOW_LIVE_PAYMENTS === "true"
     )
   )
-    throw new EbookError(503, "Checkout is being prepared.");
+    throw new EbookError(503, "Live Stripe credentials or payment authorization are missing.");
   return live;
 }
 export async function validatePrice(
@@ -90,8 +92,10 @@ export async function startCheckout(
     throw new EbookError(503, "Purchasing is being prepared.");
   const live = assertMode(env);
   const account = await ports.stripe.accounts.retrieve();
-  if (account.id !== env.EBOOK_STRIPE_ACCOUNT_ID || !account.charges_enabled)
-    throw new EbookError(503, "Checkout is being prepared.");
+  if (account.id !== env.EBOOK_STRIPE_ACCOUNT_ID)
+    throw new EbookError(503, "The Stripe key belongs to a different account.");
+  if (!account.charges_enabled)
+    throw new EbookError(503, "Stripe has not enabled payments for this account.");
   const [price] = await Promise.all([
     validatePrice(edition, ports, env),
     verifiedAsset(edition, ports),
@@ -292,3 +296,4 @@ export async function processEbookEvent(
   await fulfillCheckout(session.id, dependencies, env);
   return { received: true };
 }
+
