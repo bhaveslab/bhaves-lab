@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Home } from "./pages/Home";
-import { RouterProvider } from "./router";
+import { RouterProvider, useRouter } from "./router";
 import { getSite, applySiteChrome } from "./site";
 
 // Runs once, synchronously, before React renders anything below — see the
