@@ -1,0 +1,22 @@
+{
+  "en": {
+    "filename": "The_Possibility_English_Final.pdf",
+    "bytes": 2923110,
+    "sha256": "8e3d68c4a55fc9a21dea03cf6eec31240df72e61ad305e60e4e266f06a1e5562",
+    "sourceSha256": "3d2cb2decac7617a4a7fbdbfc52ca9368e7981674c5ceba0de44a616223daeb1",
+    "pages": 12,
+    "manuscriptTextUnchanged": true,
+    "pixelsOutsideNoticeUnchangedAt144dpi": true,
+    "coverPixelsUnchanged": true
+  },
+  "es": {
+    "filename": "La_Posibilidad_Spanish_Final.pdf",
+    "bytes": 1590929,
+    "sha256": "cf4ef640095d833e26ed0b1d7c9e98d207581e7e1617f38a35b23aef0ff3bdd8",
+    "sourceSha256": "587d2ec64616b566a2febef6da26f7b8f7743bf6560bf4a537d45388417b3c31",
+    "pages": 12,
+    "manuscriptTextUnchanged": true,
+    "pixelsOutsideNoticeUnchangedAt144dpi": true,
+    "coverPixelsUnchanged": true
+  }
+}

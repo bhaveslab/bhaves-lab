@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
-import { PRICE_TO_PRODUCT } from './_lib/priceToProduct';
+import { PRICE_TO_PRODUCT } from './_lib/priceToProduct.js';
 
 const MAX_LINE_QTY = 20;
 const MAX_LINES = 50;

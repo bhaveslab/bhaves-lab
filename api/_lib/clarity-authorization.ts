@@ -1,5 +1,6 @@
 import type { VercelRequest } from "@vercel/node";
 
+/** A server-verified booking-link subject, not a required customer account. */
 export type VerifiedIdentity = { subject: string };
 export type VerifiedBooking = {
   ownerSubject: string;
@@ -32,8 +33,19 @@ export function hasConfirmedRoomAccess(context: ClarityContext): boolean {
 export async function resolveClarityContext(
   _req: VercelRequest,
 ): Promise<ClarityContext> {
-  // No authentication or booking-record provider is configured in this project.
-  // Remain closed. Implement server session verification + authoritative booking lookup
-  // together once the underlying integrations are approved; never accept client claims.
-  return { infrastructureReady: false, identity: null, booking: null };
+  if (typeof process === "undefined" || process.env.BOOKING_ENABLED !== "true")
+    return { infrastructureReady: false, identity: null, booking: null };
+  try {
+    const { runtime } = await import("./booking/runtime.js");
+    const { authorized } = await import("./booking/service.js");
+    const raw = _req.headers?.authorization;
+    if (typeof raw !== "string" || !raw.startsWith("Bearer "))
+      return { infrastructureReady: true, identity: null, booking: null };
+    const b = await authorized(await runtime(), raw.slice(7), "room");
+    return { infrastructureReady: true, identity: { subject: b.id }, booking: {
+      ownerSubject: b.id, status: "confirmed", paymentStatus: "paid", reservationStatus: "confirmed",
+    }};
+  } catch {
+    return { infrastructureReady: false, identity: null, booking: null };
+  }
 }

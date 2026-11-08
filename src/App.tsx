@@ -10,12 +10,6 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-const Confirmation = lazy(() =>
-  import("./pages/Shop/Confirmation").then((module) => ({
-    default: module.Confirmation,
-  })),
-);
-
 const ClarityAccess = lazy(() =>
   import("./pages/ClarityAccess").then((module) => ({
     default: module.ClarityAccess,
@@ -26,13 +20,25 @@ const Booking = lazy(() =>
   import("./pages/Booking").then((module) => ({ default: module.Booking })),
 );
 
+const EbookShop = lazy(() =>
+  import("./pages/EbookShop").then((module) => ({ default: module.EbookShop })),
+);
+const EbookDelivery = lazy(() =>
+  import("./pages/EbookShop").then((module) => ({
+    default: module.EbookDelivery,
+  })),
+);
+
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/shop" || path === "/shop/") return <EbookShop />;
+  if (path === "/shop/delivery" || path === "/shop/delivery/")
+    return <EbookDelivery />;
   if (path === "/booking" || path === "/booking/") return <Booking />;
   if (path === "/room-of-clarity" || path === "/room-of-clarity/")
     return <ClarityAccess />;
   if (path === "/shop/confirmation" || path === "/shop/confirmation/")
-    return <Confirmation />;
+    return <EbookDelivery />;
   return <Home shopPage={path === "/shop" || path === "/shop/"} />;
 }
 

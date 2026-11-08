@@ -1,3 +1,4 @@
+import { PaidBooking } from "./PaidBooking";
 import { useEffect, useState, type FormEvent } from "react";
 import "../styles/observatory.css";
 function BookingForm() {
@@ -81,6 +82,18 @@ function BookingForm() {
           placeholder="For example: weekday afternoons, Central time"
         />
       </label>
+      <label>
+        Your included ebook language
+        <select name="ebookEdition" defaultValue="en" required>
+          <option value="en">English — The Possibility</option>
+          <option value="es">Español — La posibilidad</option>
+        </select>
+      </label>
+      <p className="form-note">
+        Every confirmed Possibility Session includes one copy of The Possibility
+        ebook in your selected language at no additional cost. Delivery follows
+        verified payment and a confirmed reservation.
+      </p>
       <label className="booking-trap" aria-hidden="true">
         Website
         <input name="website" tabIndex={-1} autoComplete="off" />
@@ -145,6 +158,8 @@ export function Booking() {
             <em>Session.</em>
           </h1>
           <p className="session-price">60 minutes · $175</p>
+          <p>Includes The Possibility ebook in English or Spanish.</p>
+          <p>No account or password required.</p>
           <p>
             A private experience with Bhavé. Share only what you want to
             explore; detailed personal information can wait for your session.
@@ -161,7 +176,7 @@ export function Booking() {
             Or begin by email ↗
           </a>
         </div>
-        <BookingForm />
+        <PaidBooking fallback={<BookingForm />} />
       </main>
     </div>
   );

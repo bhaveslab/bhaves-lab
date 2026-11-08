@@ -9,7 +9,7 @@ function load(file) {
   const context = {
     exports: {},
     require: (name) =>
-      name === "../components/ObservationField"
+      name === "./PaidBooking" ? load("src/pages/PaidBooking.tsx") : name === "../components/ObservationField"
         ? load("src/components/ObservationField.tsx")
         : name.endsWith(".css")
           ? {}
@@ -81,4 +81,23 @@ test("Observatory leads without repeated booking calls or fictional shop product
   assert.ok(!html.includes("Book Your Session"));
   assert.ok(!html.includes("book-sculpture"));
   assert.ok(!html.includes("Room of Clarity"));
+});
+
+test("the session includes a selected ebook but a request grants no download", () => {
+  const { Booking } = load("src/pages/Booking.tsx");
+  const html = renderToStaticMarkup(React.createElement(Booking));
+  assert.ok(html.includes('name="ebookEdition"'));
+  assert.ok(html.includes('value="en"'));
+  assert.ok(html.includes('value="es"'));
+  assert.ok(html.includes("at no additional cost"));
+  assert.ok(html.includes("Delivery follows"));
+  assert.ok(!html.includes('href="/shop/delivery'));
+});
+
+test("session booking requires no customer account or password", () => {
+  const { Booking } = load("src/pages/Booking.tsx");
+  const html = renderToStaticMarkup(React.createElement(Booking));
+  assert.ok(html.includes("No account or password required."));
+  assert.ok(!html.includes('type="password"'));
+  assert.ok(!/href="\/(signup|login|register)/.test(html));
 });

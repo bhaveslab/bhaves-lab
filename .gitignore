@@ -7,3 +7,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Paid ebook artifacts belong in private storage, never in this repository.
+The_Possibility_English_Final.pdf
+La_Posibilidad_Spanish_Final.pdf
