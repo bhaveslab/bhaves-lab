@@ -15,7 +15,7 @@ export function getSite(): Site {
 
 // Each public site keeps its own identity.
 const SITE_CHROME: Record<Site, { title: string; favicon: string }> = {
-  lab: { title: "Bhavé's Lab", favicon: '/observatory/favicon.svg' },
+  lab: { title: "Bhavé's Lab", favicon: '/observatory/favicon.svg?v=2' },
   meridian: { title: 'Meridian — Global Technology Network', favicon: '/meridian/favicon.png' },
 };
 
@@ -38,4 +38,15 @@ export function applySiteChrome(): void {
     document.head.appendChild(link);
   }
   link.href = chrome.favicon;
+  link.type = getSite() === 'lab' ? 'image/svg+xml' : 'image/png';
+
+  let touch = document.querySelector<HTMLLinkElement>("link[rel='apple-touch-icon']");
+  if (!touch) {
+    touch = document.createElement('link');
+    touch.rel = 'apple-touch-icon';
+    document.head.appendChild(touch);
+  }
+  touch.href = getSite() === 'lab'
+    ? '/observatory/apple-touch-icon.png?v=2'
+    : '/meridian/favicon.png';
 }
