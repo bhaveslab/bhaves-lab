@@ -25,7 +25,7 @@ export function configurationReady(env: NodeJS.ProcessEnv) {
     !!env.STRIPE_WEBHOOK_SECRET_EBOOKS &&
     !!env.EBOOK_STRIPE_ACCOUNT_ID &&
     !!env.STRIPE_EBOOK_GAME_PRICE_ID &&
-    !!env.EBOOK_BLOB_READ_WRITE_TOKEN &&
+    (!!env.EBOOK_BLOB_READ_WRITE_TOKEN || (!!env.BLOB_STORE_ID && !!env.VERCEL_OIDC_TOKEN)) &&
     !!env.RESEND_API_KEY &&
     !!env.EBOOK_RECEIPT_FROM &&
     (env.EBOOK_DOWNLOAD_SECRET?.length ?? 0) >= 43

@@ -12,7 +12,7 @@ const inputs = [
   },
 ];
 const token = process.env.EBOOK_BLOB_READ_WRITE_TOKEN;
-if (!token)
+if (!token && !(process.env.BLOB_STORE_ID && process.env.VERCEL_OIDC_TOKEN))
   throw Error(
     "Configure the private-store token through the environment. Do not pass credentials as arguments.",
   );
@@ -28,6 +28,8 @@ for (const item of inputs) {
     throw Error("Asset mismatch for " + item.lang);
   await put("ebooks/" + item.sha + ".pdf", bytes, {
     token,
+    storeId: process.env.BLOB_STORE_ID,
+    oidcToken: process.env.VERCEL_OIDC_TOKEN,
     access: "private",
     contentType: "application/pdf",
     addRandomSuffix: false,
@@ -35,6 +37,8 @@ for (const item of inputs) {
   });
   const verified = await get("ebooks/" + item.sha + ".pdf", {
     token,
+    storeId: process.env.BLOB_STORE_ID,
+    oidcToken: process.env.VERCEL_OIDC_TOKEN,
     access: "private",
     useCache: false,
   });

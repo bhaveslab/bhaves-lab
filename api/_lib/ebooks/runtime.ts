@@ -10,11 +10,13 @@ export function ports(env: NodeJS.ProcessEnv = process.env): EbookPorts {
   return {
     stripe,
     async readAsset(edition: Edition) {
-      if (!env.EBOOK_BLOB_READ_WRITE_TOKEN)
+      if (!env.EBOOK_BLOB_READ_WRITE_TOKEN && !(env.BLOB_STORE_ID && env.VERCEL_OIDC_TOKEN))
         throw new EbookError(503, "Digital delivery is being prepared.");
       const result = await get(EBOOKS[edition].path, {
         access: "private",
         token: env.EBOOK_BLOB_READ_WRITE_TOKEN,
+        storeId: env.BLOB_STORE_ID,
+        oidcToken: env.VERCEL_OIDC_TOKEN,
         useCache: false,
       });
       if (!result || result.statusCode !== 200 || !result.stream)
