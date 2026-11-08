@@ -10,9 +10,13 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-// Commercial and private routes are intentionally absent from the public bundle.
-// Retired URLs return to the Observatory; their source remains in the repository.
+// Booking and commercial routes remain outside the public bundle.
+const Library = lazy(() =>
+  import("./pages/Library").then((module) => ({ default: module.Library })),
+);
 function LabRoutes() {
+  const { path } = useRouter();
+  if (path === "/library" || path === "/library/") return <Library />;
   return <Home />;
 }
 
