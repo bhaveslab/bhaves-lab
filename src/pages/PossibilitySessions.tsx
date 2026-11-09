@@ -33,15 +33,12 @@ export function PossibilitySessions() {
               mechanics of selecting and embodying a role in everyday life.
               No prescribed identity, outcome or destination.
             </p>
-            <p className="sessions-price">Sessions are arranged individually.</p>
             <a className="sessions-contact" href={emailUrl}>
               Inquire About a Session <span aria-hidden="true">↗</span>
             </a>
             <p className="sessions-note">
-              Email opens an inquiry only. Bhavé will discuss the session format,
-              availability, and fee directly with you. No payment is collected
-              by this page, and an inquiry is not a confirmed reservation.
-              Please avoid sharing sensitive details in your first message.
+              Email Bhavé to inquire about a private session. Please avoid
+              sharing sensitive details in your first message.
             </p>
           </div>
           <aside className="sessions-side" aria-label="The session invitation">
