@@ -4,7 +4,7 @@ import "../styles/observatory.css";
 import "../styles/library.css";
 import "../styles/completion.css";
 
-type ConfirmationState = "checking" | "processing" | "confirmed" | "unverified" | "unavailable";
+type ConfirmationState = "preview" | "checking" | "processing" | "confirmed" | "unverified" | "unavailable";
 
 export function ResearchConfirmation() {
   const [state, setState] = useState<ConfirmationState>("checking");
@@ -12,7 +12,12 @@ export function ResearchConfirmation() {
   useEffect(() => {
     document.title = "Research Contribution — BHAVÉ’S LAB";
     const sessionId = new URLSearchParams(window.location.search).get("session_id");
-    if (!sessionId || !/^cs_live_[A-Za-z0-9]+$/.test(sessionId)) {
+    if (!sessionId) {
+      // A direct visit is a page preview, not evidence of a failed payment.
+      setState("preview");
+      return;
+    }
+    if (!/^cs_live_[A-Za-z0-9]+$/.test(sessionId)) {
       setState("unverified");
       return;
     }
@@ -81,16 +86,32 @@ export function ResearchConfirmation() {
                 contribution, not a tax-deductible charitable donation.
               </p>
             </>
+          ) : state === "preview" ? (
+            <>
+              <h1>Thank you for <em>being here.</em></h1>
+              <p className="completion-lede">
+                Bhavé’s Lab continues its independent exploration of consciousness,
+                awareness, perception, and lived experience.
+              </p>
+              <p className="completion-detail">
+                Contributions to ongoing research are voluntary. No publication,
+                report, or particular outcome is promised.
+              </p>
+              <p className="completion-small">
+                After a successful contribution, Stripe returns you here with a
+                payment confirmation.
+              </p>
+            </>
           ) : (
             <>
               <h1>{state === "checking" || state === "processing"
                 ? <>Confirming your <em>contribution.</em></>
-                : <>Your contribution <em>status.</em></>}</h1>
+                : <>Contribution <em>confirmation.</em></>}</h1>
               <p className="completion-lede">
                 {state === "checking" ? "Checking the Stripe payment status…" :
                   state === "processing" ? "Your payment confirmation is still processing. Please check your Stripe receipt." :
                   state === "unavailable" ? "We cannot check the payment status right now. Your Stripe receipt is the record of any completed payment." :
-                  "We could not verify a completed research contribution from this page."}
+                  "This visit could not be matched to a completed contribution."}
               </p>
               {(state === "unverified" || state === "unavailable") && (
                 <p className="completion-detail">
@@ -102,7 +123,14 @@ export function ResearchConfirmation() {
           )}
           <div className="completion-actions">
             <Link className="completion-primary" to="/">Return to the Observatory <span aria-hidden="true">↗</span></Link>
-            <Link className="completion-secondary" to="/sessions">Explore Possibility Sessions</Link>
+            {state === "preview" ? (
+              <a className="completion-secondary" href="https://buy.stripe.com/3cI4gs3g8cG6cbsf7BbQY0x"
+                 rel="noopener noreferrer">
+                Contribution to Ongoing Research
+              </a>
+            ) : (
+              <Link className="completion-secondary" to="/sessions">Explore Possibility Sessions</Link>
+            )}
           </div>
           <p className="completion-signature">Life is already in motion.</p>
         </div>
