@@ -1,5 +1,5 @@
 /**
- * Voluntary one-time contribution to ongoing creative research only. This is not a charitable donation
+ * Voluntary one-time contribution to ongoing consciousness research only. This is not a charitable donation
  * collection or a progress tracker for the fictional $100,000 storyline.
  * Do not point this at a book, session, or unrelated payment link.
  */
@@ -16,27 +16,26 @@ export function PossibilitySupport() {
     <section id="support" className="possibility-support" aria-labelledby="support-heading">
       <div className="possibility-support-panel">
         <div>
-          <p className="lab-kicker">BHAVÉ’S LAB / OPEN RESEARCH</p>
+          <p className="lab-kicker">BHAVÉ’S LAB / CONSCIOUSNESS RESEARCH</p>
           <h2 id="support-heading">Researching <em>Possibilities.</em></h2>
           <p className="possibility-support-lead">
-            Every observation opens another experiment. The research continues
-            as life unfolds.
+            An open-ended exploration of consciousness, awareness, perception,
+            and lived experience.
           </p>
           <p className="possibility-support-description">
-            Bhavé’s Lab is a living Observatory of experience, original ideas,
-            research notes and creative experiments. If this published work
-            resonates with you, your voluntary, one-time contribution can
-            support more independent exploration and creation.
+            Bhavé’s Lab investigates the nature of consciousness and the ways we
+            experience reality. Your optional contribution supports this
+            independent, ongoing inquiry.
           </p>
           <a className="possibility-support-button" href={tipUrl}
              target="_blank" rel="noopener noreferrer">
             Contribution to Ongoing Research <span aria-hidden="true">↗</span>
           </a>
           <p className="possibility-support-fineprint">
-            Choose your own amount at secure Stripe checkout. This is an optional
-            contribution in appreciation of published creative and observational
-            content, not a charitable donation or tax-deductible gift.
-            No rewards or specific outcomes are promised.
+            Choose your own amount at secure Stripe checkout. This is a voluntary,
+            one-time contribution toward consciousness research, not a charitable
+            donation or tax-deductible gift. No publication, report,
+            service, or specific outcome is promised.
           </p>
         </div>
         <div className="possibility-support-orbit" aria-hidden="true">
