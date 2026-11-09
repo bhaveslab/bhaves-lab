@@ -259,6 +259,7 @@ export function Home() {
           BHAVÉ’S LAB
         </a>
         <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
+        <Link to="/contact">Contact Card / QR</Link>
         <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
