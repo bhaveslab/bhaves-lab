@@ -109,6 +109,9 @@ export function Library() {
         <p className="library-closing">
           One character. Thirty days to see what becomes. <em>Life is already in motion.</em>
         </p>
+        <p className="library-closing">
+          Interested in a one-on-one conversation? <Link to="/sessions">Explore Possibility Sessions — 60 minutes · $175 ↗</Link>
+        </p>
         <Link to="/" className="library-back">Return to the Observatory ↑</Link>
       </main>
       <footer className="lab-footer">
