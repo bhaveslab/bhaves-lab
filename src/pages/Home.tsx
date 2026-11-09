@@ -3,6 +3,7 @@ import "../styles/observatory.css";
 import { ObservationField } from "../components/ObservationField";
 import { Link } from "../router";
 import "../styles/experience-paths.css";
+import "../styles/possibility-sessions.css";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
@@ -53,6 +54,9 @@ export function Home() {
           </a>
           <Link to="/library" onClick={() => setMenu(false)}>
             The Game
+          </Link>
+          <Link to="/sessions" onClick={() => setMenu(false)}>
+            Sessions
           </Link>
           <Link to="/lil-ego" onClick={() => setMenu(false)}>
             Lil Ego
@@ -231,6 +235,18 @@ export function Home() {
               Explore The Possibility Game <span aria-hidden="true">↗</span>
             </Link>
           </div>
+        </section>
+        <section id="sessions" className="sessions-invitation" aria-labelledby="sessions-heading">
+          <p className="lab-kicker">GO DEEPER / ONE ON ONE</p>
+          <h2 id="sessions-heading">Possibility <em>Sessions.</em></h2>
+          <p>
+            The book is your starting point. When you want a private conversation
+            about observation, identity, and embodiment, explore a session with Bhavé.
+          </p>
+          <p>60 minutes · $175 USD. Arranged by email; no online payment or automatic booking.</p>
+          <Link className="game-invitation-link" to="/sessions">
+            Explore Possibility Sessions <span aria-hidden="true">↗</span>
+          </Link>
         </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
