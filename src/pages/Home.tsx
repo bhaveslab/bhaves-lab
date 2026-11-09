@@ -3,6 +3,8 @@ import "../styles/observatory.css";
 import { ObservationField } from "../components/ObservationField";
 import { Link } from "../router";
 import "../styles/experience-paths.css";
+import "../styles/possibility-support.css";
+import { PossibilitySupport } from "../components/PossibilitySupport";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
@@ -228,6 +230,7 @@ export function Home() {
             </Link>
           </div>
         </section>
+        <PossibilitySupport />
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
           <p>
