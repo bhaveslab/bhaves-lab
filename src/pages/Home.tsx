@@ -245,7 +245,7 @@ export function Home() {
             The book is your starting point. When you want a private conversation
             about observation, identity, and embodiment, explore a session with Bhavé.
           </p>
-          <p>60 minutes · $175 USD. Arranged by email; no online payment or automatic booking.</p>
+          <p>Inquire by email. Session details and fees are arranged individually; no online payment or automatic booking.</p>
           <Link className="game-invitation-link" to="/sessions">
             Explore Possibility Sessions <span aria-hidden="true">↗</span>
           </Link>
