@@ -7,20 +7,11 @@
   border-top:1px solid #83c6c522;
 }
 .game-promo-art{
-  min-width:0;position:relative;overflow:hidden;aspect-ratio:3/4;
-  display:flex;flex-direction:column;justify-content:space-between;
-  background:linear-gradient(180deg,#041016cc 0%,#041d2666 45%,#041016e6 100%),url('/observatory/observatory.webp') center/cover no-repeat;
+  min-width:0;position:relative;overflow:hidden;aspect-ratio:2/3;
   border:1px solid #579a9c65;box-shadow:0 34px 80px #0008;
-  padding:clamp(16px,2.5vw,36px);color:#f2f6f3;
+  background:#041016;
 }
-.game-promo-art .game-promo-top,.game-promo-art .game-promo-bottom{
-  font:500 10px/1.5 Arial,sans-serif;letter-spacing:.19em;position:relative;z-index:1;
-}
-.game-promo-art .game-promo-title{
-  position:relative;z-index:1;display:block;font:400 clamp(32px,4vw,65px)/1.02 Georgia,serif;
-  letter-spacing:-.045em;text-wrap:balance;text-shadow:0 4px 24px #001;
-}
-.game-promo-art .game-promo-title em{display:block;color:#93f1ea;font-style:normal;}
+.game-promo-cover{display:block;width:100%;height:100%;object-fit:contain}
 .game-invitation-copy h2{
   margin:18px 0 22px;font:400 clamp(35px,4.6vw,61px)/1.1 Georgia,serif;
   letter-spacing:-.025em;text-wrap:balance;

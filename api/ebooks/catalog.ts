@@ -39,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   return res.status(200).json({
     checkoutAvailable: ready,
     readiness: ready ? "ready" : stage,
-    editions: Object.entries(EBOOKS).map(([edition, b]) => ({
+    editions: Object.entries(EBOOKS).filter(([edition]) => edition === "game").map(([edition, b]) => ({
       edition,
       sku: b.sku,
       title: b.title,
