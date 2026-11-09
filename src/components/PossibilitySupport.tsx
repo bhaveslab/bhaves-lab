@@ -1,5 +1,5 @@
 /**
- * Voluntary one-time creator tipping only. This is not a charitable donation
+ * Voluntary one-time contribution to ongoing creative research only. This is not a charitable donation
  * collection or a progress tracker for the fictional $100,000 storyline.
  * Do not point this at a book, session, or unrelated payment link.
  */
@@ -30,11 +30,11 @@ export function PossibilitySupport() {
           </p>
           <a className="possibility-support-button" href={tipUrl}
              target="_blank" rel="noopener noreferrer">
-            Contribute to the Research <span aria-hidden="true">↗</span>
+            Contribution to Ongoing Research <span aria-hidden="true">↗</span>
           </a>
           <p className="possibility-support-fineprint">
             Choose your own amount at secure Stripe checkout. This is an optional
-            tip in appreciation of published creative and observational
+            contribution in appreciation of published creative and observational
             content, not a charitable donation or tax-deductible gift.
             No rewards or specific outcomes are promised.
           </p>
