@@ -230,9 +230,6 @@ export function Home() {
               Try 30 days to see what becomes. Notice how fully you've embodied
               the role and how your actual experiences have shifted.
             </p>
-            <p className="game-invitation-meta">
-              <strong>$10.00</strong> USD · One-time · Digital field guide
-            </p>
             <Link className="game-invitation-link" to="/library">
               Explore The Possibility Game <span aria-hidden="true">↗</span>
             </Link>
@@ -245,7 +242,6 @@ export function Home() {
             The book is your starting point. When you want a private conversation
             about observation, identity, and embodiment, explore a session with Bhavé.
           </p>
-          <p>Inquire by email. Session details and fees are arranged individually; no online payment or automatic booking.</p>
           <Link className="game-invitation-link" to="/sessions">
             Explore Possibility Sessions <span aria-hidden="true">↗</span>
           </Link>
