@@ -23,10 +23,14 @@ const LilEgo = lazy(() =>
 const PossibilitySessions = lazy(() =>
   import("./pages/PossibilitySessions").then((module) => ({ default: module.PossibilitySessions })),
 );
+const ResearchConfirmation = lazy(() =>
+  import("./pages/ResearchConfirmation").then((module) => ({ default: module.ResearchConfirmation })),
+);
 function LabRoutes() {
   const { path } = useRouter();
   if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
   if (path === "/library/delivery" || path === "/library/delivery/") return <LibraryDelivery />;
+  if (path === "/research/thank-you" || path === "/research/thank-you/") return <ResearchConfirmation />;
   if (path === "/library" || path === "/library/") return <Library />;
   if (path === "/sessions" || path === "/sessions/") return <PossibilitySessions />;
   return <Home />;
