@@ -1,0 +1,18 @@
+{
+  "name": "Bhavé — Contact Card",
+  "short_name": "Bhavé Contact",
+  "description": "The Gentleman of Possibility — scannable contact card.",
+  "start_url": "/contact",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#05151b",
+  "theme_color": "#05151b",
+  "icons": [
+    {
+      "src": "/contact-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
