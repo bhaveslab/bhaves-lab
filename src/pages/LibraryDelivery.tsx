@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "../router";
 import "../styles/observatory.css";
 import "../styles/library.css";
+import "../styles/completion.css";
 
 type DeliveryState = "checking" | "processing" | "ready" | "error";
 
@@ -12,6 +13,7 @@ export function LibraryDelivery() {
   const [state, setState] = useState<DeliveryState>(token ? "ready" : "checking");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [downloadStarted, setDownloadStarted] = useState(false);
 
   useEffect(() => {
     document.title = "Your Possibility Game Ebook — BHAVÉ’S LAB";
@@ -62,6 +64,7 @@ export function LibraryDelivery() {
 
   async function download() {
     setBusy(true);
+    setDownloadStarted(false);
     setMessage("");
     try {
       const response = await fetch("/api/ebooks/download", {
@@ -79,6 +82,8 @@ export function LibraryDelivery() {
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
+      setDownloadStarted(true);
+      setMessage("Your PDF download has been requested. Follow any save prompt in your browser.");
       setTimeout(() => URL.revokeObjectURL(url), 60000);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Download unavailable.");
@@ -93,25 +98,56 @@ export function LibraryDelivery() {
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
         <Link to="/library">← The Digital Library</Link>
       </header>
-      <main className="library-main" id="main">
-        <p className="lab-kicker">YOUR PRIVATE DIGITAL EDITION</p>
-        <h1>The <em>Possibility Game.</em></h1>
-        <p className="library-lede">
-          {state === "checking" ? "Checking your purchase…" :
-          state === "processing" ? "Payment and delivery confirmation are processing." :
-          state === "ready" ? "Your purchase was verified. Your PDF is ready to request." :
-          "We could not verify your purchase here."}
-        </p>
-        {state === "ready" && (
-          <button className="lab-button" type="button" disabled={busy}
-            onClick={() => void download()}>
-            {busy ? "Verifying download…" : "Download your PDF"}
-          </button>
-        )}
-        <p className="library-availability" role="status">{message}</p>
-        <p className="library-availability">
-          Need assistance? <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
-        </p>
+      <main className="library-main completion-main" id="main">
+        <div className="completion-panel">
+          <p className="lab-kicker">BHAVÉ’S LAB / YOUR PRIVATE DIGITAL EDITION</p>
+          <div className="completion-orbit" aria-hidden="true">◌</div>
+          <h1>The <em>Possibility Game.</em></h1>
+          <p className="completion-lede" aria-live="polite">
+            {state === "checking" ? "Confirming your purchase…" :
+            state === "processing" ? "Your payment and digital delivery are still processing." :
+            state === "ready" ? "Your digital field guide is ready." :
+            "We could not verify your purchase on this page."}
+          </p>
+          {state === "ready" ? (
+            <>
+              <p className="completion-detail">
+                One shot. One original character. Your life is the playing field.
+                Start wherever you are, then bring the experience into everyday life.
+              </p>
+              <div className="completion-download">
+                <button className="lab-button" type="button" disabled={busy}
+                  onClick={() => void download()}>
+                  {busy ? "Preparing your PDF…" :
+                    downloadStarted ? "Download the PDF again" : "Download your PDF"}
+                </button>
+                <p className="completion-notice" role="status">{message}</p>
+              </div>
+              <p className="completion-small">
+                Your private receipt email also contains your download link,
+                valid for seven days from purchase.
+              </p>
+            </>
+          ) : (
+            <p className="completion-detail" role="status">
+              {message || "If you completed your purchase, check your receipt email for the private PDF link."}
+            </p>
+          )}
+          <div className="completion-actions">
+            <Link className="completion-primary" to="/">
+              Return to the Observatory <span aria-hidden="true">↗</span>
+            </Link>
+            {state === "ready" && (
+              <Link className="completion-secondary" to="/sessions">
+                Explore Possibility Sessions
+              </Link>
+            )}
+          </div>
+          <p className="completion-small">
+            Need assistance? <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
+          </p>
+          <p className="completion-signature">Life is already in motion.</p>
+        </div>
       </main>
     </div>
   );
