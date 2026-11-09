@@ -16,29 +16,31 @@ export function PossibilitySupport() {
     <section id="support" className="possibility-support" aria-labelledby="support-heading">
       <div className="possibility-support-panel">
         <div>
-          <p className="lab-kicker">AN OPEN POSSIBILITY</p>
-          <h2 id="support-heading">Keep life <em>in motion.</em></h2>
+          <p className="lab-kicker">BHAVÉ’S LAB / OPEN RESEARCH</p>
+          <h2 id="support-heading">Researching <em>Possibilities.</em></h2>
           <p className="possibility-support-lead">
-            Enjoying the Observatory and the creative stories shared here?
-            Leave a little possibility behind.
+            Every observation opens another experiment. The research continues
+            as life unfolds.
           </p>
           <p className="possibility-support-description">
-            A voluntary, one-time tip is a way to appreciate Bhavé’s published
-            creative work and support his independent storytelling as the
-            Gentleman of Possibility continues exploring life.
+            Bhavé’s Lab is a living Observatory of experience, original ideas,
+            research notes and creative experiments. If this published work
+            resonates with you, your voluntary, one-time contribution can
+            support more independent exploration and creation.
           </p>
           <a className="possibility-support-button" href={tipUrl}
              target="_blank" rel="noopener noreferrer">
-            Fuel a Possibility <span aria-hidden="true">↗</span>
+            Contribute to the Research <span aria-hidden="true">↗</span>
           </a>
           <p className="possibility-support-fineprint">
-            Choose your own amount at secure Stripe checkout. This is a tip for
-            creative content already provided, not a charitable donation or a
-            tax-deductible gift. No rewards or specific results are promised.
+            Choose your own amount at secure Stripe checkout. This is an optional
+            tip in appreciation of published creative and observational
+            content, not a charitable donation or tax-deductible gift.
+            No rewards or specific outcomes are promised.
           </p>
         </div>
         <div className="possibility-support-orbit" aria-hidden="true">
-          <span>WHAT ELSE<br />IS POSSIBLE?</span>
+          <span>OBSERVE.<br />EXPLORE.<br />DISCOVER.</span>
         </div>
       </div>
     </section>
