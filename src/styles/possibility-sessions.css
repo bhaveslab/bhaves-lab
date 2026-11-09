@@ -1,0 +1,47 @@
+/* Session inquiry only. The retired booking/payment APIs remain untouched. */
+.sessions-world { min-height: 100svh; background: radial-gradient(ellipse at 85% 15%, #0e414b85, transparent 42%), #030d12; }
+.sessions-header { display:flex; align-items:center; justify-content:space-between; gap:24px;
+  padding:24px clamp(24px,6vw,80px); border-bottom:1px solid #83c6c52a; }
+.sessions-header>a:last-child { color:#b9d6d2; font: 500 12px Arial,sans-serif; }
+.sessions-header a:focus-visible { outline:2px solid #a3efeb; outline-offset:5px; }
+.sessions-main { max-width:1200px; margin:0 auto; padding:clamp(60px,8vw,130px) clamp(24px,6vw,80px) 90px; }
+.sessions-main>h1 { color:#f2f8f5; margin:17px 0 28px; max-width:1000px;
+  font:400 clamp(55px,8vw,110px)/1 Georgia,serif; letter-spacing:-.055em; }
+.sessions-main h1 em,.sessions-offer h2 em,.sessions-side em { color:#9ce8e3; font-weight:400; }
+.sessions-intro { max-width:780px; margin:0 0 52px; color:#c9ded8;
+  font:400 clamp(19px,2.15vw,27px)/1.6 Georgia,serif; }
+.sessions-offer { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(250px,.7fr);
+  gap:clamp(30px,7vw,120px); border:1px solid #76bbbb42; padding:clamp(27px,5vw,65px);
+  background:linear-gradient(130deg,#081f27,#051216); align-items:center; }
+.sessions-offer h2 { font:400 clamp(34px,4.1vw,52px)/1.1 Georgia,serif; margin:15px 0 22px; }
+.sessions-offer p:not(.lab-kicker):not(.sessions-price):not(.sessions-note) {
+  color:#c8d9d4; max-width:610px; font:400 17px/1.75 Georgia,serif; }
+.sessions-price { color:#eaf8f3; font:400 23px/1.4 Georgia,serif; margin:30px 0 22px; }
+.sessions-price span { color:#7ebdb7; margin:0 8px; }
+.sessions-contact { display:inline-flex; align-items:center; justify-content:space-between;
+  gap:30px; min-height:52px; padding:16px 23px; border:1px solid #9de5de;
+  background:#123b42; color:#f2fbf9!important; font:500 13px Arial,sans-serif; }
+.sessions-contact:hover { background:#1e555c; }
+.sessions-contact:focus-visible { outline:2px solid #a3efeb; outline-offset:5px; }
+.sessions-note { max-width:590px; color:#a5c6c2; font:400 12px/1.7 Arial,sans-serif; margin:20px 0 0; }
+.sessions-side { text-align:center; padding:25px 5px; color:#f0faf6; }
+.sessions-orbit { display:block; margin:0 auto 20px; color:#9ce8e3; font:400 90px/1 Georgia,serif; }
+.sessions-side p { color:#f0faf6!important; font:400 clamp(22px,2.8vw,35px)/1.55 Georgia,serif!important; }
+.sessions-side small { color:#92bdb7; font:400 11px Arial,sans-serif; letter-spacing:.1em; }
+.sessions-bottom { display:flex; flex-wrap:wrap; gap:20px 40px; padding-top:42px; }
+.sessions-bottom a { color:#bce4dc; font:400 13px Arial,sans-serif; }
+.sessions-bottom a:focus-visible { outline:2px solid #a3efeb; outline-offset:5px; }
+.sessions-invitation { max-width:1220px; margin:0 auto;
+  padding:65px clamp(24px,6vw,80px) 95px; border-top:1px solid #83c6c522; }
+.sessions-invitation h2 { font:400 clamp(36px,4.6vw,58px)/1.1 Georgia,serif;
+  margin:18px 0 18px; letter-spacing:-.025em; }
+.sessions-invitation h2 em { color:#9ce8e3; }
+.sessions-invitation>p:not(.lab-kicker) { color:#c9dad5; font:400 clamp(16px,1.5vw,19px)/1.75 Georgia,serif; max-width:680px; }
+.sessions-invitation .game-invitation-link { margin-top:18px; }
+@media(max-width:760px) {
+  .sessions-header { padding:22px 24px; }
+  .sessions-main { padding:60px 24px 80px; }
+  .sessions-offer { grid-template-columns:1fr; }
+  .sessions-invitation { padding:60px 24px 85px; }
+  .sessions-intro { margin-bottom:35px; }
+}
