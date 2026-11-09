@@ -1,5 +1,21 @@
 export const EBOOKS = {
   game: {
+    sku: "possibility-game-en-v2",
+    language: "English",
+    lang: "en",
+    title: "The Possibility Game",
+    subtitle: "One Shot. One Character. Your Life Is the Playing Field.",
+    cents: 1000,
+    currency: "usd",
+    pages: 14,
+    filename: "The_Possibility_Game_One_Shot.pdf",
+    sha256: "97cf0aecaf4574abfa96910c2f6e5ce7bcba391f0c6837fa9721b3296c6e3e5e",
+    bytes: 2900537,
+    path: "ebooks/97cf0aecaf4574abfa96910c2f6e5ce7bcba391f0c6837fa9721b3296c6e3e5e.pdf",
+    priceEnv: "STRIPE_EBOOK_GAME_PRICE_ID",
+  },
+  // Historical receipts retain the original asset and price checks.
+  gameLegacy: {
     sku: "possibility-game-en-v1",
     language: "English",
     lang: "en",
@@ -12,7 +28,7 @@ export const EBOOKS = {
     sha256: "14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d",
     bytes: 2979876,
     path: "ebooks/14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d.pdf",
-    priceEnv: "STRIPE_EBOOK_GAME_PRICE_ID",
+    priceEnv: "STRIPE_EBOOK_GAME_LEGACY_PRICE_ID",
   },
 } as const;
 export type Edition = keyof typeof EBOOKS;

@@ -200,12 +200,16 @@ export function Home() {
           className="game-invitation"
           aria-labelledby="game-invitation-heading"
         >
-          <div className="game-promo-art" role="img" aria-label="The Possibility Game digital book, presented against the cinematic Observatory landscape">
-            <span className="game-promo-top">BHAVÉ’S LAB / DIGITAL EDITION</span>
-            <strong className="game-promo-title">
-              THE POSSIBILITY <em>GAME</em>
-            </strong>
-            <span className="game-promo-bottom">30 DAYS TO A POSSIBLE REALITY — AND BEYOND</span>
+          <div className="game-promo-art">
+            <img
+              className="game-promo-cover"
+              src="/observatory/the-possibility-game-cover.webp"
+              alt="The Possibility Game: One Shot. One Character. Your Life Is the Playing Field."
+              width="1024"
+              height="1536"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
           <div className="game-invitation-copy">
             <p className="lab-kicker">AN INVITATION TO EXPLORE</p>
@@ -213,15 +217,15 @@ export function Home() {
               Your next <em>possibility.</em>
             </h2>
             <p>
-              Thirty playful missions through the Source Vision Framework.
-              Choose a possibility, live the experience, and record what unfolds.
+              One shot. One original character. Observe yourself, create your
+              expression, and go live it in the day you already have.
             </p>
             <p>
-              Day 30 is not the end. Create your own missions and continue exploring
-              whatever comes next.
+              Try 30 days to see what becomes. Notice how fully you've embodied
+              the role and how your actual experiences have shifted.
             </p>
             <p className="game-invitation-meta">
-              <strong>$9.99</strong> USD · One-time · Ebook only
+              <strong>$10.00</strong> USD · One-time · Digital field guide
             </p>
             <Link className="game-invitation-link" to="/library">
               Explore The Possibility Game <span aria-hidden="true">↗</span>

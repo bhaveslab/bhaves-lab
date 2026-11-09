@@ -47,7 +47,7 @@ function setup(edition = "game") {
       mode: "payment",
       status: "complete",
       payment_status: "paid",
-      amount_total: 999,
+      amount_total: 1000,
       currency: "usd",
       payment_intent: "pi_fixture",
       customer_details: { email: "buyer@example.com" },
@@ -62,7 +62,7 @@ function setup(edition = "game") {
     },
     payment: {
       status: "succeeded",
-      amount_received: 999,
+      amount_received: 1000,
       currency: "usd",
       latest_charge: {
         paid: true,
@@ -85,7 +85,7 @@ function setup(edition = "game") {
           id,
           active: true,
           currency: "usd",
-          unit_amount: 999,
+          unit_amount: 1000,
           type: "one_time",
           livemode: false,
         }),
@@ -103,7 +103,7 @@ function setup(edition = "game") {
               {
                 quantity: 1,
                 price: { id: env[EBOOKS[edition].priceEnv] },
-                amount_total: 999,
+                amount_total: 1000,
               },
             ],
           }),

@@ -17,7 +17,7 @@ export function Library() {
         Array.isArray(data.editions) &&
         data.editions.length === 1 &&
         data.editions[0].edition === "game" &&
-        data.editions[0].cents === 999))
+        data.editions[0].cents === 1000))
       .catch(() => setAvailable(false));
   }, []);
 
@@ -59,9 +59,8 @@ export function Library() {
         <p className="lab-kicker">THE DIGITAL LIBRARY / ONE ORIGINAL EXPERIENCE</p>
         <h1>The <em>Possibility Game.</em></h1>
         <p className="library-lede">
-          Thirty days to a possible reality — and beyond.
-          Select your possibility, explore your world, and create your own missions.
-          Life is already in motion.
+          One shot. One original character. Your life is the playing field.
+          Try 30 days to see what becomes. Life is already in motion.
         </p>
         <section className="library-shelf" aria-labelledby="library-book-heading">
           <div className="library-grid">
@@ -69,33 +68,33 @@ export function Library() {
               <img
                 className="library-book-art library-book-cover"
                 src="/observatory/the-possibility-game-cover.webp"
-                alt="The Possibility Game by Bhavé — 30 Days to a Possible Reality — and Beyond. Cover showing a cyan-lit Observatory overlooking mountains and water."
+                alt="The Possibility Game — One Shot. One Character. Cinematic black-glass Observatory cover with a figure and cyan holographic interfaces."
                 width="1024"
                 height="1536"
                 decoding="async"
               />
               <div className="library-book-copy">
-                <p className="library-volume">EBOOK / PDF · 49 PAGES</p>
+                <p className="library-volume">EBOOK / PDF · 14 PAGES</p>
                 <h2 id="library-book-heading">The Possibility Game</h2>
-                <p className="library-subtitle">30 Days to a Possible Reality — and Beyond</p>
+                <p className="library-subtitle">One Shot. One Character. Your Life Is the Playing Field.</p>
                 <p>
-                  Thirty guided missions through the Source Vision Framework:
-                  State, Perception, Formation, Decision, Experience, Reality.
+                  Begin wherever you are. Observe yourself, create one original
+                  character, and bring that expression into ordinary life.
                 </p>
                 <p>
-                  Explore surprising possibilities, make small real-life moves,
-                  record your observations, and keep playing long after Day 30.
-                  Create as many of your own missions as you wish.
+                  Try 30 days to see what becomes. Use the simple embodiment and
+                  reset protocols, notice what actually changes, and spend more
+                  time living than reading. This is one challenge, not 30 lessons.
                 </p>
-                <p className="library-price">$9.99 <span>USD · one-time purchase · digital ebook only</span></p>
+                <p className="library-price">$10.00 <span>USD · one-time purchase · digital PDF</span></p>
                 <button className="lab-button" type="button" onClick={() => void buy()}
                   disabled={!available || busy}>
-                  {busy ? "Opening secure checkout…" : "Purchase PDF · $9.99"}
+                  {busy ? "Opening secure checkout…" : "Purchase PDF · $10.00"}
                 </button>
                 {!available && (
                   <p className="library-availability">
-                    Secure checkout and private ebook delivery are being verified.
-                    Purchasing will open once they are ready.
+                    Secure checkout and delivery of this edition are being verified.
+                    Purchasing opens when the new PDF is ready.
                   </p>
                 )}
                 <p className="library-availability" role="status">{error}</p>
@@ -108,7 +107,7 @@ export function Library() {
           </div>
         </section>
         <p className="library-closing">
-          Thirty days are the invitation. <em>Possibility has no ending.</em>
+          One character. Thirty days to see what becomes. <em>Life is already in motion.</em>
         </p>
         <Link to="/" className="library-back">Return to the Observatory ↑</Link>
       </main>

@@ -60,7 +60,7 @@ export async function validatePrice(
   if (
     !price.active ||
     price.currency !== "usd" ||
-    price.unit_amount !== 999 ||
+    price.unit_amount !== EBOOKS[edition].cents ||
     price.type !== "one_time" ||
     price.livemode !== assertMode(env)
   )
@@ -149,7 +149,7 @@ export async function paidOrder(
     order.mode !== "payment" ||
     order.status !== "complete" ||
     order.payment_status !== "paid" ||
-    order.amount_total !== 999 ||
+    order.amount_total !== EBOOKS[edition].cents ||
     order.currency !== "usd"
   )
     throw new EbookError(403, "Payment has not been verified.");
@@ -162,7 +162,7 @@ export async function paidOrder(
     lines.data.length !== 1 ||
     lines.data[0].quantity !== 1 ||
     lines.data[0].price?.id !== price ||
-    lines.data[0].amount_total !== 999
+    lines.data[0].amount_total !== EBOOKS[edition].cents
   )
     throw new EbookError(403, "Purchase access could not be verified.");
   const paymentId =
@@ -176,7 +176,7 @@ export async function paidOrder(
   const charge = payment.latest_charge;
   if (
     payment.status !== "succeeded" ||
-    payment.amount_received !== 999 ||
+    payment.amount_received !== EBOOKS[edition].cents ||
     payment.currency !== "usd" ||
     !charge ||
     typeof charge === "string" ||
@@ -217,7 +217,7 @@ export async function fulfillCheckout(
   await ports.sendReceipt({
     to: email,
     subject: "Your edition of The Possibility Game",
-    text: `Thank you for your purchase.\n\n${book.title} — ${book.subtitle}\nDigital PDF · $9.99 USD\n\nPrivate download (available for seven days from purchase):\n${link}\n\nSupport: info@bhaveslab.com`,
+    text: `Thank you for your purchase.\n\n${book.title} — ${book.subtitle}\nDigital PDF · ${(book.cents / 100).toFixed(2)} USD\n\nPrivate download (available for seven days from purchase):\n${link}\n\nSupport: info@bhaveslab.com`,
     idempotencyKey: "ebook-receipt-" + order.id,
   });
   await ports.stripe.checkout.sessions.update(

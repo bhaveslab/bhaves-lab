@@ -7,8 +7,8 @@ const inputs = [
   {
     lang: "game",
     file: process.argv[2],
-    sha: "14cce07e292853a1e2046df796124f48e78051f1b878241e9f0acd0749fba83d",
-    bytes: 2979876,
+    sha: "97cf0aecaf4574abfa96910c2f6e5ce7bcba391f0c6837fa9721b3296c6e3e5e",
+    bytes: 2900537,
   },
 ];
 const token = process.env.EBOOK_BLOB_READ_WRITE_TOKEN;
