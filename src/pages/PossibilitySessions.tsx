@@ -3,7 +3,7 @@ import { Link } from "../router";
 import "../styles/observatory.css";
 import "../styles/possibility-sessions.css";
 
-const emailUrl = "mailto:info@bhaveslab.com?subject=Possibility%20Session%20Inquiry%20%E2%80%94%20%24175";
+const emailUrl = "mailto:info@bhaveslab.com?subject=Possibility%20Session%20Inquiry";
 
 export function PossibilitySessions() {
   useEffect(() => {
@@ -33,15 +33,15 @@ export function PossibilitySessions() {
               mechanics of selecting and embodying a role in everyday life.
               No prescribed identity, outcome or destination.
             </p>
-            <p className="sessions-price">60 minutes <span>·</span> $175 USD</p>
+            <p className="sessions-price">Sessions are arranged individually.</p>
             <a className="sessions-contact" href={emailUrl}>
               Inquire About a Session <span aria-hidden="true">↗</span>
             </a>
             <p className="sessions-note">
-              Email opens an inquiry only. Availability is arranged directly,
-              and no payment is collected by this page. An inquiry is not a
-              confirmed reservation. Please avoid sharing sensitive details
-              in your first message.
+              Email opens an inquiry only. Bhavé will discuss the session format,
+              availability, and fee directly with you. No payment is collected
+              by this page, and an inquiry is not a confirmed reservation.
+              Please avoid sharing sensitive details in your first message.
             </p>
           </div>
           <aside className="sessions-side" aria-label="The session invitation">
