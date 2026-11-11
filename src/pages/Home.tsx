@@ -54,7 +54,7 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
-          <a href="https://possibility-game.vercel.app" onClick={() => setMenu(false)}>
+          <a href="/game/" onClick={() => setMenu(false)}>
             Play the Game
           </a>
           <Link to="/library" onClick={() => setMenu(false)}>
@@ -233,7 +233,7 @@ export function Home() {
               Your life is already in motion. Keep living it, observe what happens,
               and return to select another possibility whenever you choose.
             </p>
-            <a className="game-invitation-link" href="https://possibility-game.vercel.app">
+            <a className="game-invitation-link" href="/game/">
               Enter the Interactive Game <span aria-hidden="true">↗</span>
             </a>
             <p className="game-book-link">
