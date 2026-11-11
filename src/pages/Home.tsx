@@ -54,8 +54,11 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
+          <a href="https://possibility-game.vercel.app" onClick={() => setMenu(false)}>
+            Play the Game
+          </a>
           <Link to="/library" onClick={() => setMenu(false)}>
-            The Game
+            The Book
           </Link>
           <Link to="/sessions" onClick={() => setMenu(false)}>
             Sessions
@@ -223,16 +226,19 @@ export function Home() {
               Your next <em>possibility.</em>
             </h2>
             <p>
-              One shot. One original character. Observe yourself, create your
-              expression, and go live it in the day you already have.
+              Begin as Source. Recognize the qualities you have already lived,
+              select or refine your character, and choose a possibility to explore.
             </p>
             <p>
-              Try 30 days to see what becomes. Notice how fully you've embodied
-              the role and how your actual experiences have shifted.
+              Your life is already in motion. Keep living it, observe what happens,
+              and return to select another possibility whenever you choose.
             </p>
-            <Link className="game-invitation-link" to="/library">
-              Explore The Possibility Game <span aria-hidden="true">↗</span>
-            </Link>
+            <a className="game-invitation-link" href="https://possibility-game.vercel.app">
+              Enter the Interactive Game <span aria-hidden="true">↗</span>
+            </a>
+            <p className="game-book-link">
+              Prefer the book? <Link to="/library">Explore the Possibility Game PDF ↗</Link>
+            </p>
           </div>
         </section>
         <section id="sessions" className="sessions-invitation" aria-labelledby="sessions-heading">
