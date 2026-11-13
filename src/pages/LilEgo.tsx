@@ -58,6 +58,7 @@ export function LilEgo() {
       </main>
       <footer className="lab-footer">
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
+        <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
         <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
