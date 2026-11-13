@@ -15,7 +15,6 @@ export function LilEgo() {
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
         <nav aria-label="Lil Ego page navigation">
           <Link to="/">The Observatory</Link>
-          <Link to="/sessions">Possibility Sessions</Link>
         </nav>
       </header>
       <main id="lil-ego-main">
@@ -59,7 +58,6 @@ export function LilEgo() {
       </main>
       <footer className="lab-footer">
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
-        <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
         <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
