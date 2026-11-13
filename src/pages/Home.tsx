@@ -4,8 +4,6 @@ import { ObservationField } from "../components/ObservationField";
 import { Link } from "../router";
 import "../styles/experience-paths.css";
 import "../styles/possibility-sessions.css";
-import "../styles/possibility-support.css";
-import { PossibilitySupport } from "../components/PossibilitySupport";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
@@ -54,12 +52,6 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
-          <a href="/game/" onClick={() => setMenu(false)}>
-            Play the Game
-          </a>
-          <Link to="/library" onClick={() => setMenu(false)}>
-            The Book
-          </Link>
           <Link to="/sessions" onClick={() => setMenu(false)}>
             Sessions
           </Link>
@@ -204,55 +196,17 @@ export function Home() {
             <em>What will you discover?</em>
           </p>
         </section>
-        <section
-          id="possibility-game"
-          className="game-invitation"
-          aria-labelledby="game-invitation-heading"
-        >
-          <div className="game-promo-art">
-            <img
-              className="game-promo-cover"
-              src="/observatory/the-possibility-game-cover.webp"
-              alt="The Possibility Game: One Shot. One Character. Your Life Is the Playing Field."
-              width="1024"
-              height="1536"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-          <div className="game-invitation-copy">
-            <p className="lab-kicker">AN INVITATION TO EXPLORE</p>
-            <h2 id="game-invitation-heading">
-              Your next <em>possibility.</em>
-            </h2>
-            <p>
-              Begin as Source. Recognize the qualities you have already lived,
-              select or refine your character, and choose a possibility to explore.
-            </p>
-            <p>
-              Your life is already in motion. Keep living it, observe what happens,
-              and return to select another possibility whenever you choose.
-            </p>
-            <a className="game-invitation-link" href="/game/">
-              Enter the Interactive Game <span aria-hidden="true">↗</span>
-            </a>
-            <p className="game-book-link">
-              Prefer the book? <Link to="/library">Explore the Possibility Game PDF ↗</Link>
-            </p>
-          </div>
-        </section>
         <section id="sessions" className="sessions-invitation" aria-labelledby="sessions-heading">
           <p className="lab-kicker">GO DEEPER / ONE ON ONE</p>
           <h2 id="sessions-heading">Possibility <em>Sessions.</em></h2>
           <p>
-            The book is your starting point. When you want a private conversation
-            about observation, identity, and embodiment, explore a session with Bhavé.
+            For a private conversation about observation, awareness, and the
+            possibilities already present in your life, explore a session with Bhavé.
           </p>
           <Link className="game-invitation-link" to="/sessions">
             Explore Possibility Sessions <span aria-hidden="true">↗</span>
           </Link>
         </section>
-        <PossibilitySupport />
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
           <p>
