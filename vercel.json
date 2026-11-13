@@ -9,22 +9,62 @@
   "redirects": [
     {
       "source": "/game",
-      "destination": "/sessions",
+      "destination": "/",
       "permanent": false
     },
     {
       "source": "/game/:path*",
-      "destination": "/sessions",
+      "destination": "/",
       "permanent": false
     },
     {
       "source": "/library",
-      "destination": "/sessions",
+      "destination": "/",
       "permanent": false
     },
     {
       "source": "/library/:path*",
-      "destination": "/sessions",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sessions",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/sessions/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/contact",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/contact/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/Bhave_Contact.vcf",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/contact.webmanifest",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/research/thank-you",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/research/thank-you/:path*",
+      "destination": "/",
       "permanent": false
     }
   ]

@@ -15,7 +15,6 @@ export function LilEgo() {
         <Link to="/" className="lab-brand">BHAVÉ’S LAB</Link>
         <nav aria-label="Lil Ego page navigation">
           <Link to="/">The Observatory</Link>
-          <Link to="/sessions">Possibility Sessions</Link>
         </nav>
       </header>
       <main id="lil-ego-main">
