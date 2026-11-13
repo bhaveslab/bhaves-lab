@@ -14,21 +14,9 @@ const Meridian = lazy(() =>
 const LilEgo = lazy(() =>
   import("./pages/LilEgo").then((module) => ({ default: module.LilEgo })),
 );
-const PossibilitySessions = lazy(() =>
-  import("./pages/PossibilitySessions").then((module) => ({ default: module.PossibilitySessions })),
-);
-const ResearchConfirmation = lazy(() =>
-  import("./pages/ResearchConfirmation").then((module) => ({ default: module.ResearchConfirmation })),
-);
-const ContactCard = lazy(() =>
-  import("./pages/ContactCard").then((module) => ({ default: module.ContactCard })),
-);
 function LabRoutes() {
   const { path } = useRouter();
   if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
-  if (path === "/research/thank-you" || path === "/research/thank-you/") return <ResearchConfirmation />;
-  if (path === "/sessions" || path === "/sessions/") return <PossibilitySessions />;
-  if (path === "/contact" || path === "/contact/") return <ContactCard />;
   return <Home />;
 }
 
