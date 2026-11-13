@@ -3,7 +3,6 @@ import "../styles/observatory.css";
 import { ObservationField } from "../components/ObservationField";
 import { Link } from "../router";
 import "../styles/experience-paths.css";
-import "../styles/possibility-sessions.css";
 
 export function Home() {
   const [menu, setMenu] = useState(false);
@@ -52,9 +51,6 @@ export function Home() {
           <a href="#possibility" onClick={() => setMenu(false)}>
             Possibility
           </a>
-          <Link to="/sessions" onClick={() => setMenu(false)}>
-            Sessions
-          </Link>
           <Link to="/lil-ego" onClick={() => setMenu(false)}>
             Lil Ego
           </Link>
@@ -196,17 +192,6 @@ export function Home() {
             <em>What will you discover?</em>
           </p>
         </section>
-        <section id="sessions" className="sessions-invitation" aria-labelledby="sessions-heading">
-          <p className="lab-kicker">GO DEEPER / ONE ON ONE</p>
-          <h2 id="sessions-heading">Possibility <em>Sessions.</em></h2>
-          <p>
-            For a private conversation about observation, awareness, and the
-            possibilities already present in your life, explore a session with Bhavé.
-          </p>
-          <Link className="game-invitation-link" to="/sessions">
-            Explore Possibility Sessions <span aria-hidden="true">↗</span>
-          </Link>
-        </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
           <p>
@@ -218,8 +203,6 @@ export function Home() {
         <a className="lab-brand" href="/">
           BHAVÉ’S LAB
         </a>
-        <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
-        <Link to="/contact">Contact Card / QR</Link>
         <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
