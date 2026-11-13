@@ -11,12 +11,6 @@ const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
 // Booking and commercial routes remain outside the public bundle.
-const Library = lazy(() =>
-  import("./pages/Library").then((module) => ({ default: module.Library })),
-);
-const LibraryDelivery = lazy(() =>
-  import("./pages/LibraryDelivery").then((module) => ({ default: module.LibraryDelivery })),
-);
 const LilEgo = lazy(() =>
   import("./pages/LilEgo").then((module) => ({ default: module.LilEgo })),
 );
@@ -32,9 +26,7 @@ const ContactCard = lazy(() =>
 function LabRoutes() {
   const { path } = useRouter();
   if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
-  if (path === "/library/delivery" || path === "/library/delivery/") return <LibraryDelivery />;
   if (path === "/research/thank-you" || path === "/research/thank-you/") return <ResearchConfirmation />;
-  if (path === "/library" || path === "/library/") return <Library />;
   if (path === "/sessions" || path === "/sessions/") return <PossibilitySessions />;
   if (path === "/contact" || path === "/contact/") return <ContactCard />;
   return <Home />;
