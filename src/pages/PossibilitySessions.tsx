@@ -21,8 +21,8 @@ export function PossibilitySessions() {
         <p className="lab-kicker">ONE-ON-ONE / WITH BHAVÉ</p>
         <h1>Possibility <em>Sessions.</em></h1>
         <p className="sessions-intro">
-          A private conversation to explore the character you are creating,
-          the choices you are making, and what you are noticing as you live it.
+          A private conversation to explore what you are already observing,
+          the choices you are making, and the possibilities in your life.
         </p>
         <div className="sessions-offer">
           <div>
@@ -30,7 +30,7 @@ export function PossibilitySessions() {
             <h2>Explore what’s <em>possible.</em></h2>
             <p>
               This is space for observation, questions and the practical
-              mechanics of selecting and embodying a role in everyday life.
+              ways of recognizing and expressing who you already are in everyday life.
               No prescribed identity, outcome or destination.
             </p>
             <a className="sessions-contact" href={emailUrl}>
@@ -48,7 +48,6 @@ export function PossibilitySessions() {
           </aside>
         </div>
         <div className="sessions-bottom">
-          <Link to="/library">Explore The Possibility Game ↗</Link>
           <Link to="/">Return to the Observatory ↑</Link>
         </div>
       </main>
