@@ -203,6 +203,7 @@ export function Home() {
         <a className="lab-brand" href="/">
           BHAVÉ’S LAB
         </a>
+        <a href="mailto:info@bhaveslab.com">info@bhaveslab.com</a>
         <span>© {new Date().getFullYear()} Bhavé’s Lab</span>
       </footer>
     </div>
