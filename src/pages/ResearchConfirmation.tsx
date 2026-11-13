@@ -94,12 +94,10 @@ export function ResearchConfirmation() {
                 awareness, perception, and lived experience.
               </p>
               <p className="completion-detail">
-                Contributions to ongoing research are voluntary. No publication,
-                report, or particular outcome is promised.
+                New research contributions are currently paused.
               </p>
               <p className="completion-small">
-                After a successful contribution, Stripe returns you here with a
-                payment confirmation.
+                For a previous contribution, refer to your Stripe receipt.
               </p>
             </>
           ) : (
@@ -123,14 +121,7 @@ export function ResearchConfirmation() {
           )}
           <div className="completion-actions">
             <Link className="completion-primary" to="/">Return to the Observatory <span aria-hidden="true">↗</span></Link>
-            {state === "preview" ? (
-              <a className="completion-secondary" href="https://buy.stripe.com/3cI4gs3g8cG6cbsf7BbQY0x"
-                 rel="noopener noreferrer">
-                Contribution to Ongoing Research
-              </a>
-            ) : (
-              <Link className="completion-secondary" to="/sessions">Explore Possibility Sessions</Link>
-            )}
+            <Link className="completion-secondary" to="/sessions">Explore Possibility Sessions</Link>
           </div>
           <p className="completion-signature">Life is already in motion.</p>
         </div>
