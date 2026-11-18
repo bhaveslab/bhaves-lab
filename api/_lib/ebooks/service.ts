@@ -155,7 +155,7 @@ export async function paidOrder(
     order.mode !== "payment" ||
     order.status !== "complete" ||
     order.payment_status !== "paid" ||
-    order.amount_subtotal !== EBOOKS[edition].cents ||
+    (order.amount_subtotal ?? order.amount_total) !== EBOOKS[edition].cents ||
     !Number.isSafeInteger(order.amount_total) ||
     order.amount_total < EBOOKS[edition].cents ||
     order.currency !== "usd"
@@ -170,7 +170,7 @@ export async function paidOrder(
     lines.data.length !== 1 ||
     lines.data[0].quantity !== 1 ||
     lines.data[0].price?.id !== price ||
-    lines.data[0].amount_subtotal !== EBOOKS[edition].cents
+    (lines.data[0].amount_subtotal ?? lines.data[0].amount_total) !== EBOOKS[edition].cents
   )
     throw new EbookError(403, "Purchase access could not be verified.");
   const paymentId =
