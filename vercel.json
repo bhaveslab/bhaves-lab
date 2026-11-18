@@ -18,17 +18,7 @@
       "permanent": false
     },
     {
-      "source": "/library",
-      "destination": "/",
-      "permanent": false
-    },
-    {
       "source": "/library/:path*",
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/sessions",
       "destination": "/",
       "permanent": false
     },

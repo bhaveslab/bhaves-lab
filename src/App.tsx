@@ -10,12 +10,19 @@ applySiteChrome();
 const Meridian = lazy(() =>
   import("./pages/Meridian").then((module) => ({ default: module.Meridian })),
 );
-// Booking and commercial routes remain outside the public bundle.
+const Library = lazy(() =>
+  import("./pages/Library").then((module) => ({ default: module.Library })),
+);
+const PossibilitySessions = lazy(() =>
+  import("./pages/PossibilitySessions").then((module) => ({ default: module.PossibilitySessions })),
+);
 const LilEgo = lazy(() =>
   import("./pages/LilEgo").then((module) => ({ default: module.LilEgo })),
 );
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/library" || path === "/library/") return <Library />;
+  if (path === "/sessions" || path === "/sessions/") return <PossibilitySessions />;
   if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
   return <Home />;
 }
