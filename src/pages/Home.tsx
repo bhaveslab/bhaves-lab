@@ -204,8 +204,7 @@ export function Home() {
           <p>
             A private conversation with Bhavé to observe what is happening in
             your life, recognize your natural rhythm, and explore the
-            possibilities that emerge. No prescribed outcome. No session price
-            listed here.
+            possibilities that emerge. No prescribed outcome.
           </p>
           <Link to="/sessions" className="game-invitation-link">
             Explore Possibility Sessions <span aria-hidden="true">↗</span>
