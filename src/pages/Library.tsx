@@ -2,11 +2,25 @@ import { Link } from "../router";
 import "../styles/observatory.css";
 import "../styles/library.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function Library() {
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+
   useEffect(() => {
     document.title = "Unlimited Possibilities | Bhavé’s Lab";
+    const controller = new AbortController();
+    fetch("/api/ebooks/catalog", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((catalog) => {
+        if (
+          catalog?.checkoutAvailable === true &&
+          typeof catalog.checkoutUrl === "string" &&
+          new URL(catalog.checkoutUrl).origin === "https://buy.stripe.com"
+        ) setCheckoutUrl(catalog.checkoutUrl);
+      })
+      .catch(() => {});
+    return () => controller.abort();
   }, []);
 
   return (
@@ -37,7 +51,14 @@ export function Library() {
                   and bringing what you know about yourself into everyday decisions.
                   Includes a worked example and a reflection worksheet.</p>
                 <p className="library-price">$10.00 <span>USD · one-time purchase</span></p>
-                <p className="library-availability">Online ordering is being prepared.</p>
+                {checkoutUrl ? (
+                  <>
+                    <a className="lab-button" href={checkoutUrl}>Buy the PDF</a>
+                    <p className="library-availability">Your private download link will arrive by email after payment.</p>
+                  </>
+                ) : (
+                  <p className="library-availability">Online ordering is being prepared.</p>
+                )}
               </div>
             </article>
           </div>
