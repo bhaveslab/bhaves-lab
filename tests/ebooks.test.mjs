@@ -33,7 +33,7 @@ const env = {
 };
 const now = Math.floor(Date.now() / 1000);
 const fixtureFiles = {
-  game: process.env.EBOOK_TEST_GAME_FILE,
+  unlimited: process.env.EBOOK_TEST_UNLIMITED_FILE,
 };
 const fixtures = Object.values(fixtureFiles).every(Boolean);
 const assetTest = (name, fn) => test(name, { skip: !fixtures }, fn);
@@ -271,16 +271,16 @@ test("booking events, unpaid events, and asynchronous failure cannot fulfill ebo
   assert.equal(state.sends.size, 0);
 });
 assetTest(
-  "checkout uses approved Game price, one ebook copy, and no session entitlement",
+  "checkout uses approved Unlimited Possibilities price, one ebook copy, and no session entitlement",
   async () => {
-    const { ports, state, owner } = setup();
-    await startCheckout("game", owner, "test-request", ports, env);
+    const { ports, state, owner } = setup("unlimited");
+    await startCheckout("unlimited", owner, "test-request", ports, env);
     const { data, options } = state.calls[0];
     assert.deepEqual(data.line_items, [
       { price: "price_Game", quantity: 1 },
     ]);
     assert.equal(data.metadata.purchase_kind, "ebook");
-    assert.equal(data.metadata.ebook_sku, EBOOKS.game.sku);
+    assert.equal(data.metadata.ebook_sku, EBOOKS.unlimited.sku);
     assert.ok(!("payment_method_types" in data));
     assert.ok(options.idempotencyKey);
     assert.ok(!JSON.stringify(data).includes("room-of-clarity"));
@@ -290,21 +290,21 @@ assetTest(
   "corrupt, missing, and substituted assets fail before checkout or delivery",
   async () => {
     for (const mode of ["corrupt", "missing", "substituted"]) {
-      const { ports, owner } = setup();
+      const { ports, owner } = setup("unlimited");
       ports.readAsset = async () => {
         if (mode === "missing") throw Error();
         return mode === "corrupt"
           ? Buffer.from("%PDF-invalid")
-          : Buffer.from("%PDF-" + "x".repeat(EBOOKS.game.bytes - 5));
+          : Buffer.from("%PDF-" + "x".repeat(EBOOKS.unlimited.bytes - 5));
       };
-      await assert.rejects(startCheckout("game", owner, "request", ports, env));
+      await assert.rejects(startCheckout("unlimited", owner, "request", ports, env));
     }
   },
 );
 assetTest(
   "duplicate and concurrent signed-event fulfillment produces one receipt and one entitlement",
   async () => {
-    const { ports, state } = setup();
+    const { ports, state } = setup("unlimited");
     await Promise.all([
       fulfillCheckout(state.order.id, ports, env),
       fulfillCheckout(state.order.id, ports, env),
@@ -312,13 +312,13 @@ assetTest(
     await fulfillCheckout(state.order.id, ports, env);
     assert.equal(state.sends.size, 1);
     assert.equal(state.order.metadata.ebook_delivery_status, "sent");
-    assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.game.sha256);
+    assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.unlimited.sha256);
   },
 );
 assetTest(
   "email failure stays retryable and never marks fulfillment as delivered",
   async () => {
-    const { ports, state } = setup();
+    const { ports, state } = setup("unlimited");
     state.failEmail = true;
     await assert.rejects(fulfillCheckout(state.order.id, ports, env));
     assert.equal(state.order.metadata.ebook_delivery_status, undefined);
@@ -328,28 +328,60 @@ assetTest(
   },
 );
 assetTest(
-  "the paid Game delivers the exact final PDF bytes and receipt link",
+  "hosted Payment Link waits for a paid event and delivers the exact reviewed PDF",
   async () => {
-    for (const edition of ["game"]) {
-      const { ports, state, owner } = setup(edition);
-      await fulfillCheckout(state.order.id, ports, env);
-      const receipt = await receiptAccess(state.order.id, owner, ports, env);
-      assert.equal(receipt.edition, edition);
-      const file = await download(receipt.token, ports, env);
-      assert.equal(file.edition, edition);
-      assert.deepEqual(file.data, await readFile(fixtureFiles[edition]));
-      assert.equal(digest(file.data), EBOOKS[edition].sha256);
-      const email = [...state.sends.values()][0];
-      assert.ok(email.text.includes(EBOOKS[edition].title));
-      assert.ok(email.text.includes("#access="));
-      assert.ok(!email.text.includes("/api/ebooks/download?"));
-    }
+    const { ports, state } = setup("unlimited");
+    delete state.order.metadata.ebook_receipt_owner;
+    delete state.order.metadata.ebook_receipt_origin;
+    state.order.payment_link = "plink_fixture";
+    state.order.amount_subtotal = 1000;
+    state.order.amount_total = 1080;
+    state.payment.amount_received = 1080;
+
+    const event = (type, paymentStatus) => ({
+      type,
+      livemode: false,
+      data: { object: { ...state.order, payment_status: paymentStatus } },
+    });
+    const pending = await processEbookEvent(
+      event("checkout.session.completed", "unpaid"), ports, env,
+    );
+    assert.equal(pending.pending, true);
+    assert.equal(state.sends.size, 0);
+
+    const paid = event("checkout.session.async_payment_succeeded", "paid");
+    state.failEmail = true;
+    await assert.rejects(processEbookEvent(paid, ports, env));
+    assert.equal(state.order.metadata.ebook_delivery_status, undefined);
+    state.failEmail = false;
+    await processEbookEvent(paid, ports, env);
+    await processEbookEvent(paid, ports, env);
+    assert.equal(state.sends.size, 1);
+    assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.unlimited.sha256);
+
+    await assert.rejects(receiptAccess(state.order.id, null, ports, env));
+    const email = [...state.sends.values()][0];
+    assert.equal(email.to, state.order.customer_details.email);
+    assert.ok(email.subject.includes(EBOOKS.unlimited.title));
+    const link = new URL(email.text.match(/https:\/\/[^\s]+/)[0]);
+    assert.equal(link.origin, "https://bhaveslab.com");
+    assert.equal(link.pathname, "/library/delivery");
+    assert.equal(link.search, "");
+    const token = new URLSearchParams(link.hash.slice(1)).get("access");
+    const file = await download(token, ports, env);
+    assert.equal(file.edition, "unlimited");
+    assert.deepEqual(file.data, await readFile(fixtureFiles.unlimited));
+    assert.equal(digest(file.data), EBOOKS.unlimited.sha256);
+    await assert.rejects(download(token + "!", ports, env));
+    await assert.rejects(download(token, ports, env, now + 604801));
+    state.payment.latest_charge.refunded = true;
+    await assert.rejects(download(token, ports, env));
   },
 );
 assetTest(
   "refund after delivery blocks an otherwise valid signed link",
   async () => {
-    const { ports, state, owner } = setup();
+    const { ports, state, owner } = setup("unlimited");
     await fulfillCheckout(state.order.id, ports, env);
     const receipt = await receiptAccess(state.order.id, owner, ports, env);
     state.payment.latest_charge.refunded = true;
