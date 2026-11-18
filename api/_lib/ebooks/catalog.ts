@@ -1,4 +1,20 @@
 export const EBOOKS = {
+  unlimited: {
+    sku: "unlimited-possibilities-en-v1",
+    language: "English",
+    lang: "en",
+    title: "Unlimited Possibilities",
+    subtitle: "The Pattern of Choice",
+    cents: 1000,
+    currency: "usd",
+    pages: 17,
+    filename: "Unlimited_Possibilities_The_Pattern_of_Choice.pdf",
+    sha256: "1abb66ccdfe5b324dffbefe62d48edd34cdbc869356c004f450cb2cfd55be42b",
+    bytes: 3643117,
+    path: "ebooks/1abb66ccdfe5b324dffbefe62d48edd34cdbc869356c004f450cb2cfd55be42b.pdf",
+    priceEnv: "STRIPE_EBOOK_GAME_PRICE_ID",
+  },
+  // Historical edition keys are retained solely to honor prior paid receipts.
   game: {
     sku: "possibility-game-en-v2",
     language: "English",
