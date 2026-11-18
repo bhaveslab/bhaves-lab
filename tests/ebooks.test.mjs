@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import Stripe from "stripe";
 import { createHmac } from "node:crypto";
-import { EBOOKS } from "../.qa/ebook-runtime/_lib/ebooks/catalog.js";
+import { EBOOKS, UNLIMITED_PAYMENT_LINK } from "../.qa/ebook-runtime/_lib/ebooks/catalog.js";
 import {
   digest,
   mintDownload,
@@ -330,10 +330,11 @@ assetTest(
 assetTest(
   "hosted Payment Link waits for a paid event and delivers the exact reviewed PDF",
   async () => {
-    const { ports, state } = setup("unlimited");
+    const { ports, state, owner } = setup("unlimited");
     delete state.order.metadata.ebook_receipt_owner;
     delete state.order.metadata.ebook_receipt_origin;
-    state.order.payment_link = "plink_fixture";
+    state.order.payment_link = UNLIMITED_PAYMENT_LINK.id;
+    state.order.client_reference_id = digest(owner);
     state.order.amount_subtotal = 1000;
     state.order.amount_total = 1080;
     state.payment.amount_received = 1080;
@@ -349,6 +350,8 @@ assetTest(
     assert.equal(pending.pending, true);
     assert.equal(state.sends.size, 0);
 
+    await assert.rejects(receiptAccess(state.order.id, "0".repeat(64), ports, env));
+    assert.deepEqual(await receiptAccess(state.order.id, owner, ports, env), { state: "processing" });
     const paid = event("checkout.session.async_payment_succeeded", "paid");
     state.failEmail = true;
     await assert.rejects(processEbookEvent(paid, ports, env));
@@ -360,6 +363,11 @@ assetTest(
     assert.equal(state.order.metadata.ebook_fulfilled_asset, EBOOKS.unlimited.sha256);
 
     await assert.rejects(receiptAccess(state.order.id, null, ports, env));
+    const browserReceipt = await receiptAccess(state.order.id, owner, ports, env);
+    assert.equal(browserReceipt.state, "ready");
+    state.order.payment_link = "plink_other";
+    await assert.rejects(receiptAccess(state.order.id, owner, ports, env));
+    state.order.payment_link = UNLIMITED_PAYMENT_LINK.id;
     const email = [...state.sends.values()][0];
     assert.equal(email.to, state.order.customer_details.email);
     assert.ok(email.subject.includes(EBOOKS.unlimited.title));
@@ -368,6 +376,7 @@ assetTest(
     assert.equal(link.pathname, "/library/delivery");
     assert.equal(link.search, "");
     const token = new URLSearchParams(link.hash.slice(1)).get("access");
+    assert.equal(token, browserReceipt.token);
     const file = await download(token, ports, env);
     assert.equal(file.edition, "unlimited");
     assert.deepEqual(file.data, await readFile(fixtureFiles.unlimited));

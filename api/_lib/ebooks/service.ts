@@ -1,5 +1,5 @@
 import type Stripe from "stripe";
-import { EBOOKS, EbookError, editionForSku, type Edition } from "./catalog.js";
+import { EBOOKS, EbookError, UNLIMITED_PAYMENT_LINK, editionForSku, type Edition } from "./catalog.js";
 import {
   digest,
   mintDownload,
@@ -145,8 +145,7 @@ export async function paidOrder(
   )
     throw new EbookError(403, "Purchase access could not be verified.");
   // An embedded checkout and a hosted Payment Link can use the same receipt
-  // verifier. Payment Links have no client-set receipt cookie; fulfillment
-  // instead sends the private, signed download token to the buyer's email.
+  // verifier. The private, signed download link is also emailed to buyers.
   // Check the pre-tax book amount separately from the fully paid total so
   // correctly registered jurisdictions can add Stripe Tax without denying
   // valid purchases.
@@ -253,7 +252,7 @@ export async function download(
   if (
     edition !== claim.edition ||
     order.metadata?.ebook_delivery_status !== "sent" ||
-    order.metadata.ebook_fulfilled_asset !== EBOOKS[edition].sha256
+    order.metadata?.ebook_fulfilled_asset !== EBOOKS[edition].sha256
   )
     throw new EbookError(403, "Digital delivery has not been confirmed.");
   return { data: await verifiedAsset(edition, ports), edition };
@@ -267,11 +266,16 @@ export async function receiptAccess(
   if (!ownerSeed)
     throw new EbookError(403, "Open the private link in your receipt email.");
   const { order, edition } = await paidOrder(sid, ports, env);
-  if (order.metadata?.ebook_receipt_owner !== digest(ownerSeed))
+  const owner = digest(ownerSeed);
+  const matchesHostedCheckout =
+    edition === "unlimited" &&
+    order.payment_link === UNLIMITED_PAYMENT_LINK.id &&
+    order.client_reference_id === owner;
+  if (order.metadata?.ebook_receipt_owner !== owner && !matchesHostedCheckout)
     throw new EbookError(403, "Open the private link in your receipt email.");
   if (
-    order.metadata.ebook_delivery_status !== "sent" ||
-    order.metadata.ebook_fulfilled_asset !== EBOOKS[edition].sha256
+    order.metadata?.ebook_delivery_status !== "sent" ||
+    order.metadata?.ebook_fulfilled_asset !== EBOOKS[edition].sha256
   )
     return { state: "processing" as const };
   return {

@@ -1,12 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { EBOOKS } from "../_lib/ebooks/catalog.js";
+import { EBOOKS, UNLIMITED_PAYMENT_LINK } from "../_lib/ebooks/catalog.js";
 import { secure } from "../_lib/ebooks/http.js";
 import { ports } from "../_lib/ebooks/runtime.js";
 import { safeOrigin } from "../_lib/ebooks/security.js";
 import { assertMode, configurationReady, validatePrice, verifiedAsset } from "../_lib/ebooks/service.js";
-
-const paymentLinkId = "plink_1Ud8sH2c1Eq7UIp47XOCobYF";
-const paymentLinkUrl = "https://buy.stripe.com/eVq28k7wo21s0sK1gLbQY0y";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   secure(res);
@@ -26,10 +23,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       verifiedAsset("unlimited", dependencies),
     ]);
 
-    const link = await dependencies.stripe.paymentLinks.retrieve(paymentLinkId);
+    const link = await dependencies.stripe.paymentLinks.retrieve(UNLIMITED_PAYMENT_LINK.id);
     if (
       !link.livemode ||
-      link.url !== paymentLinkUrl ||
+      link.url !== UNLIMITED_PAYMENT_LINK.url ||
       link.metadata?.application !== "bhaves-lab" ||
       link.metadata?.purchase_kind !== "ebook" ||
       link.metadata?.ebook_sku !== EBOOKS.unlimited.sku ||
@@ -40,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.json({
       checkoutAvailable: link.active,
       readiness: link.active ? "ready" : "link_inactive",
-      ...(link.active ? { checkoutUrl: paymentLinkUrl } : {}),
+      ...(link.active ? { checkoutUrl: UNLIMITED_PAYMENT_LINK.url } : {}),
     });
   } catch (error) {
     console.error("Ebook catalog readiness check failed", error instanceof Error ? error.name : "unknown");

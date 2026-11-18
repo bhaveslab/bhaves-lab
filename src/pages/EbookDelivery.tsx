@@ -4,7 +4,7 @@ import "../styles/observatory.css";
 import "../styles/library.css";
 import "../styles/ebook-delivery.css";
 
-type Status = "email" | "ready" | "downloading" | "error";
+type Status = "email" | "checking" | "ready" | "downloading" | "error";
 
 export function EbookDelivery() {
   const [token, setToken] = useState<string | null>(null);
@@ -13,20 +13,55 @@ export function EbookDelivery() {
 
   useEffect(() => {
     document.title = "Your Book — Unlimited Possibilities | Bhavé’s Lab";
-    const params = new URLSearchParams(window.location.hash.slice(1));
-    const secret = params.get("access");
-    if (secret && /^[A-Za-z0-9_.-]{30,1200}$/.test(secret)) {
-      setToken(secret);
-      setStatus("ready");
-    }
-    // Remove the entitlement from the visible address bar and browser history.
+    const emailToken = new URLSearchParams(window.location.hash.slice(1)).get("access");
+    const sessionId = new URLSearchParams(window.location.search).get("session_id");
+
+    // Keep the emailed entitlement out of the address bar.
     if (window.location.hash) {
-      window.history.replaceState(
-        window.history.state,
-        "",
-        window.location.pathname + window.location.search,
-      );
+      window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
     }
+    if (emailToken && /^[A-Za-z0-9_.-]{30,1200}$/.test(emailToken)) {
+      setToken(emailToken);
+      setStatus("ready");
+      return;
+    }
+    if (!sessionId || !/^cs_(?:live_|test_)?[A-Za-z0-9]+$/.test(sessionId)) return;
+
+    setStatus("checking");
+    const controller = new AbortController();
+    let retry: ReturnType<typeof setTimeout>;
+    let attempts = 0;
+
+    async function checkPurchase() {
+      try {
+        const response = await fetch("/api/ebooks/order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+          signal: controller.signal,
+        });
+        const receipt = response.ok ? await response.json() : null;
+        if (controller.signal.aborted) return;
+        if (receipt?.state === "ready" && typeof receipt.token === "string") {
+          setToken(receipt.token);
+          setStatus("ready");
+          return;
+        }
+        if (receipt?.state === "processing" && ++attempts < 8) {
+          retry = setTimeout(checkPurchase, 2000);
+          return;
+        }
+      } catch {
+        if (controller.signal.aborted) return;
+      }
+      setStatus("email");
+    }
+
+    void checkPurchase();
+    return () => {
+      controller.abort();
+      clearTimeout(retry);
+    };
   }, []);
 
   async function downloadBook() {
@@ -76,7 +111,12 @@ export function EbookDelivery() {
         <p className="lab-kicker">DIGITAL EDITION / PRIVATE ACCESS</p>
         <h1>Unlimited <em>Possibilities.</em></h1>
         <p className="library-lede">The Pattern of Choice</p>
-        {status === "email" ? (
+        {status === "checking" ? (
+          <section className="ebook-delivery-panel" role="status">
+            <h2>Confirming your purchase…</h2>
+            <p>Your download will appear here once your purchase is verified.</p>
+          </section>
+        ) : status === "email" ? (
           <section className="ebook-delivery-panel" aria-label="Your receipt">
             <h2>Check your email.</h2>
             <p>Thank you for your purchase. Your private book link is sent to the email address used at checkout once payment is confirmed.</p>

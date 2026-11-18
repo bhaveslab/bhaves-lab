@@ -1,3 +1,8 @@
+export const UNLIMITED_PAYMENT_LINK = {
+  id: "plink_1Ud8sH2c1Eq7UIp47XOCobYF",
+  url: "https://buy.stripe.com/eVq28k7wo21s0sK1gLbQY0y",
+} as const;
+
 export const EBOOKS = {
   unlimited: {
     sku: "unlimited-possibilities-en-v1",

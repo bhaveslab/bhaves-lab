@@ -5,7 +5,7 @@ import "../styles/library.css";
 import { useEffect, useState } from "react";
 
 export function Library() {
-  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+  const [checkoutAvailable, setCheckoutAvailable] = useState(false);
 
   useEffect(() => {
     document.title = "Unlimited Possibilities | Bhavé’s Lab";
@@ -13,11 +13,7 @@ export function Library() {
     fetch("/api/ebooks/catalog", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : null)
       .then((catalog) => {
-        if (
-          catalog?.checkoutAvailable === true &&
-          typeof catalog.checkoutUrl === "string" &&
-          new URL(catalog.checkoutUrl).origin === "https://buy.stripe.com"
-        ) setCheckoutUrl(catalog.checkoutUrl);
+        setCheckoutAvailable(catalog?.checkoutAvailable === true);
       })
       .catch(() => {});
     return () => controller.abort();
@@ -51,10 +47,10 @@ export function Library() {
                   and bringing what you know about yourself into everyday decisions.
                   Includes a worked example and a reflection worksheet.</p>
                 <p className="library-price">$10.00 <span>USD · one-time purchase</span></p>
-                {checkoutUrl ? (
+                {checkoutAvailable ? (
                   <>
-                    <a className="lab-button" href={checkoutUrl}>Buy the PDF</a>
-                    <p className="library-availability">Your private download link will arrive by email after payment.</p>
+                    <a className="lab-button" href="/api/ebooks/checkout">Buy the PDF</a>
+                    <p className="library-availability">Download here after checkout. We’ll also email you a private link.</p>
                   </>
                 ) : (
                   <p className="library-availability">Online ordering is being prepared.</p>
