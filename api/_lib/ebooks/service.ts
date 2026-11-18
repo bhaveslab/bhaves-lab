@@ -156,6 +156,7 @@ export async function paidOrder(
     order.status !== "complete" ||
     order.payment_status !== "paid" ||
     (order.amount_subtotal ?? order.amount_total) !== EBOOKS[edition].cents ||
+    typeof order.amount_total !== "number" ||
     !Number.isSafeInteger(order.amount_total) ||
     order.amount_total < EBOOKS[edition].cents ||
     order.currency !== "usd"
