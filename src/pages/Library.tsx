@@ -34,7 +34,7 @@ export function Library() {
             <article className="library-book">
               <img
                 className="library-book-art library-book-cover"
-                src="/observatory/unlimited-possibilities-cover.webp"
+                src="/observatory/unlimited-possibilities-final-cover.webp"
                 alt="Unlimited Possibilities book cover with glass doors reflecting different scenes."
                 width="480"
                 height="720"
