@@ -144,12 +144,20 @@ export async function paidOrder(
     order.metadata.ebook_asset_sha256 !== EBOOKS[edition].sha256
   )
     throw new EbookError(403, "Purchase access could not be verified.");
+  // An embedded checkout and a hosted Payment Link can use the same receipt
+  // verifier. Payment Links have no client-set receipt cookie; fulfillment
+  // instead sends the private, signed download token to the buyer's email.
+  // Check the pre-tax book amount separately from the fully paid total so
+  // correctly registered jurisdictions can add Stripe Tax without denying
+  // valid purchases.
   if (
     order.livemode !== assertMode(env) ||
     order.mode !== "payment" ||
     order.status !== "complete" ||
     order.payment_status !== "paid" ||
-    order.amount_total !== EBOOKS[edition].cents ||
+    (order.amount_subtotal ?? order.amount_total) !== EBOOKS[edition].cents ||
+    !Number.isSafeInteger(order.amount_total) ||
+    order.amount_total < EBOOKS[edition].cents ||
     order.currency !== "usd"
   )
     throw new EbookError(403, "Payment has not been verified.");
@@ -162,7 +170,7 @@ export async function paidOrder(
     lines.data.length !== 1 ||
     lines.data[0].quantity !== 1 ||
     lines.data[0].price?.id !== price ||
-    lines.data[0].amount_total !== EBOOKS[edition].cents
+    (lines.data[0].amount_subtotal ?? lines.data[0].amount_total) !== EBOOKS[edition].cents
   )
     throw new EbookError(403, "Purchase access could not be verified.");
   const paymentId =
@@ -176,7 +184,7 @@ export async function paidOrder(
   const charge = payment.latest_charge;
   if (
     payment.status !== "succeeded" ||
-    payment.amount_received !== EBOOKS[edition].cents ||
+    payment.amount_received !== order.amount_total ||
     payment.currency !== "usd" ||
     !charge ||
     typeof charge === "string" ||
@@ -216,7 +224,7 @@ export async function fulfillCheckout(
     token;
   await ports.sendReceipt({
     to: email,
-    subject: "Your edition of The Possibility Game",
+    subject: `Your book: ${book.title} — ${book.subtitle}`,
     text: `Thank you for your purchase.\n\n${book.title} — ${book.subtitle}\nDigital PDF · ${(book.cents / 100).toFixed(2)} USD\n\nPrivate download (available for seven days from purchase):\n${link}\n\nSupport: info@bhaveslab.com`,
     idempotencyKey: "ebook-receipt-" + order.id,
   });

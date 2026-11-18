@@ -1,0 +1,14 @@
+.ebook-delivery-world{min-height:100svh;background:radial-gradient(ellipse at 68% 8%,#17484e75,transparent 49%),#030d10}
+.ebook-delivery-main{width:min(760px,100%);margin:0 auto;padding:clamp(56px,8vw,100px) 26px 110px}
+.ebook-delivery-main h1{font:400 clamp(46px,8vw,86px)/1.07 Georgia,serif;letter-spacing:-.045em;margin:22px 0 10px;color:#edf6f4}
+.ebook-delivery-main h1 em{color:#9ee7e4;font-weight:400}
+.ebook-delivery-panel{border:1px solid #365c61;background:#0a1c2099;margin:52px 0 42px;padding:clamp(24px,5vw,45px);box-shadow:0 18px 50px #0005}
+.ebook-delivery-panel h2{font:400 clamp(26px,4vw,38px)/1.2 Georgia,serif;margin:0 0 22px;color:#eff8f7}
+.ebook-delivery-panel p{font-size:15px;line-height:1.8;color:#c0d6d3;max-width:570px}
+.ebook-delivery-panel a{color:#9be4e1;text-decoration:underline}
+.ebook-download-action{background:#a4eee8;color:#061518;font:600 13px/1.4 Arial,sans-serif;border:0;padding:16px 25px;min-height:48px;cursor:pointer;margin-top:16px;transition:background .2s}
+.ebook-download-action:hover{background:#d3fffb}
+.ebook-download-action:focus-visible,.ebook-delivery-panel a:focus-visible{outline:3px solid #e6fbf8;outline-offset:4px}
+.ebook-download-action:disabled{opacity:.7;cursor:wait}
+.ebook-delivery-error{color:#ffb9b3!important}
+@media(prefers-reduced-motion:reduce){.ebook-download-action{transition:none}}

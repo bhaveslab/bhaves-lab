@@ -13,6 +13,9 @@ const Meridian = lazy(() =>
 const Library = lazy(() =>
   import("./pages/Library").then((module) => ({ default: module.Library })),
 );
+const EbookDelivery = lazy(() =>
+  import("./pages/EbookDelivery").then((module) => ({ default: module.EbookDelivery })),
+);
 const PossibilitySessions = lazy(() =>
   import("./pages/PossibilitySessions").then((module) => ({ default: module.PossibilitySessions })),
 );
@@ -21,6 +24,7 @@ const LilEgo = lazy(() =>
 );
 function LabRoutes() {
   const { path } = useRouter();
+  if (path === "/library/delivery" || path === "/library/delivery/") return <EbookDelivery />;
   if (path === "/library" || path === "/library/") return <Library />;
   if (path === "/sessions" || path === "/sessions/") return <PossibilitySessions />;
   if (path === "/lil-ego" || path === "/lil-ego/") return <LilEgo />;
