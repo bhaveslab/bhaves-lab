@@ -198,6 +198,19 @@ export function Home() {
             <em>What will you discover?</em>
           </p>
         </section>
+        <section className="sessions-invitation" aria-labelledby="session-invitation-heading">
+          <p className="lab-kicker">POSSIBILITY SESSIONS</p>
+          <h2 id="session-invitation-heading">Explore what’s <em>possible.</em></h2>
+          <p>
+            A private conversation with Bhavé to observe what is happening in
+            your life, recognize your natural rhythm, and explore the
+            possibilities that emerge. No prescribed outcome. No session price
+            listed here.
+          </p>
+          <Link to="/sessions" className="game-invitation-link">
+            Explore Possibility Sessions <span aria-hidden="true">↗</span>
+          </Link>
+        </section>
         <div className="observatory-signature">
           <span aria-hidden="true">∞</span>
           <p>
